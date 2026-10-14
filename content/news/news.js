@@ -1,25 +1,31 @@
 // RGBY · база новостей — общий подключаемый модуль (блок «Что происходит» на главной, в будущем — медиа-портал /news).
-// Правится в инструменте «CMS новостей» (ui_kits/main/news-cms.html): он сохраняет черновик в браузере и выгружает этот файл целиком.
-// Поля новости:
-//   id      — латиница, для адреса /news/<id>
-//   status  — "published" (на сайте) | "draft" (видна только в прототипе)
-//   date    — дата публикации, ГГГГ-ММ-ДД
-//   tag     — один из TAGS
-//   layout  — вид карточки: "vertical" | "horizontal" (широкая) | "text" (без обложки, крупный текст в фокусе)
-//   title   — заголовок (карточка и окно новости)
-//   excerpt — описание в карточке, до LIMITS.excerpt знаков
-//   cover   — обложка: путь от assets/images/ (новости: news/<id>.jpg; в релизе — /media/news/) или полный URL
-//   body    — полный текст; абзацы разделяются пустой строкой
+// Выгружено из CMS новостей 14.10.2026, 15:06:48. Положить в content/news/news.js; свои обложки — в assets/images/news/.
+// Поля: id, status (published|draft), date (ГГГГ-ММ-ДД), tag, title, excerpt, cover (от assets/images/), body (абзацы через пустую строку)
 (function () {
   const TAGS = [
-    { id: "Статья", color: "44,79,255" },
-    { id: "Дайджест", color: "100,34,106" },
-    { id: "Кейс", color: "0,165,0" },
-    { id: "Событие", color: "199,0,0" },
-    { id: "Награда", color: "199,165,0" }
+    {
+      "id": "Статья",
+      "color": "44,79,255"
+    },
+    {
+      "id": "Дайджест",
+      "color": "100,34,106"
+    },
+    {
+      "id": "Кейс",
+      "color": "0,165,0"
+    },
+    {
+      "id": "Событие",
+      "color": "199,0,0"
+    },
+    {
+      "id": "Награда",
+      "color": "199,165,0"
+    }
   ];
-  const LAYOUTS = [{ id: "vertical", label: "Вертикальная" }, { id: "horizontal", label: "Горизонтальная" }, { id: "text", label: "Без обложки" }];
-  const LIMITS = { title: 70, excerpt: 160 };
+  const LAYOUTS = [{"id":"vertical","label":"Вертикальная"},{"id":"horizontal","label":"Горизонтальная"},{"id":"text","label":"Без обложки"}];
+  const LIMITS = {"title":70,"excerpt":160};
   const NEWS = [
     {
       "id": "dizayn-tinder",
@@ -70,8 +76,8 @@
       "status": "published",
       "date": "2026-09-19",
       "tag": "Событие",
-      "layout": "vertical",
-      "title": "RGBY на фестивале",
+      "layout": "text",
+      "title": "RGBY на фестивале (Тест Публикации)",
       "excerpt": "Рассказываем про работу с большими экранами на конференции о моушн-дизайне",
       "cover": "cases/last-hero-3.jpg",
       "body": ""
@@ -156,7 +162,6 @@
   ];
   const KEY = "rgby-news-cms-v1";
   const release = () => !!window.__RGBY_RELEASE;
-  // Прототип: черновик из CMS (localStorage) перекрывает файл. Релиз: только этот файл.
   function source() {
     if (!release()) { try { const s = JSON.parse(localStorage.getItem(KEY) || "null"); if (s && Array.isArray(s.list)) return s.list.map(n => s.covers && s.covers[n.cover] ? Object.assign({}, n, { cover: s.covers[n.cover] }) : n); } catch (e) {} }
     return NEWS;
@@ -164,7 +169,6 @@
   const words = t => (String(t || "").match(/\S+/g) || []).length;
   const readMin = n => Math.max(1, Math.round((words(n.title) + words(n.excerpt) + words(n.body)) / 180));
   const fmtDate = d => { const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(d || ""); return m ? m[3] + "." + m[2] + "." + m[1] : d || ""; };
-  // Лента для сайта: опубликованные (в прототипе — и черновики), новые сверху
   function feed() {
     return source().filter(n => n.status === "published" || (!release() && n.status === "draft"))
       .slice().sort((a, b) => String(b.date).localeCompare(String(a.date)));
