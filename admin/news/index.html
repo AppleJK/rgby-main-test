@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<script>window.RGBY_BASE = "../../"; window.RGBY_BUILD = "2026-10-14";</script>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RGBY · CMS новостей</title>
+<link rel="stylesheet" href="../../core/2026-10-14/styles.css">
+<script src="../../content/news/news.js"></script>
+<script src="../../core/2026-10-14/main/gh-publish.js"></script>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--rgby-paper);color:var(--rgby-ink);font-family:var(--font-sans);-webkit-font-smoothing:antialiased}
+a{color:var(--rgby-blue)}a:hover{color:var(--rgby-ink)}
+button,input,select,textarea{font:inherit;color:inherit}
+.app{display:grid;grid-template-rows:auto minmax(0,1fr);height:100vh}
+.bar{display:flex;align-items:center;gap:12px;padding:14px 20px;border-bottom:1px solid rgba(6,16,37,.1);flex-wrap:wrap}
+.bar h1{margin:0 auto 0 0;font-size:20px;letter-spacing:-.03em}
+.bar small{opacity:.55;font-size:13px}
+.btn{appearance:none;border:0;cursor:pointer;height:40px;padding:0 16px;background:rgba(6,16,37,.07);font-weight:700;font-size:14px;letter-spacing:-.02em;transition:background-color .25s,color .25s}
+.btn:hover{background:var(--rgby-ink);color:var(--rgby-paper)}
+.btn--p{background:var(--rgby-blue);color:var(--rgby-paper)}.btn--p:hover{background:var(--rgby-ink)}
+.btn--d:hover{background:#C70000}
+.main{display:grid;grid-template-columns:320px minmax(0,1fr) minmax(0,440px);min-height:0}
+.col{min-height:0;overflow:auto;padding:20px}
+.col+.col{border-left:1px solid rgba(6,16,37,.1)}
+.filters{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+.chip{appearance:none;border:0;cursor:pointer;padding:6px 10px;font-size:13px;font-weight:700;background:rgba(6,16,37,.06);display:flex;align-items:center;gap:6px}
+.chip i{width:8px;height:8px;background:rgb(var(--c,6,16,37))}
+.chip.on{background:var(--rgby-ink);color:var(--rgby-paper)}
+.list{display:flex;flex-direction:column;gap:6px}
+.it{display:grid;grid-template-columns:56px minmax(0,1fr);gap:10px;align-items:center;padding:6px;cursor:pointer;border:0;background:none;text-align:left;width:100%;transition:background-color .2s}
+.it:hover{background:rgba(6,16,37,.05)}.it.on{background:rgba(44,79,255,.12)}
+.it img,.it .ph{width:56px;height:42px;object-fit:cover;display:block;background:rgba(6,16,37,.08)}
+.it b{display:block;font-size:14px;letter-spacing:-.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.it span{font-size:12px;opacity:.6;display:flex;gap:6px;align-items:center}
+.it .dr{color:#C70000;opacity:1;font-weight:700}
+.f{display:flex;flex-direction:column;gap:6px;margin-bottom:16px}
+.f>label{font-size:12px;font-weight:700;letter-spacing:.01em;opacity:.6;display:flex;justify-content:space-between}
+.f>label .over{color:#C70000;opacity:1}
+.in{width:100%;border:0;background:rgba(6,16,37,.05);padding:10px 12px;font-size:15px;outline:none;transition:background-color .2s,box-shadow .2s}
+.in:focus{background:#fff;box-shadow:0 0 0 2px var(--rgby-blue) inset}
+textarea.in{resize:vertical;min-height:90px;line-height:1.45}
+.row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.drop{position:relative;aspect-ratio:16/9;background:rgba(6,16,37,.05);display:grid;place-items:center;text-align:center;font-size:13px;cursor:pointer;overflow:hidden;outline:2px dashed rgba(6,16,37,.18);outline-offset:-2px;transition:outline-color .2s}
+.drop.over{outline-color:var(--rgby-blue)}
+.drop img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.drop span{position:relative;padding:8px 12px;background:rgba(243,244,255,.9)}
+.pool{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:4px;margin-top:8px;max-height:160px;overflow:auto}
+.pool img{width:100%;aspect-ratio:16/10;object-fit:cover;cursor:pointer;opacity:.75;transition:opacity .2s}
+.pool img:hover{opacity:1}.pool img.on{outline:2px solid var(--rgby-blue);outline-offset:-2px;opacity:1}
+.hint{font-size:12px;opacity:.55;line-height:1.4}
+.empty{opacity:.5;padding:40px 0;text-align:center}
+.pv-h{font-size:12px;font-weight:700;opacity:.6;margin:0 0 10px}
+/* Превью карточки — та же разметка и те же классы шрифтов, что в ленте главной, в натуральную величину (--u как на сайте), затем уменьшается целиком */
+.cardwrap{position:relative;margin-bottom:28px;overflow:hidden}
+.card{position:absolute;left:0;top:0;transform-origin:0 0;width:calc(340 * var(--u));height:calc(500 * var(--u));display:flex;flex-direction:column;gap:calc(14 * var(--u));color:var(--rgby-ink)}
+.card .m{flex:1;min-height:0;background:center/cover no-repeat rgba(6,16,37,.08)}
+.card .cb{display:flex;flex-direction:column;gap:calc(10 * var(--u))}
+.card .meta{margin:0}
+.card .cb>p{opacity:.6;margin:0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.card--horizontal{width:calc(620 * var(--u))}
+.card--text{justify-content:flex-end;padding:calc(24 * var(--u));background:rgba(var(--c),.08);box-shadow:0 0 0 1px rgba(var(--c),.25) inset}.card--text .cb>b{font-size:calc(40 * var(--u));line-height:.95}.card--text .cb>p{-webkit-line-clamp:4}
+.lay{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.lay__b{appearance:none;border:0;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:8px;padding:12px 8px;background:rgba(6,16,37,.05);font-size:13px;font-weight:700;transition:background-color .2s,box-shadow .2s}
+.lay__b small{display:block;font-size:11px;font-weight:500;line-height:1.35;opacity:.55;text-align:center;font-variant-numeric:tabular-nums}
+.lay__b:hover{background:rgba(6,16,37,.09)}.lay__b.on{background:rgba(44,79,255,.12);box-shadow:0 0 0 2px var(--rgby-blue) inset}
+.lay__i{display:flex;flex-direction:column;gap:3px;height:44px;justify-content:flex-end}
+.lay__i b{display:block;background:rgba(6,16,37,.3)}.lay__i s{display:block;height:6px;background:rgba(6,16,37,.55)}
+.lay__i--vertical{width:26px}.lay__i--vertical b{height:32px}
+.lay__i--horizontal{width:52px}.lay__i--horizontal b{height:32px}
+.lay__i--text{width:30px;padding:4px;background:rgba(44,79,255,.12)}.lay__i--text b{display:none}.lay__i--text s{height:10px;background:rgba(6,16,37,.6)}
+.card .m{aspect-ratio:3/4;background:center/cover no-repeat rgba(6,16,37,.08)}
+.meta{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700;margin:12px 0 6px}
+.meta i{width:8px;height:8px;background:rgb(var(--c))}
+.meta em{font-style:normal;opacity:.5}
+.card b{display:block;font-size:24px;line-height:1;letter-spacing:-.04em;text-wrap:balance}
+.card p{font-size:14px;line-height:1.35;opacity:.6;margin:8px 0 0}
+.sheet{background:#fff;box-shadow:0 20px 60px rgba(6,16,37,.12)}
+.sheet .m{aspect-ratio:16/9;background:center/cover no-repeat rgba(6,16,37,.08)}
+.sheet .b{padding:20px}
+.sheet h2{margin:6px 0 14px;font-size:30px;line-height:1;letter-spacing:-.04em;text-wrap:balance}
+.sheet p{margin:0 0 12px;font-size:15px;line-height:1.5}
+.sheet p.l{font-size:18px;font-weight:500}
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);opacity:0;background:var(--rgby-ink);color:var(--rgby-paper);padding:12px 18px;font-weight:700;font-size:14px;transition:opacity .3s,transform .4s cubic-bezier(.16,1,.3,1);pointer-events:none;z-index:9}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+@media (max-width:1100px){.main{grid-template-columns:260px minmax(0,1fr)}.col.pv{display:none}}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="bar">
+<h1>CMS новостей <small id="state"></small></h1>
+<button class="btn btn--p" id="add">+ Новость</button>
+<button class="btn btn--p" id="pub" title="Отправить news.js и новые обложки в репозиторий стенда — через ~1 мин сайт обновится у всех">Опубликовать на GitHub</button>
+<button class="btn" id="exp" title="Скачать content/news/news.js и новые обложки">Выгрузить news.js</button>
+<label class="btn" style="display:flex;align-items:center">Загрузить news.js<input type="file" accept=".js,.json" id="imp" hidden></label>
+<button class="btn btn--d" id="reset" title="Сбросить черновик браузера к файлу">Сбросить к файлу</button>
+<a class="btn" href="../../" style="display:flex;align-items:center;text-decoration:none;color:inherit">Главная →</a>
+</header>
+<div class="main">
+<aside class="col"><div class="filters" id="filters"></div><div class="list" id="list"></div></aside>
+<section class="col" id="ed"></section>
+<aside class="col pv" id="pv"></aside>
+</div>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+(function(){
+var N=window.RGBY_NEWS, KEY=N.KEY, TAGS=N.TAGS, LAY=N.LAYOUTS||[{id:"vertical",label:"Вертикальная"},{id:"horizontal",label:"Горизонтальная"},{id:"text",label:"Без обложки"}], LIM=N.LIMITS, IMG="../../assets/images/";
+var POOL=["cases/beat-1.jpg","cases/beat-2.jpg","cases/beat-3.jpg","cases/beat-4.jpg","cases/cartoon-classics-1.jpg","cases/cartoon-classics-2.jpg","cases/cartoon-classics-3.jpg","cases/cartoon-classics-4.jpg","cases/cartoon-classics-5.jpg","cases/comedy-10-1.jpg","cases/comedy-10-2.jpg","cases/comedy-10-3.jpg","cases/comedy-10-4.jpg","cases/energiya-pera-1.jpg","cases/energiya-pera-2.jpg","cases/energiya-pera-3.jpg","cases/energiya-pera-4.jpg","cases/evocargo-1.jpg","cases/evocargo-2.jpg","cases/evocargo-3.jpg","cases/fan-2024-1.jpg","cases/fan-2024-2.jpg","cases/fan-2024-3.jpg","cases/fan-2024-4.jpg","cases/fan-2024-5.jpg","cases/fan-2024-6.jpg","cases/fan-2024-7.jpg","cases/fan-2024-8.jpg","cases/fan-2026-1.jpg","cases/fan-2026-2.jpg","cases/fan-2026-3.jpg","cases/fan-2026-4.jpg","cases/fan-2026-5.jpg","cases/fan-2026-6.jpg","cases/fan-2026-7.jpg","cases/ftv-1.jpg","cases/ftv-2.jpg","cases/horror-fest-1.jpg","cases/horror-fest-2.jpg","cases/horror-fest-3.jpg","cases/horror-fest-4.jpg","cases/horror-fest-5.jpg","cases/intervision-1.jpg","cases/k1-1.jpg","cases/k1-2.jpg","cases/k1-3.jpg","cases/k1-4.jpg","cases/last-hero-1.jpg","cases/last-hero-2.jpg","cases/last-hero-3.jpg","cases/last-hero-4.jpg","cases/last-hero-5.jpg","cases/lovestory-1.jpg","cases/lovestory-2.jpg","cases/lovestory-3.jpg","cases/plan-b-1.jpg","cases/plan-b-2.jpg","cases/plan-b-3.jpg","cases/plan-b-4.jpg","cases/plan-b-5.jpg","cases/pobeda-1.jpg","cases/pobeda-2.jpg","cases/regional-to-global-1.jpg","cases/regional-to-global-2.jpg","cases/regional-to-global-3.jpg","cases/roskhim-1.jpg","cases/roskhim-2.jpg","cases/russkiy-detektiv-1.jpg","cases/russkiy-detektiv-2.jpg","cases/russkiy-detektiv-3.jpg","cases/russkiy-detektiv-4.jpg","cases/rw-1.jpg","cases/rw-2.jpg","cases/rw-3.jpg","cases/rw-4.jpg","cases/rw-5.jpg","cases/rw-tech-1.jpg","cases/rw-tech-2.jpg","cases/rw-tech-3.jpg","cases/soviet-classics-1.jpg","cases/soviet-classics-2.jpg","cases/soyuzny-1.jpg","cases/start-1.jpg","cases/start-2.jpg","cases/start-3.jpg","cases/stroynadzor-1.jpg","cases/stroynadzor-2.jpg","cases/stroynadzor-3.jpg","cases/touchpoint-1.jpg","cases/tv3-wonderland-1.jpg","cases/tv3-wonderland-2.jpg","cases/tv3-wonderland-3.jpg","cases/tv3-wonderland-4.jpg","cases/vremya-igrat-1.jpg","cases/vremya-igrat-2.jpg","cases/zhivaya-planeta-1.jpg"];
+var tagColor=function(t){var x=TAGS.find(function(a){return a.id===t});return x?x.color:"6,16,37"};
+var clone=function(o){return JSON.parse(JSON.stringify(o))};
+var st=loadState(), sel=st.list[0]?st.list[0].id:null, filter="Все";
+function loadState(){try{var s=JSON.parse(localStorage.getItem(KEY)||"null");if(s&&Array.isArray(s.list))return {list:s.list,covers:s.covers||{},dirty:true};}catch(e){}return {list:clone(N.list),covers:{},dirty:false};}
+function save(){st.dirty=true;try{localStorage.setItem(KEY,JSON.stringify({list:st.list,covers:st.covers,at:Date.now()}));}catch(e){toast("Не хватает места в браузере — уменьшите обложку");}renderState();}
+function src(n){var c=n.cover||"";if(st.covers[c])return st.covers[c];return !c?"":/^(https?:|data:|\/)/.test(c)?c:IMG+c;}
+function fmt(d){var m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(d||"");return m?m[3]+"."+m[2]+"."+m[1]:d||"—";}
+function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function cur(){return st.list.find(function(n){return n.id===sel})}
+function sorted(){return st.list.slice().sort(function(a,b){return String(b.date).localeCompare(String(a.date))})}
+function slug(t){var map={а:"a",б:"b",в:"v",г:"g",д:"d",е:"e",ё:"e",ж:"zh",з:"z",и:"i",й:"y",к:"k",л:"l",м:"m",н:"n",о:"o",п:"p",р:"r",с:"s",т:"t",у:"u",ф:"f",х:"h",ц:"c",ч:"ch",ш:"sh",щ:"sch",ъ:"",ы:"y",ь:"",э:"e",ю:"yu",я:"ya"};return String(t||"").toLowerCase().split("").map(function(c){return map[c]!=null?map[c]:c}).join("").replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"").slice(0,48)||"news";}
+function uniq(id,self){var b=id,k=2;while(st.list.some(function(n){return n.id===id&&n!==self}))id=b+"-"+k++;return id;}
+function toast(t){var el=document.getElementById("toast");el.textContent=t;el.classList.add("on");clearTimeout(toast.t);toast.t=setTimeout(function(){el.classList.remove("on")},2200);}
+function renderState(){document.getElementById("state").textContent=st.dirty?"· черновик в браузере (сайт-прототип уже видит правки)":"· совпадает с файлом";}
+function renderList(){
+  var f=document.getElementById("filters");
+  f.innerHTML=["Все"].concat(TAGS.map(function(t){return t.id})).map(function(t){var n=t==="Все"?st.list.length:st.list.filter(function(x){return x.tag===t}).length;return '<button class="chip'+(filter===t?" on":"")+'" data-f="'+esc(t)+'" style="--c:'+tagColor(t)+'">'+(t==="Все"?"":"<i></i>")+esc(t)+" · "+n+"</button>"}).join("");
+  var L=sorted().filter(function(n){return filter==="Все"||n.tag===filter});
+  document.getElementById("list").innerHTML=L.length?L.map(function(n){var s=src(n);return '<button class="it'+(n.id===sel?" on":"")+'" data-id="'+esc(n.id)+'">'+(s?'<img src="'+esc(s)+'" alt="">':'<span class="ph"></span>')+'<span style="display:block;min-width:0"><b>'+esc(n.title||"Без заголовка")+'</b><span>'+fmt(n.date)+" · "+esc(n.tag)+(n.status!=="published"?' · <em class="dr">черновик</em>':"")+"</span></span></button>"}).join(""):'<div class="empty">Нет новостей</div>';
+}
+function counter(v,max){var l=(v||"").length;return '<span class="'+(l>max?"over":"")+'">'+l+" / "+max+"</span>";}
+function renderEd(){
+  var n=cur(),ed=document.getElementById("ed");
+  if(!n){ed.innerHTML='<div class="empty">Выберите новость слева или создайте новую</div>';renderPv();return;}
+  ed.innerHTML=
+  '<div class="f"><label>Обложка <span>перетащите файл или выберите из кейсов</span></label><div class="drop" id="drop">'+(src(n)?'<img src="'+esc(src(n))+'" alt="">':"")+'<span>'+(src(n)?"Заменить — перетащите или кликните":"Перетащите изображение или кликните")+'</span><input type="file" accept="image/*" id="file" hidden></div><div class="pool" id="pool">'+POOL.map(function(p){return '<img loading="lazy" data-p="'+p+'" class="'+(n.cover===p?"on":"")+'" src="'+IMG+p+'" alt="">'}).join("")+'</div><div class="hint">Свой файл сохранится как assets/images/news/&lt;id&gt;.jpg — при выгрузке он скачается отдельно.</div></div>'+
+  '<div class="f"><label>Вид карточки</label><div class="lay">'+LAY.map(function(l){return '<button type="button" class="lay__b'+((n.layout||"vertical")===l.id?" on":"")+'" data-lay="'+l.id+'"><i class="lay__i lay__i--'+l.id+'"><b></b><s></s></i>'+esc(l.label)+'<small>'+({vertical:"карточка 340 × 500<br>обложка от 680 × 1000",horizontal:"карточка 620 × 500<br>обложка от 1240 × 1000",text:"карточка 340 × 500<br>без изображения"})[l.id]+'</small></button>'}).join("")+'</div></div>'+
+  '<div class="row"><div class="f"><label>Тег</label><select class="in" data-k="tag">'+TAGS.map(function(t){return "<option"+(n.tag===t.id?" selected":"")+">"+esc(t.id)+"</option>"}).join("")+'</select></div><div class="f"><label>Дата публикации</label><input class="in" type="date" data-k="date" value="'+esc(n.date)+'"></div><div class="f"><label>Статус</label><select class="in" data-k="status"><option value="published"'+(n.status==="published"?" selected":"")+'>Опубликована</option><option value="draft"'+(n.status!=="published"?" selected":"")+'>Черновик</option></select></div></div>'+
+  '<div class="f"><label>Заголовок '+counter(n.title,LIM.title)+'</label><input class="in" data-k="title" value="'+esc(n.title)+'"></div>'+
+  '<div class="f"><label>Описание в карточке '+counter(n.excerpt,LIM.excerpt)+'</label><textarea class="in" data-k="excerpt" rows="3">'+esc(n.excerpt)+'</textarea></div>'+
+  '<div class="f"><label>Полный текст <span>абзацы — через пустую строку</span></label><textarea class="in" data-k="body" rows="12" style="min-height:240px">'+esc(n.body)+'</textarea></div>'+
+  '<div class="f"><label>Адрес (id) <span>/news/'+esc(n.id)+'</span></label><input class="in" data-k="id" value="'+esc(n.id)+'"></div>'+
+  '<div style="display:flex;gap:8px"><button class="btn" id="dup">Дублировать</button><button class="btn btn--d" id="del">Удалить</button></div>';
+  renderPv();
+}
+function renderPv(){
+  var n=cur(),pv=document.getElementById("pv");if(!pv)return;
+  if(!n){pv.innerHTML="";return;}
+  var s=src(n),c=tagColor(n.tag),paras=String(n.body||"").split(/\n\s*\n/).map(function(x){return x.trim()}).filter(Boolean);
+  var L=n.layout||"vertical";
+  pv.innerHTML='<p class="pv-h">Карточка в ленте · '+esc((LAY.find(function(l){return l.id===L})||{}).label||"")+'</p><div class="cardwrap"><div class="card card--'+L+'" style="--c:'+c+'">'+(L==="text"?"":'<div class="m" style="background-image:'+(s?'url(&quot;'+esc(s)+'&quot;)':"none")+'"></div>')+'<div class="cb"><div class="meta t-label"><i></i>'+esc(n.tag)+"<em>"+fmt(n.date).slice(0,5)+'</em></div><b class="'+(L==="vertical"?"t-h3-l":"t-h1")+'">'+esc(n.title)+'</b><p class="t-body-m">'+esc(n.excerpt)+'</p></div></div></div><p class="pv-h">Окно новости</p><div class="sheet"><div class="m" style="background-image:'+(s?'url(&quot;'+esc(s)+'&quot;)':"none")+'"></div><div class="b"><div class="meta" style="--c:'+c+';margin-top:0"><i></i>'+esc(n.tag)+"<em>"+fmt(n.date)+"</em></div><h2>"+esc(n.title)+"</h2>"+(n.excerpt?'<p class="l">'+esc(n.excerpt)+"</p>":"")+paras.map(function(p){return "<p>"+esc(p)+"</p>"}).join("")+(paras.length?"":'<p class="hint">Полный текст пока пуст</p>')+"</div></div>";
+  fitCard();
+}
+function fitCard(){var w=document.querySelector(".cardwrap"),k=w&&w.firstChild;if(!k)return;var s=Math.min(1,w.clientWidth/k.offsetWidth);k.style.transform="scale("+s+")";w.style.height=k.offsetHeight*s+"px";}
+addEventListener("resize",fitCard);
+function setCover(file){
+  var n=cur();if(!n||!file)return;
+  var img=new Image(),url=URL.createObjectURL(file);
+  img.onload=function(){var W=Math.min(1920,img.width),H=Math.round(img.height*W/img.width),c=document.createElement("canvas");c.width=W;c.height=H;c.getContext("2d").drawImage(img,0,0,W,H);var d=c.toDataURL("image/jpeg",.84);URL.revokeObjectURL(url);var path="news/"+n.id+".jpg";st.covers[path]=d;n.cover=path;save();renderList();renderEd();};
+  img.src=url;
+}
+document.addEventListener("click",function(e){
+  var t=e.target.closest("[data-f]");if(t){filter=t.dataset.f;renderList();return;}
+  t=e.target.closest(".it");if(t){sel=t.dataset.id;renderList();renderEd();return;}
+  t=e.target.closest("[data-lay]");if(t){cur().layout=t.dataset.lay;save();renderEd();return;}
+  t=e.target.closest(".pool img");if(t){cur().cover=t.dataset.p;save();renderList();renderEd();return;}
+  if(e.target.closest("#drop")){document.getElementById("file").click();return;}
+  if(e.target.id==="dup"){var o=clone(cur());o.id=uniq(o.id+"-copy");o.status="draft";o.title+=" (копия)";st.list.push(o);sel=o.id;save();renderList();renderEd();return;}
+  if(e.target.id==="del"){if(!confirm("Удалить новость «"+cur().title+"»?"))return;st.list=st.list.filter(function(n){return n.id!==sel});sel=sorted()[0]?sorted()[0].id:null;save();renderList();renderEd();return;}
+});
+document.getElementById("add").onclick=function(){var d=new Date(),iso=d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");var n={id:uniq("novost"),status:"draft",date:iso,tag:TAGS[0].id,layout:"vertical",title:"",excerpt:"",cover:POOL[Math.floor(Math.random()*POOL.length)],body:""};st.list.push(n);sel=n.id;filter="Все";save();renderList();renderEd();setTimeout(function(){var i=document.querySelector('[data-k="title"]');if(i)i.focus()},0);};
+document.addEventListener("change",function(e){if(e.target.id==="file")setCover(e.target.files[0]);});
+document.addEventListener("input",function(e){
+  var k=e.target.dataset&&e.target.dataset.k,n=cur();if(!k||!n)return;
+  var v=e.target.value;
+  if(k==="id"){v=slug(v)||n.id;}
+  if(k==="title"&&/^novost(-\d+)?$/.test(n.id)&&v.trim()){var ni=uniq(slug(v),n);if(st.covers["news/"+n.id+".jpg"]&&n.cover==="news/"+n.id+".jpg"){st.covers["news/"+ni+".jpg"]=st.covers[n.cover];delete st.covers[n.cover];n.cover="news/"+ni+".jpg";}n.id=ni;sel=ni;}
+  n[k]=k==="id"?uniq(v,n):v;if(k==="id")sel=n[k];
+  save();renderList();
+  var lab=e.target.parentNode.querySelector("label>span");if(lab&&(k==="title"||k==="excerpt")){var m=k==="title"?LIM.title:LIM.excerpt;lab.textContent=v.length+" / "+m;lab.className=v.length>m?"over":"";}
+  if(k==="tag"||k==="date"||k==="status")renderEd();else renderPv();
+});
+var drop=function(e){var d=e.target.closest&&e.target.closest("#drop");if(!d)return;e.preventDefault();if(e.type==="dragover")d.classList.add("over");else{d.classList.remove("over");if(e.type==="drop")setCover(e.dataTransfer.files[0]);}};
+["dragover","dragleave","drop"].forEach(function(t){document.addEventListener(t,drop)});
+function dl(name,blob){var a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove()},500);}
+document.getElementById("pub").onclick=function(ev){
+  if(ev.altKey){window.rgbyGH.forget();toast("Токен GitHub забыт");return;}
+  var bad=st.list.filter(function(n){return !n.title||!n.date});if(bad.length&&!confirm(bad.length+" новост(и) без заголовка или даты. Опубликовать всё равно?"))return;
+  var list=sorted().map(function(n){return {id:n.id,status:n.status,date:n.date,tag:n.tag,layout:n.layout||"vertical",title:n.title,excerpt:n.excerpt,cover:n.cover,body:n.body||""}});
+  var used=Object.keys(st.covers).filter(function(p){return list.some(function(n){return n.cover===p})});
+  var btn=ev.currentTarget;btn.disabled=true;
+  Promise.all(used.map(function(p){return fetch(st.covers[p]).then(function(r){return r.blob()}).then(function(b){return {path:"assets/images/"+p,blob:b}})})).then(function(imgs){
+    return window.rgbyGH.publish([{path:"content/news/news.js",text:build(list)}].concat(imgs),"CMS новостей: обновление ("+list.length+")",function(i,k,p){btn.textContent="Публикую "+i+"/"+k+"…"});
+  }).then(function(r){toast(r.done?"Опубликовано: "+r.done+" файл(ов). Сайт обновится через ~1 мин":"Изменений нет — на GitHub то же самое")},function(e){alert("Не удалось опубликовать: "+e.message)}).then(function(){btn.disabled=false;btn.textContent="Опубликовать на GitHub"});
+};
+document.getElementById("exp").onclick=function(){
+  var bad=st.list.filter(function(n){return !n.title||!n.date});if(bad.length&&!confirm(bad.length+" новост(и) без заголовка или даты. Выгрузить всё равно?"))return;
+  var list=sorted().map(function(n){return {id:n.id,status:n.status,date:n.date,tag:n.tag,layout:n.layout||"vertical",title:n.title,excerpt:n.excerpt,cover:n.cover,body:n.body||""}});
+  dl("news.js",new Blob([build(list)],{type:"text/javascript"}));
+  var used=Object.keys(st.covers).filter(function(p){return list.some(function(n){return n.cover===p})});
+  used.forEach(function(p,i){setTimeout(function(){fetch(st.covers[p]).then(function(r){return r.blob()}).then(function(b){dl(p.split("/").pop(),b)})},300*(i+1))});
+  toast("news.js → content/news/"+(used.length?" · обложки ("+used.length+") → assets/images/news/":""));
+};
+function build(list){
+  var src=document.querySelector('script[src*="news.js"]');
+  return "// RGBY · база новостей — общий подключаемый модуль (блок «Что происходит» на главной, в будущем — медиа-портал /news).\n// Выгружено из CMS новостей "+new Date().toLocaleString("ru-RU")+". Положить в content/news/news.js; свои обложки — в assets/images/news/.\n// Поля: id, status (published|draft), date (ГГГГ-ММ-ДД), tag, title, excerpt, cover (от assets/images/), body (абзацы через пустую строку)\n(function () {\n  const TAGS = "+JSON.stringify(TAGS,null,2).replace(/\n/g,"\n  ")+";\n  const LAYOUTS = "+JSON.stringify(LAY)+";\n  const LIMITS = "+JSON.stringify(LIM)+";\n  const NEWS = "+JSON.stringify(list,null,2).replace(/\n/g,"\n  ")+";\n"+TAIL;
+}
+var TAIL="  const KEY = \"rgby-news-cms-v1\";\n  const release = () => !!window.__RGBY_RELEASE;\n  function source() {\n    if (!release()) { try { const s = JSON.parse(localStorage.getItem(KEY) || \"null\"); if (s && Array.isArray(s.list)) return s.list.map(n => s.covers && s.covers[n.cover] ? Object.assign({}, n, { cover: s.covers[n.cover] }) : n); } catch (e) {} }\n    return NEWS;\n  }\n  const words = t => (String(t || \"\").match(/\\S+/g) || []).length;\n  const readMin = n => Math.max(1, Math.round((words(n.title) + words(n.excerpt) + words(n.body)) / 180));\n  const fmtDate = d => { const m = /^(\\d{4})-(\\d{2})-(\\d{2})$/.exec(d || \"\"); return m ? m[3] + \".\" + m[2] + \".\" + m[1] : d || \"\"; };\n  function feed() {\n    return source().filter(n => n.status === \"published\" || (!release() && n.status === \"draft\"))\n      .slice().sort((a, b) => String(b.date).localeCompare(String(a.date)));\n  }\n  window.RGBY_NEWS = { version: \"2026-10-14\", KEY, TAGS, LAYOUTS, LIMITS, list: NEWS, source, feed, readMin, fmtDate };\n})();\n";
+document.getElementById("imp").onchange=function(e){var f=e.target.files[0];if(!f)return;f.text().then(function(t){try{var w={};(new Function("window","localStorage",t))(w,{getItem:function(){return null}});if(!w.RGBY_NEWS)throw 0;st={list:clone(w.RGBY_NEWS.list),covers:{},dirty:true};sel=sorted()[0]?sorted()[0].id:null;save();renderList();renderEd();toast("Загружено новостей: "+st.list.length);}catch(er){toast("Не похоже на news.js");}});e.target.value="";};
+document.getElementById("reset").onclick=function(){if(!confirm("Сбросить черновик браузера? Несохранённые в файл правки пропадут."))return;localStorage.removeItem(KEY);st={list:clone(N.list),covers:{},dirty:false};sel=sorted()[0]?sorted()[0].id:null;renderState();renderList();renderEd();};
+renderState();renderList();renderEd();
+})();
+</script>
+</body>
+</html>

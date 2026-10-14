@@ -1,0 +1,64 @@
+/* RGBY Media — color tokens. Values copied verbatim from the Figma file. */
+:root{
+  /* Base palette */
+  --rgby-blue:#2C4FFF;          /* rgb(44,79,255) — brand blue, primary surface + accent */
+  --rgby-blue-75:rgba(44,79,255,.75);
+  --rgby-blue-glow:#3757FF;     /* rgb(55,87,255) — hero v1 protection band */
+  --rgby-ink:#061025;           /* rgb(6,16,37) — primary ink, dark surfaces */
+  --rgby-ink-2:#09152E;         /* rgb(9,21,46) — hero v1 ink (logo, header button) */
+  --rgby-ink-3:#091325;         /* rgb(9,19,37) — hero v3 dark cover */
+  --rgby-black:#000000;         /* team block text */
+  --rgby-paper:#F3F4FF;         /* rgb(243,244,255) — page background, on-dark text */
+  --rgby-paper-2:#F1F2FF;       /* rgb(241,242,255) — hero/stat background, hero text */
+  --rgby-paper-3:#F1F1FF;       /* rgb(241,241,255) — notice title */
+  --rgby-snow:#FEFEFF;          /* rgb(254,254,255) — white cards (services v5) */
+  --rgby-white:#FFFFFF;
+  --rgby-off:#F7F7F7;           /* header button label */
+  --rgby-mist:#E7E8F5;          /* rgb(231,232,245) — client tiles */
+  --rgby-mist-2:#DADCEA;        /* rgb(218,220,234) — client strip v2 */
+  --rgby-icon:#F8FBFF;          /* social icons */
+  --rgby-night-1:#101C34;       /* hero v2 gradient start */
+  --rgby-plum:#64226A;          /* hero v2 gradient end */
+  --rgby-plum-deep:#300F3B;
+  /* VHS channels (preloader). Additive with --rgby-blue: R + G + B = #F3F4FF paper */
+  --vhs-r:#C70000;
+  --vhs-g:#00A500;     /* hero v2 bottom protection */
+
+  /* Ink alphas */
+  --ink-a07:rgba(6,16,37,.07);  /* grey cards */
+  --ink-a10:rgba(9,21,46,.10);  /* stat cards */
+  --ink-a20:rgba(6,16,37,.20);  /* hairline dividers */
+  --ink-a25:rgba(6,16,37,.25);  /* outline card */
+  --ink-a50:rgba(6,16,37,.50);  /* muted body */
+  --ink-a60:rgba(6,16,37,.60);
+  --black-a50:rgba(0,0,0,.50);  /* team roles + career rows */
+
+  /* Paper alphas (on blue / ink) */
+  --paper-a15:rgba(243,244,255,.15); /* form fields, chips */
+  --paper-a25:rgba(243,244,255,.25); /* slider track, social tiles */
+  --paper-a50:rgba(243,244,255,.50); /* chevrons, hints */
+  --paper-a60:rgba(243,244,255,.60); /* secondary text on dark */
+
+  /* Semantic aliases */
+  --bg-page:var(--rgby-paper);
+  --bg-hero:var(--rgby-paper-2);
+  --surface-accent:var(--rgby-blue);
+  --surface-inverse:var(--rgby-ink);
+  --surface-card-muted:var(--ink-a07);
+  --surface-card-stat:var(--ink-a10);
+  --surface-card:var(--rgby-snow);
+  --surface-tile:var(--rgby-mist);
+  --surface-field:var(--paper-a15);
+  --surface-field-active:var(--rgby-paper);
+  --text-primary:var(--rgby-ink);
+  --text-muted:var(--ink-a50);
+  --text-secondary:var(--ink-a60);
+  --text-on-dark:var(--rgby-paper);
+  --text-on-dark-muted:var(--paper-a60);
+  --text-accent:var(--rgby-blue);
+  --line-hair:var(--ink-a20);
+  --line-outline:var(--ink-a25);
+  --hero-v1-protection:linear-gradient(180deg,rgba(55,87,255,0) 0%,var(--rgby-blue-glow) 100%); /* + backdrop blur 55px */
+  --hero-v2-gradient:linear-gradient(126.21deg,var(--rgby-night-1) 24.51%,var(--rgby-plum) 91.77%);
+  --hero-v2-protection:linear-gradient(180deg,rgba(48,15,59,0) 0%,var(--rgby-plum-deep) 100%);
+}

@@ -1,0 +1,66 @@
+/* RGBY Media — type matrix. One family, TT Interphases Pro.
+   Sizes are the exact Figma values at 1440 (desktop) and 375 (mobile), multiplied by the fluid unit --u.
+   Tight leading (0.80–0.94) + negative tracking (-0.02…-0.05em) is the house style for every bold style. */
+:root{
+  --font-sans:"TT Interphases Pro",-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+
+  /* name: size / line-height / tracking / weight      desktop → mobile */
+  --fs-display-xl:calc(108 * var(--u)); --lh-display-xl:.86;/* @kind font */ --ls-display-xl:-.02em;/* @kind font */  /* ТВ/МЕДИА 108 → 65.45 */
+  --fs-display-l:calc(84 * var(--u));   --lh-display-l:.94;/* @kind font */  --ls-display-l:-.04em;/* @kind font */   /* stats 84 */
+  --fs-h1:calc(42 * var(--u));          --lh-h1:.94;/* @kind font */         --ls-h1:-.04em;/* @kind font */          /* section titles 42 → 36 */
+  --fs-name:calc(42 * var(--u));        --lh-name:.80;/* @kind font */       --ls-name:-.05em;/* @kind font */        /* team names 42 → 36 */
+  --fs-lead:calc(36 * var(--u));        --lh-lead:1;/* @kind font */         --ls-lead:-.04em;/* @kind font */        /* regular lead 36 → 28 */
+  --fs-price:calc(36 * var(--u));       --lh-price:.94;/* @kind font */      --ls-price:-.04em;/* @kind font */       /* prices 36 → 32 (variants 42) */
+  --fs-h2:calc(32 * var(--u));          --lh-h2:.89;/* @kind font */         --ls-h2:-.04em;/* @kind font */          /* hero subtitle DemiBold 32 → 28; notice 32 */
+  --fs-h3:calc(22 * var(--u));          --lh-h3:.94;/* @kind font */         --ls-h3:-.04em;/* @kind font */          /* card titles 22 (variants 24) */
+  --fs-h3-l:calc(24 * var(--u));
+  --fs-button:calc(24 * var(--u));      --lh-button:.86;/* @kind font */     --ls-button:-.05em;/* @kind font */      /* buttons 24 → 18 */
+  --fs-award:calc(21 * var(--u));       --lh-award:.86;/* @kind font */      --ls-award:-.05em;/* @kind font */
+  --fs-body-l:calc(20 * var(--u));      --lh-body-l:1.29;/* @kind font */    --ls-body-l:-.01em;/* @kind font */      /* Medium 20 → 17 / 1.14 / -.03 */
+  --fs-link:calc(20 * var(--u));        --lh-link:.94;/* @kind font */       --ls-link:-.04em;/* @kind font */        /* «Подробнее +» 20 → 18 */
+  --fs-meta-l:calc(20 * var(--u));      --lh-meta-l:1;/* @kind font */       --ls-meta-l:-.05em;/* @kind font */      /* career periods */
+  --fs-body-m:calc(16 * var(--u));      --lh-body-m:1.29;/* @kind font */    --ls-body-m:-.01em;/* @kind font */
+  --fs-caption:calc(16 * var(--u));     --lh-caption:.80;/* @kind font */    --ls-caption:-.05em;/* @kind font */     /* role DemiBold */
+  --fs-label:calc(15 * var(--u));       --lh-label:.86;/* @kind font */      --ls-label:-.05em;/* @kind font */       /* form labels Bold, inputs DemiBold */
+  --fs-small:calc(14 * var(--u));       --lh-small:1;/* @kind font */        --ls-small:-.05em;/* @kind font */
+  --fs-meta:calc(12 * var(--u));        --lh-meta:.86;/* @kind font */       --ls-meta:-.03em;/* @kind font */        /* case year */
+  --fs-micro:calc(10 * var(--u));       --lh-micro:.86;/* @kind font */      --ls-micro:-.05em;/* @kind font */       /* legal */
+  --fs-nav-mark:calc(64 * var(--u));                                                  /* header ТВ/МЕДИА v2 */
+}
+@media (max-width:599px){:root{
+  --fs-display-xl:calc(65.45 * var(--u));
+  --fs-display-l:calc(84 * var(--u));
+  --fs-h1:calc(36 * var(--u));
+  --fs-name:calc(36 * var(--u));
+  --fs-lead:calc(28 * var(--u)); --ls-lead:-.03em;/* @kind font */
+  --fs-price:calc(32 * var(--u));
+  --fs-h2:calc(28 * var(--u)); --lh-h2:1;/* @kind font */
+  --fs-h3:calc(22 * var(--u)); --fs-h3-l:calc(22 * var(--u));
+  --fs-button:calc(18 * var(--u));
+  --fs-body-l:calc(17 * var(--u)); --lh-body-l:1.14;/* @kind font */ --ls-body-l:-.03em;/* @kind font */
+  --fs-link:calc(18 * var(--u));
+  --fs-meta-l:calc(16 * var(--u));
+  --fs-nav-mark:calc(36 * var(--u));
+}}
+
+.t-display-xl{font:700 var(--fs-display-xl)/var(--lh-display-xl) var(--font-sans);letter-spacing:var(--ls-display-xl)}
+.t-display-l{font:700 var(--fs-display-l)/var(--lh-display-l) var(--font-sans);letter-spacing:var(--ls-display-l)}
+.t-h1{font:700 var(--fs-h1)/var(--lh-h1) var(--font-sans);letter-spacing:var(--ls-h1)}
+.t-name{font:700 var(--fs-name)/var(--lh-name) var(--font-sans);letter-spacing:var(--ls-name)}
+.t-lead{font:400 var(--fs-lead)/var(--lh-lead) var(--font-sans);letter-spacing:var(--ls-lead)}
+.t-price{font:700 var(--fs-price)/var(--lh-price) var(--font-sans);letter-spacing:var(--ls-price)}
+.t-h2{font:600 var(--fs-h2)/var(--lh-h2) var(--font-sans);letter-spacing:var(--ls-h2)}
+.t-h3{font:700 var(--fs-h3)/var(--lh-h3) var(--font-sans);letter-spacing:var(--ls-h3)}
+.t-h3-l{font:700 var(--fs-h3-l)/var(--lh-h3) var(--font-sans);letter-spacing:var(--ls-h3)}
+.t-button{font:700 var(--fs-button)/var(--lh-button) var(--font-sans);letter-spacing:var(--ls-button)}
+.t-award{font:700 var(--fs-award)/var(--lh-award) var(--font-sans);letter-spacing:var(--ls-award)}
+.t-body-l{font:500 var(--fs-body-l)/var(--lh-body-l) var(--font-sans);letter-spacing:var(--ls-body-l)}
+.t-link{font:700 var(--fs-link)/var(--lh-link) var(--font-sans);letter-spacing:var(--ls-link)}
+.t-meta-l{font:400 var(--fs-meta-l)/var(--lh-meta-l) var(--font-sans);letter-spacing:var(--ls-meta-l)}
+.t-body-m{font:500 var(--fs-body-m)/var(--lh-body-m) var(--font-sans);letter-spacing:var(--ls-body-m)}
+.t-caption{font:600 var(--fs-caption)/var(--lh-caption) var(--font-sans);letter-spacing:var(--ls-caption)}
+.t-label{font:700 var(--fs-label)/var(--lh-label) var(--font-sans);letter-spacing:var(--ls-label)}
+.t-input{font:600 var(--fs-label)/var(--lh-label) var(--font-sans);letter-spacing:var(--ls-label)}
+.t-small{font:400 var(--fs-small)/var(--lh-small) var(--font-sans);letter-spacing:var(--ls-small)}
+.t-meta{font:400 var(--fs-meta)/var(--lh-meta) var(--font-sans);letter-spacing:var(--ls-meta)}
+.t-micro{font:400 var(--fs-micro)/var(--lh-micro) var(--font-sans);letter-spacing:var(--ls-micro)}

@@ -1,0 +1,213 @@
+/* RGBY главная — «Что происходит» v4–v6. --kc — цвет рубрики (rgb-тройка), --px/--py — курсор на карточке, --st — задержка проявления. */
+.nx [data-nx]{--px:0;--py:0;--st:0ms}
+.nx-press{transition:transform .35s cubic-bezier(.34,1.56,.64,1)}
+.nx-press:active{transform:scale(.985);transition-duration:.12s}
+/* метаданные и уголок */
+.nx-meta{display:flex;gap:calc(8 * var(--u));align-items:center;color:var(--ink-a50);font-variant-numeric:tabular-nums}
+.nx-kind{font-style:normal;display:inline-flex;align-items:center;gap:6px;color:var(--rgby-ink)}
+.nx-kind::before{content:"";width:8px;height:8px;background:rgb(var(--kc));transition:transform .45s cubic-bezier(.34,1.56,.64,1)}
+.nx-kind::before{flex-shrink:0;margin-left:3px}
+[data-nx]:hover .nx-kind::before{transform:scale(1.15) rotate(45deg)}
+.nx-corner{position:absolute;right:calc(14 * var(--u));top:calc(14 * var(--u));z-index:3;width:calc(40 * var(--u));height:calc(40 * var(--u));display:grid;overflow:hidden;background:var(--rgby-paper);color:var(--rgby-ink);font:700 calc(18 * var(--u))/1 var(--font-sans);transform:scale(.6);opacity:0;transition:transform .45s cubic-bezier(.34,1.56,.64,1),opacity .25s,background-color .3s}
+.nx-corner i{grid-area:1/1;display:grid;place-items:center;font-style:normal;transition:transform .5s cubic-bezier(.16,1,.3,1)}
+.nx-corner i:last-child{transform:translate(-100%,100%)}
+[data-nx]:hover .nx-corner{transform:none;opacity:1}
+[data-nx]:hover .nx-corner i:first-child{transform:translate(100%,-100%)}
+[data-nx]:hover .nx-corner i:last-child{transform:none}
+/* проявление: клип снизу + посадка картинки */
+.nx [data-nx]{opacity:0;clip-path:inset(18% 0 0 0);transform:translateY(calc(28 * var(--u)))}
+.nx [data-nx].is-in{opacity:1;clip-path:inset(0 0 0 0);transform:none;transition:opacity .6s var(--st) cubic-bezier(.4,0,.2,1),clip-path 1s var(--st) cubic-bezier(.16,1,.3,1),transform 1s var(--st) cubic-bezier(.16,1,.3,1)}
+.nx [data-nx].is-in:active{transform:scale(.985);transition:transform .12s}
+.no-anim .nx [data-nx]{opacity:1;clip-path:none;transform:none}
+
+/* ---------- v4 Журнал ---------- */
+.nx-tabs{position:relative;display:flex;flex-wrap:wrap;gap:calc(4 * var(--u));margin-bottom:calc(32 * var(--u));padding:calc(4 * var(--u));background:var(--ink-a07);width:max-content;max-width:100%}
+.nx-tabs__ind{position:absolute;left:0;top:calc(4 * var(--u));bottom:calc(4 * var(--u));background:var(--rgby-ink);transition:transform .6s cubic-bezier(.16,1,.3,1),width .6s cubic-bezier(.16,1,.3,1)}
+.nx-tab{position:relative;z-index:1;appearance:none;border:0;cursor:pointer;display:flex;align-items:center;gap:calc(8 * var(--u));padding:calc(12 * var(--u)) calc(16 * var(--u));background:transparent;color:var(--rgby-ink);font:700 calc(18 * var(--u))/1 var(--font-sans);letter-spacing:-.04em;transition:color .35s}
+.nx-tab sup{font-size:.62em;opacity:.5;font-variant-numeric:tabular-nums}
+.nx-tab__dot{width:8px;height:8px;background:rgb(var(--kc));transition:transform .45s cubic-bezier(.34,1.56,.64,1)}
+.nx-tab:hover .nx-tab__dot{transform:scale(1.4)}
+.nx-tab.is-on{color:var(--rgby-paper)}
+.nx-j{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));grid-auto-flow:row dense;gap:var(--gutter)}
+.nx-c{position:relative;display:flex;flex-direction:column;gap:calc(14 * var(--u));color:var(--rgby-ink);min-width:0}
+.nx-c:hover{color:var(--rgby-ink)}
+.nx-c__media{position:relative;display:block;overflow:hidden;background:var(--ink-a07)}
+.nx-c__img{position:absolute;inset:-4%;background:center/cover;transform:translate(calc(var(--px) * -14px),calc(var(--py) * -14px)) scale(1.02);transition:transform .9s cubic-bezier(.16,1,.3,1),filter .5s}
+.nx-c:hover .nx-c__img{transform:translate(calc(var(--px) * -14px),calc(var(--py) * -14px)) scale(1.08)}
+.nx [data-nx]:not(.is-in) .nx-c__img{transform:scale(1.18)}
+.nx-c__media::after{content:"";position:absolute;left:0;right:0;bottom:0;height:3px;background:rgb(var(--kc));transform:scaleX(0);transform-origin:left;transition:transform .6s cubic-bezier(.16,1,.3,1)}
+.nx-c:hover .nx-c__media::after{transform:none}
+.nx-c__body{display:flex;flex-direction:column;gap:calc(10 * var(--u))}
+.nx-c__t{transition:color .3s}
+.nx-c:hover .nx-c__t{color:var(--rgby-blue)}
+.nx-c__p{opacity:.6;max-width:calc(560 * var(--u))}
+.nx-c--L{grid-column:span 6;grid-row:span 2}
+.nx-c--L .nx-c__media{flex:1;min-height:calc(420 * var(--u))}
+.nx-c--S{grid-column:span 3}
+.nx-c--S .nx-c__media{aspect-ratio:4/3}
+.nx-c--W{grid-column:span 8;display:grid;grid-template-columns:minmax(0,5fr) minmax(0,3fr);align-items:stretch}
+.nx-c--W .nx-c__media{min-height:calc(300 * var(--u))}
+.nx-c--W .nx-c__body{justify-content:flex-end;padding-bottom:calc(4 * var(--u))}
+.nx-c--T{grid-column:span 4;justify-content:space-between;padding:calc(24 * var(--u));background:rgba(var(--kc),.08);box-shadow:0 0 0 1px rgba(var(--kc),.25) inset;min-height:calc(300 * var(--u));overflow:hidden;isolation:isolate;transition:background-color .45s,box-shadow .45s}
+.nx-c--T::before{content:"";position:absolute;inset:0;z-index:-1;background:rgb(var(--kc));transform:translateY(101%);transition:transform .7s cubic-bezier(.16,1,.3,1)}
+.nx-c--T:hover{color:var(--rgby-paper)}
+.nx-c--T:hover::before{transform:none}
+.nx-c--T:hover .nx-c__t,.nx-c--T:hover .nx-meta,.nx-c--T:hover .nx-kind{color:var(--rgby-paper)}
+.nx-c--T:hover .nx-kind::before{background:var(--rgby-paper)}
+.nx-c--T .nx-c__body{height:100%;justify-content:space-between}
+
+/* ---------- v5 Индекс ---------- */
+.nx-ix{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,8fr);gap:var(--gutter);align-items:start}
+.nx-ix__side{align-self:stretch}
+.nx-ix__stick{position:sticky;top:calc(96 * var(--u));display:flex;flex-direction:column;gap:calc(12 * var(--u))}
+.nx-ix__lab{color:var(--ink-a50)}
+.nx-ix__mon{font:700 calc(96 * var(--u))/.86 var(--font-sans);letter-spacing:-.06em;color:var(--rgby-blue);animation:nxMon .7s cubic-bezier(.16,1,.3,1)}
+@keyframes nxMon{from{opacity:0;transform:translateY(calc(24 * var(--u)));filter:blur(6px)}}
+.nx-ix__y{color:var(--ink-a50);font-variant-numeric:tabular-nums}
+.nx-ix__legend{display:flex;flex-wrap:wrap;gap:calc(6 * var(--u)) calc(14 * var(--u));margin-top:calc(24 * var(--u))}
+.nx-ix__legend span{display:inline-flex;align-items:center;gap:6px;color:var(--ink-a50)}
+.nx-ix__legend i{width:8px;height:8px;background:rgb(var(--kc))}
+.nx-ix__g{display:flex;flex-direction:column}
+.nx-ix__g+.nx-ix__g{margin-top:calc(48 * var(--u))}
+.nx-ix__gh{padding-bottom:calc(12 * var(--u));color:var(--ink-a50)}
+.nx-r{position:relative;display:grid;grid-template-columns:calc(88 * var(--u)) minmax(0,1fr) auto;gap:calc(20 * var(--u));align-items:start;padding:calc(24 * var(--u)) calc(64 * var(--u)) calc(24 * var(--u)) 0;color:var(--rgby-ink);isolation:isolate}
+.nx-r:hover{color:var(--rgby-ink)}
+.nx-r::before{content:"";position:absolute;left:0;right:0;top:0;height:1px;background:var(--ink-a20);transform:scaleX(0);transform-origin:left;transition:transform 1.1s var(--st) cubic-bezier(.16,1,.3,1)}
+.nx-r.is-in::before{transform:none}
+.nx-r::after{content:"";position:absolute;inset:0 calc(-1 * var(--margin)) 0 calc(-20 * var(--u));z-index:-1;background:rgba(var(--kc),.07);clip-path:inset(0 100% 0 0);transition:clip-path .6s cubic-bezier(.16,1,.3,1)}
+.nx-r:hover::after{clip-path:inset(0 0 0 0)}
+.nx-r__d{font:700 calc(56 * var(--u))/.86 var(--font-sans);letter-spacing:-.05em;font-variant-numeric:tabular-nums;transition:color .35s,transform .5s cubic-bezier(.34,1.56,.64,1)}
+.nx-r:hover .nx-r__d{color:rgb(var(--kc));transform:translateX(calc(6 * var(--u)))}
+.nx-r__main{display:flex;flex-direction:column;gap:calc(10 * var(--u));min-width:0}
+.nx-r__p{opacity:.6;max-width:calc(560 * var(--u))}
+.nx-r__thumb{position:relative;width:0;height:calc(150 * var(--u));overflow:hidden;transition:width .7s cubic-bezier(.16,1,.3,1)}
+.nx-r__thumb i{position:absolute;top:0;bottom:0;left:0;width:calc(220 * var(--u));background:center/cover;transform:translate(calc(var(--px) * -10px),calc(var(--py) * -10px)) scale(1.1);transition:transform .9s cubic-bezier(.16,1,.3,1)}
+.nx-r:hover .nx-r__thumb{width:calc(220 * var(--u))}
+.nx-r .nx-corner{top:calc(24 * var(--u));right:0;background:var(--rgby-ink);color:var(--rgby-paper)}
+
+/* ---------- v6 Полка ---------- */
+.nx-sh__nav{display:grid;grid-template-columns:auto minmax(0,1fr) auto auto;gap:calc(12 * var(--u));align-items:center;margin-bottom:calc(20 * var(--u))}
+.nx-sh__hint{color:var(--ink-a50)}
+.nx-sh__prog{position:relative;height:2px;background:var(--ink-a10);overflow:hidden}
+.nx-sh__prog i{position:absolute;left:0;top:0;bottom:0;width:22%;background:var(--rgby-blue)}
+.nx-sh__arr{appearance:none;border:0;cursor:pointer;width:calc(56 * var(--u));height:calc(56 * var(--u));background:var(--ink-a07);color:var(--rgby-ink);font:700 calc(22 * var(--u))/1 var(--font-sans);transition:background-color .3s,color .3s,transform .35s cubic-bezier(.34,1.56,.64,1)}
+.nx-sh__arr:hover{background:var(--rgby-blue);color:var(--rgby-paper)}
+.nx-sh{margin:0 calc(-1 * var(--margin));padding:calc(10 * var(--u)) var(--margin) calc(24 * var(--u));overflow:hidden;cursor:grab;touch-action:pan-y;user-select:none}
+.nx-sh.is-drag{cursor:grabbing}
+.nx-sh__track{display:flex;gap:var(--gutter);width:max-content;will-change:transform;--sk:0deg}
+.nx-t{position:relative;flex:none;width:calc(340 * var(--u));height:calc(500 * var(--u));color:var(--rgby-ink);perspective:900px;-webkit-user-drag:none}
+.nx-t:hover{color:var(--rgby-ink)}
+.nx-t--w{width:calc(620 * var(--u))}
+.nx-t__in{position:absolute;inset:0;display:flex;flex-direction:column;gap:calc(14 * var(--u));transform:rotateY(calc(var(--px) * 7deg)) rotateX(calc(var(--py) * -6deg)) skewX(var(--sk,0deg));transform-style:preserve-3d;transition:transform .7s cubic-bezier(.16,1,.3,1)}
+.nx-sh.is-drag .nx-t__in{transform:skewX(calc(var(--sk) * -1))}
+.nx-t__media{position:relative;flex:1;overflow:hidden;background:var(--ink-a07)}
+.nx-t__media i{position:absolute;inset:-5%;background:center/cover;transform:translate(calc(var(--px) * -16px),calc(var(--py) * -16px)) scale(1.04);transition:transform .9s cubic-bezier(.16,1,.3,1)}
+.nx-t:hover .nx-t__media i{transform:translate(calc(var(--px) * -16px),calc(var(--py) * -16px)) scale(1.1)}
+.nx [data-nx]:not(.is-in) .nx-t__media i{transform:scale(1.2)}
+.nx-t__body{display:flex;flex-direction:column;gap:calc(10 * var(--u))}
+.nx-t__p{opacity:.6;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.nx-t--txt .nx-t__in{padding:calc(24 * var(--u));background:rgba(var(--kc),.08);box-shadow:0 0 0 1px rgba(var(--kc),.25) inset;justify-content:flex-end}
+.nx-t--txt .nx-t__body b{font-size:calc(40 * var(--u));line-height:.95}
+.nx-t--txt .nx-t__p{-webkit-line-clamp:4}
+.nx-t--end .nx-t__in{justify-content:space-between;padding:calc(28 * var(--u));background:var(--rgby-blue);color:var(--rgby-paper)}
+.nx-t--end .t-label{opacity:.7}
+.nx-t__go{font:700 calc(64 * var(--u))/1 var(--font-sans);transition:transform .6s cubic-bezier(.34,1.56,.64,1)}
+.nx-t--end:hover .nx-t__go{transform:translateX(calc(16 * var(--u)))}
+.nx-t--end:hover{color:var(--rgby-paper)}
+
+@media (max-width:1023px){
+  .nx-j{grid-template-columns:repeat(6,minmax(0,1fr))}
+  .nx-c--L{grid-column:1 / -1!important;grid-row:auto}.nx-c--L .nx-c__media{min-height:0;aspect-ratio:16/10}
+  .nx-c--W{grid-column:1 / -1;grid-template-columns:1fr}.nx-c--T{grid-column:span 6}.nx-c--S{grid-column:span 3}
+  .nx-ix{grid-template-columns:1fr}.nx-ix__stick{position:static}.nx-ix__mon{font-size:calc(64 * var(--u))}.nx-ix__legend{display:none}
+  .nx-r__thumb{display:none}
+  .nx-t{width:calc(300 * var(--u));height:calc(440 * var(--u))}.nx-t--w{width:calc(420 * var(--u))}
+}
+@media (max-width:599px){
+  .nx-c--S{grid-column:1 / -1}
+  .nx-r{grid-template-columns:calc(56 * var(--u)) minmax(0,1fr);padding-right:0}.nx-r__d{font-size:calc(40 * var(--u))}.nx-r .nx-corner{display:none}
+  .nx-tabs{width:auto}.nx-sh__hint{display:none}
+  .nx-t,.nx-t--w{width:calc(290 * var(--u))}
+}
+@media (prefers-reduced-motion:reduce){.nx [data-nx]{opacity:1;clip-path:none;transform:none}.nx-c__img,.nx-t__media i,.nx-t__in{transition:none}}
+
+/* v6: вся лента сразу, без «Показать ещё» и нижней панели; «Все новости» — в строке навигации ленты */
+.nx--v6 .m-news__all{display:none}
+.nx--v6 .nx-sh__nav{grid-template-columns:auto minmax(0,1fr) auto auto auto}
+.nx-sh__all{display:flex;align-items:center;gap:calc(12 * var(--u));height:calc(56 * var(--u));padding:0 calc(22 * var(--u));background:var(--rgby-blue);color:var(--rgby-paper);text-decoration:none;white-space:nowrap;transition:background .35s cubic-bezier(.16,1,.3,1)}
+.nx-sh__all:hover{background:var(--rgby-ink);color:var(--rgby-paper)}
+.nx-sh__all .m-arrow{transition:transform .35s cubic-bezier(.16,1,.3,1)}.nx-sh__all:hover .m-arrow{transform:translateX(4px)}
+@media (max-width:599px){.nx--v6 .nx-sh__nav{grid-template-columns:minmax(0,1fr) auto auto}.nx--v6 .nx-sh__prog{grid-column:1/-1;grid-row:2}.nx-sh__all{justify-self:start}}
+.nx-t--end .nx-t__in{container-type:inline-size}
+.nx-t__end-t{display:block;font:700 clamp(24px,min(calc(56 * var(--u)),15cqi),64px)/.95 var(--font-sans);letter-spacing:-.04em;text-wrap:balance;hyphens:none;overflow-wrap:normal;word-break:normal;min-width:0;max-width:100%}
+/* Окно новости (боковое, как у кейсов) */
+.nwm__cover{position:relative;aspect-ratio:16/9;overflow:hidden;background:var(--ink-a07)}
+.nwm__cover img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.nwm__meta{grid-column:1/-1}
+.nwm__title{grid-column:1/-1;font-size:calc(56 * var(--u));text-wrap:balance;margin:0}
+.nwm__text{grid-column:1/-1;max-width:calc(820 * var(--u))}
+.nwm__text p+p{margin-top:var(--sp-16)}
+/* правки 14.10: мягкий наклон (не режет края), стрелка «Все новости», выравнивание маркера тега */
+.nx-t{perspective:1800px}
+.nx-t__in{transform:rotateY(calc(var(--px) * 3deg)) rotateX(calc(var(--py) * -2.5deg)) skewX(var(--sk,0deg));transition:transform .9s cubic-bezier(.22,1,.36,1)}
+.nx-t--w .nx-t__in{transform:rotateY(calc(var(--px) * 2deg)) rotateX(calc(var(--py) * -2deg)) skewX(var(--sk,0deg))}
+.nx-sh{padding-left:calc(var(--margin) + 6px)}
+.nx-t__end-b{display:flex;flex-direction:column;align-items:flex-start;gap:calc(22 * var(--u))}
+.nx-t__go{position:relative;display:grid;overflow:hidden;width:calc(64 * var(--u));height:calc(64 * var(--u));font:700 calc(56 * var(--u))/1 var(--font-sans);transition:none}
+.nx-t__go i{grid-area:1/1;display:grid;place-items:center;font-style:normal;transform:translate3d(0,0,0);transition:transform .55s cubic-bezier(.22,1,.36,1);will-change:transform}
+.nx-t__go i+i{transform:translate3d(-110%,0,0)}
+.nx-t--end:hover .nx-t__go{transform:none}
+.nx-t--end:hover .nx-t__go i{transform:translate3d(110%,0,0)}
+.nx-t--end:hover .nx-t__go i+i{transform:translate3d(0,0,0);transition-delay:.06s}
+.nx-meta{line-height:1}
+.nx-kind{line-height:1;align-items:center;gap:7px}
+.nx-kind::before{width:.6em;height:.6em;min-width:7px;min-height:7px;margin-left:2px;align-self:center;transform:translateY(-.04em);transition:transform .5s cubic-bezier(.22,1,.36,1)}
+[data-nx]:hover .nx-kind::before{transform:translateY(-.04em) rotate(45deg) scale(1.1)}
+/* правки 14.10 (2): стабильный ховер — события ловит только сама карточка (её рамка не наклоняется), внутренности прозрачны для курсора */
+.nx [data-nx] *{pointer-events:none}
+/* картинки: смещение ведёт JS (плавно), увеличение — отдельным мягким переходом */
+.nx [data-nx] .nx-c__img,.nx [data-nx] .nx-t__media i{transform:none!important;translate:calc(var(--px) * -12px) calc(var(--py) * -12px);scale:1.03;transition:scale 1.1s cubic-bezier(.22,1,.36,1),filter .5s!important;will-change:translate,scale}
+.nx [data-nx]:hover .nx-c__img,.nx [data-nx]:hover .nx-t__media i{scale:1.07}
+.nx [data-nx]:not(.is-in) .nx-c__img,.nx [data-nx]:not(.is-in) .nx-t__media i{scale:1.16}
+.nx .nx-t__in{transition:none}
+.nx .nx-sh.is-drag .nx-t__in{transition:transform .5s cubic-bezier(.22,1,.36,1)}
+/* уголок ↗: одна стрелка — проявляется вместе с плашкой, без подмены */
+.nx-corner{transform:scale(.7);transition:transform .5s cubic-bezier(.22,1,.36,1),opacity .3s cubic-bezier(.4,0,.2,1)}
+.nx-corner i,.nx-corner i:last-child{transform:translate3d(-60%,60%,0);opacity:0;transition:transform .55s cubic-bezier(.22,1,.36,1),opacity .3s}
+[data-nx]:hover .nx-corner i,[data-nx]:hover .nx-corner i:first-child,[data-nx]:hover .nx-corner i:last-child{transform:none;opacity:1;transition-delay:.08s}
+/* «Все новости»: отступ от края ленты, текст ниже, яркий ховер — заливка снизу + подъём + стрелка */
+.nx-sh__track{padding-right:calc(var(--margin) + 8px)}
+.nx-t--end .nx-t__in{padding:calc(28 * var(--u)) calc(28 * var(--u)) calc(20 * var(--u));overflow:hidden;transition:transform .7s cubic-bezier(.22,1,.36,1),box-shadow .7s cubic-bezier(.22,1,.36,1)!important}
+.nx-t--end .nx-t__in::before{content:"";position:absolute;inset:0;background:var(--rgby-ink);clip-path:inset(100% 0 0 0);transition:clip-path .75s cubic-bezier(.22,1,.36,1)}
+.nx-t--end .nx-t__in>*{position:relative}
+.nx-t--end:hover .nx-t__in{transform:translate3d(0,calc(-10 * var(--u)),0) scale(1.02)!important;box-shadow:0 calc(30 * var(--u)) calc(60 * var(--u)) rgba(44,79,255,.35)}
+.nx-t--end:hover .nx-t__in::before{clip-path:inset(0 0 0 0)}
+.nx-t--end:hover .t-label{opacity:1}
+.nx-t--end .t-label{transition:opacity .5s}
+.nx-t__end-b{margin-top:auto;gap:calc(16 * var(--u))}
+.nx-t__go,.nx-t--end:hover .nx-t__go{overflow:visible;transform:none}
+.nx-t__go i,.nx-t--end:hover .nx-t__go i{transform:translate3d(0,0,0);transition:transform .7s cubic-bezier(.22,1,.36,1);transition-delay:0s}
+.nx-t--end:hover .nx-t__go i{transform:translate3d(calc(24 * var(--u)),0,0)}
+/* правки 14.10 (3): ховер ленты — класс .is-h от геометрии курсора */
+.nx-sh__track{padding-right:0}
+.nx-sh [data-nx].is-h .nx-corner{transform:none;opacity:1}
+.nx-sh [data-nx].is-h .nx-corner i{transform:none;opacity:1;transition-delay:.08s}
+.nx-sh [data-nx].is-h .nx-t__media i{scale:1.07}
+.nx-sh [data-nx].is-h .nx-kind::before{transform:translateY(-.04em) rotate(45deg) scale(1.1)}
+.nx-sh [data-nx]:not(.is-h) .nx-corner{transform:scale(.7);opacity:0}
+.nx-sh [data-nx]:not(.is-h) .nx-corner i{transform:translate3d(-60%,60%,0);opacity:0;transition-delay:0s}
+.nx-sh [data-nx]:not(.is-h) .nx-t__media i{scale:1.03}
+.nx-sh [data-nx].is-in:not(.is-h) .nx-kind::before{transform:translateY(-.04em)}
+.nx-sh .nx-t--end .nx-t__in{transform-origin:0 0}
+.nx-sh .nx-t--end.is-h .nx-t__in{transform:translate3d(0,calc(-10 * var(--u)),0) scale(1.02)!important;box-shadow:0 calc(30 * var(--u)) calc(60 * var(--u)) rgba(44,79,255,.35)}
+.nx-sh .nx-t--end:not(.is-h) .nx-t__in{transform:none!important;box-shadow:none}
+.nx-sh .nx-t--end.is-h .nx-t__in::before{clip-path:inset(0 0 0 0)}
+.nx-sh .nx-t--end:not(.is-h) .nx-t__in::before{clip-path:inset(100% 0 0 0)}
+.nx-sh .nx-t--end.is-h .nx-t__go i{transform:translate3d(calc(24 * var(--u)),0,0)}
+.nx-sh .nx-t--end:not(.is-h) .nx-t__go i{transform:none}
+.nx-sh .nx-t--end .t-label{transition:opacity .5s,transform .7s cubic-bezier(.22,1,.36,1)}
+.nx-sh .nx-t--end.is-h .t-label{opacity:1;transform:translate3d(0,calc(10 * var(--u) / 1.02),0) scale(.98)}
+.nx--v6 .nx-sh__nav--l{grid-template-columns:auto auto auto minmax(0,1fr)}
+.nx-sh__nav--l .nx-sh__hint{margin-left:calc(12 * var(--u))}
+@media (max-width:599px){.nx--v6 .nx-sh__nav--l{grid-template-columns:auto auto minmax(0,1fr)}.nx--v6 .nx-sh__nav--l .nx-sh__prog{grid-column:1/-1;grid-row:2}}
+.nx-sh .nx-t>.nx-corner{z-index:4;transform-origin:50% 50%}
