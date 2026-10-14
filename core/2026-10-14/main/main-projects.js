@@ -311,7 +311,18 @@ function PjLens({
     return im;
   };
   React.useEffect(() => {
-    P.forEach(p => (p.imgs || [p.img]).forEach(imOf));
+    P.slice(0, 8).forEach(p => imOf(p.img));
+    var rest = P.slice(8),
+      idle = window.requestIdleCallback || (f => setTimeout(f, 1200)),
+      stop = window.cancelIdleCallback || clearTimeout,
+      off = false;
+    var id = idle(() => {
+      if (!off) rest.forEach(p => imOf(p.img));
+    });
+    return () => {
+      off = true;
+      stop(id);
+    };
   }, [P]);
   React.useLayoutEffect(() => {
     var el = wrap.current,
