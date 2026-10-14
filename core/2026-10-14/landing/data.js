@@ -151,6 +151,13 @@
     dept: s[2],
     photo: ""
   }));
+  // Команда, опубликованная из CMS (content/team/team.js), заменяет значения по умолчанию из этого файла
+  if (window.RGBY_TEAM) {
+    var TT = window.RGBY_TEAM, ph = v => v ? asImg(v) || v : "";
+    if (Array.isArray(TT.team) && TT.team.length) TEAM = TT.team.map(m => ({ ...m, photo: ph(m.photo) }));
+    if (Array.isArray(TT.staff)) STAFF = TT.staff.map(m => ({ ...m, photo: ph(m.photo) }));
+    if (typeof TT.lead === "string" && TT.lead.trim()) TEAM_LEAD = TT.lead;
+  }
   var KEY = "rgby-media-cms-v2-cases";
   function load() {
     var PROD = !!window.__RGBY_PROD,

@@ -487,18 +487,44 @@ function Cms({
         cover: x.placeholder ? r.media.cover : rel(x.cover, x.id, 0),
         gallery: (x.gallery || []).map((g, k) => rel(g, x.id, k + 1)),
         format: x.format || r.media.format,
-        column: x.column || r.media.column,
+        column: x.column != null && x.column !== "" ? +x.column : r.media.column, // 0 — левая колонка, это тоже значение
         video: x.video || ""
       });
     });
     base.forEach(r => {
       if (!seen[r.id] && r.status === "published" && r.directions.indexOf("ТВ/Медиа") >= 0 && r.primary === "ТВ/Медиа") r.status = "draft";
     });
+    // Порядок кейсов — как в CMS: места кейсов ТВ/Медиа в общем списке заполняются в порядке CMS, остальные кейсы не двигаются
+    var slots = [];
+    base.forEach((r, i) => { if (seen[r.id]) slots.push(i); });
+    var ordered = data.cases.map(x => base.find(r => r.id === x.id)).filter(Boolean);
+    slots.forEach((s, k) => { base[s] = ordered[k]; });
     var text = src.slice(0, a + 14) + JSON.stringify(base, null, 2).replace(/\n/g, "\n  ") + src.slice(b + 4);
+    // Команда: основатели, сотрудники, вводный текст — content/team/team.js (раньше в публикацию не попадали)
+    var relT = (v, id) => {
+      if (!v) return "";
+      if (/^data:/.test(v)) {
+        var ext = (v.match(/^data:image\/(\w+)/) || [, "jpg"])[1].replace("jpeg", "jpg"),
+          p = "team/" + id + "-cms-" + Date.now().toString(36) + "." + ext;
+        files.push({ path: "assets/images/" + p, blob: fetch(v).then(r => r.blob()) });
+        return p;
+      }
+      var m = v.match(/assets\/images\/(.+)$/);
+      return m ? decodeURI(m[1]) : v;
+    };
+    var team = {
+      lead: data.lead || "",
+      team: (data.team || []).map(m => ({ ...m, photo: relT(m.photo, m.id || "t") })),
+      staff: (data.staff || []).map(m => ({ ...m, photo: relT(m.photo, m.id || "s") }))
+    };
+    var teamText = "// RGBY · команда (основатели, сотрудники, вводный текст) — публикуется из CMS «Кейсы и команда».\n// Выгружено " + new Date().toLocaleString("ru-RU") + ". Пути картинок — от assets/images/.\nwindow.RGBY_TEAM = " + JSON.stringify(team, null, 2) + ";\n";
     for (var f of files) f.blob = await f.blob;
     return [{
       path: "content/cases/cases.js",
       text
+    }, {
+      path: "content/team/team.js",
+      text: teamText
     }].concat(files);
   };
   var exportCasesJs = async () => {
