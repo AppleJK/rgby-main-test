@@ -1,11 +1,17 @@
 // RGBY · main-intro.jsx.txt · сборка 2026-10-14
-function mainLoadProgress() {
+// Телефоны и планшеты не начинают качать видео до жеста пользователя: preload="auto"
+// там игнорируется, буфер остаётся пустым. Ждать его — значит держать прелоадер на 35%
+// (шрифты .1 + картинки .25) до страховочного CAP. На таких устройствах шоурил не ждём,
+// на остальных ждём не дольше MI_VWAIT — буфер к этому моменту либо есть, либо не будет.
+var MI_NOPRE = matchMedia("(hover:none)").matches,
+  MI_VWAIT = 4000;
+function mainLoadProgress(el) {
   var f = document.fonts && document.fonts.status === "loaded" ? 1 : 0;
   var im = [...document.images].filter(i => i.loading !== "lazy" && i.src),
     ic = im.length ? im.filter(i => i.complete).length / im.length : 1;
   var v = document.querySelector("video.rl__v");
   var vp = 1;
-  if (v) {
+  if (v && !MI_NOPRE && el < MI_VWAIT) {
     if (v.readyState >= 4 || v.error) vp = 1;else {
       var b = 0;
       try {
@@ -41,7 +47,7 @@ function MainIntro({
       var el = now - t0,
         q = Math.min(1, el / LOAD),
         s = q < .45 ? q / .45 * .62 : q < .62 ? .62 + (q - .45) / .17 * .04 : .66 + (q - .62) / .38 * .34;
-      var real = el > CAP ? 1 : mainLoadProgress(),
+      var real = el > CAP ? 1 : mainLoadProgress(el),
         goal = Math.min(1 - Math.pow(1 - s, 1.6), real);
       var dt = Math.min(64, now - (last || now));
       last = now;
