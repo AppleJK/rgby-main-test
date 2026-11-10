@@ -138,3 +138,6 @@
 .mh-wl__t::after{transition:opacity 1.4s cubic-bezier(.45,0,.2,1)}
 .mh-wl__t figcaption{transition:opacity 1.2s cubic-bezier(.45,0,.2,1),transform 1.4s cubic-bezier(.16,1,.3,1)}
 .tn-wall .mh-wl__t i{mix-blend-mode:normal}
+/* Стена вне экрана (класс mh-off ставит useMhLoop): не рисуем и снимаем will-change — видеокарта освобождает память слоёв (релиз 2026-10-14.9) */
+.mh--wl.mh-off .mh-wl__stage{visibility:hidden}
+.mh--wl.mh-off .mh-wl__plane,.mh--wl.mh-off .mh-wl__run{will-change:auto}

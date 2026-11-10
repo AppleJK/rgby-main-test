@@ -93,10 +93,16 @@ function useMhLoop(ref, tick, deps) {
     };
     el.addEventListener("pointermove", mv);
     el.addEventListener("pointerleave", lv);
+    // Вне экрана и дальше одного экрана от него — класс mh-off: CSS прячет тяжёлые слои (стена) и снимает с них will-change, видеокарта освобождает память. Возвращается заранее, за экран до входа (релиз 2026-10-14.9)
+    var off = new IntersectionObserver(([e]) => el.classList.toggle("mh-off", !e.isIntersecting), {
+      rootMargin: "100% 0px"
+    });
+    off.observe(el);
     tick(st, 16);
     return () => {
       cancelAnimationFrame(raf);
       io.disconnect();
+      off.disconnect();
       ro.disconnect();
       el.removeEventListener("pointermove", mv);
       el.removeEventListener("pointerleave", lv);

@@ -349,7 +349,8 @@ function Showreel({
   } else if (variant === "mask") {
     var _a5 = rIo(rc(P, .06, .74)),
       s = Math.pow(70, _a5);
-    inner = React.createElement("div", {
+    // С P .8 маска полностью прозрачна — убираем слой: иначе увеличенный в 70 раз слой во весь экран остаётся на видеокарте (релиз 2026-10-14.9)
+    inner = P >= .8 ? null : React.createElement("div", {
       className: "rl-mask",
       ref: maskRef,
       "aria-hidden": "true",

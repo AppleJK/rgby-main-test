@@ -177,7 +177,8 @@ function MhWall({
       o: []
     });
   var NC = 6,
-    PER = 8,
+    [PER, setPER] = React.useState(8),
+    perRef = React.useRef(8),
     [live, setLive] = React.useState([5, 20, 34]);
   var tiles = React.useMemo(() => MHD().TILES && MHD().TILES.length ? MHD().TILES : P.map(p => ({
     img: p.img,
@@ -207,14 +208,15 @@ function MhWall({
       used[c] = col;
       return col;
     });
-  }, [tiles]);
+  }, [tiles, PER]);
   React.useEffect(() => {
     if (mhReduce()) return;
     var n = 0;
     var id = setInterval(() => {
       n++;
       setLive(L => {
-        var tot = NC * PER,
+        var PER = perRef.current,
+          tot = NC * PER,
           cnt = n % 4 === 3 ? 2 : 3,
           nx = L.slice(1);
         var c = (L[L.length - 1] + 11 + n % 5) % tot;
@@ -224,6 +226,24 @@ function MhWall({
       });
     }, 1700);
     return () => clearInterval(id);
+  }, []);
+  // Петля колонки — столько плиток, сколько закрывает колонку по высоте (5–8): на широких экранах слои колонок короче, видеокарте легче (релиз 2026-10-14.9)
+  React.useEffect(() => {
+    var fit = () => {
+      var c = cols.current[0];
+      if (!c || !c.children[1]) return;
+      var step = c.children[1].offsetTop - c.children[0].offsetTop,
+        h = c.parentNode.clientHeight;
+      if (!step || !h) return;
+      var n = Math.min(8, Math.max(5, Math.ceil(h / step + .05)));
+      if (n !== perRef.current) {
+        perRef.current = n;
+        setPER(n);
+      }
+    };
+    fit();
+    addEventListener("resize", fit);
+    return () => removeEventListener("resize", fit);
   }, []);
   useMhLoop(ref, (st, dt) => {
     var el = ref.current,
@@ -237,6 +257,7 @@ function MhWall({
     a.ry += (tx - a.ry) * .045;
     if (plane.current) plane.current.style.transform = "translate(-50%,-50%) rotateX(" + (30 * (1 - e) - a.rx * 7).toFixed(2) + "deg) rotateY(" + (a.ry * 8).toFixed(2) + "deg) rotateZ(" + (-12 * (1 - e)).toFixed(2) + "deg) scale(" + (1 + e * 1.2).toFixed(3) + ")";
     cols.current.forEach((c, i) => {
+      var PER = perRef.current;
       if (!c || !c.children[PER]) return;
       var per = c.children[PER].offsetTop - c.children[0].offsetTop;
       if (!per) return;
