@@ -284,15 +284,21 @@ function App() {
   }, []);
   var [t0, setTweak] = useTweaks(PROD ? {
     ...TWEAK_DEFAULTS,
-    ...(window.RGBY_CONFIG || {})
+    ...(window.RGBY_CONFIG || {}),
+    ...((window.RGBY_SETTINGS || {}).tv || {})
   } : {
     ...TWEAK_DEFAULTS,
     ...pubCfg
   });
+  window.__RGBY_TWEAKS = {
+    page: "tv",
+    defaults: TWEAK_DEFAULTS,
+    values: t0
+  };
   var [tcfg, setTcfg] = React.useState(() => window.__RGBY_CFG || {});
+  // Релиз: настройки = код + content/settings/tv.js (публикуется из ?admin, site-settings.js); переключатели и CMS — только в ?admin.
   var t = PROD ? {
     ...t0,
-    ...(window.RGBY_CONFIG || {}),
     showSwitchers: ADMIN,
     showCms: ADMIN
   } : TUNE ? {

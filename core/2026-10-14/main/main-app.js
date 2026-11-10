@@ -280,7 +280,16 @@ function useMainTailBlur(on) {
   }, [on]);
 }
 function MainApp() {
-  var [t, setTweak] = useTweaks(MAIN_DEFAULTS);
+  // Релиз: опубликованные настройки (content/settings/main.js) поверх значений в коде; site-settings.js публикует отличия от MAIN_DEFAULTS
+  var [t, setTweak] = useTweaks({
+    ...MAIN_DEFAULTS,
+    ...((window.RGBY_SETTINGS || {}).main || {})
+  });
+  window.__RGBY_TWEAKS = {
+    page: "main",
+    defaults: MAIN_DEFAULTS,
+    values: t
+  };
   var sv = k => v => setTweak(k, v),
     A = window.VSW_ALLOW;
   var [intro, setIntro] = React.useState(1);
