@@ -387,7 +387,7 @@ function SvcTapes({
     onPointerMove: move,
     onPointerUp: up,
     onPointerCancel: up,
-    "data-lenis-prevent": ""
+    "data-hscroll": ""
   }, S.map((x, i) => React.createElement("button", {
     key: i,
     type: "button",

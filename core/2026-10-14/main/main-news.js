@@ -546,7 +546,7 @@ function NxShelf({
     onPointerCancel: up,
     onClickCapture: click,
     onWheel: wheel,
-    "data-lenis-prevent": ""
+    "data-hscroll": ""
   }, React.createElement("div", {
     className: "nx-sh__track",
     ref: track

@@ -72,6 +72,9 @@ function useHeavyScroll(enabled, weight, speed) {
     };
     var onWheel = e => {
       if (!enabled || e.ctrlKey || root.style.overflow === "hidden") return;
+      // Горизонтальные ленты (data-hscroll) забирают себе только горизонтальную прокрутку; вертикальное колесо над ними — плавный скролл страницы.
+      // Раньше лента целиком выпадала из плавного скролла: на Windows-мыши браузер и плавный скролл одновременно двигали страницу — она дёргалась.
+      if (e.target.closest && e.target.closest("[data-hscroll]") && Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
       if (e.target.closest && e.target.closest("[data-lenis-prevent], .twk-panel, [class*='tweak']")) return;
       e.preventDefault();
       var d = e.deltaY * (e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? window.innerHeight : 1) * cfg.current.speed;

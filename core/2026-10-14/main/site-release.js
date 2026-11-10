@@ -36,7 +36,10 @@
   window.__rgbySoon = soon;
   function fix(e) {
     var a = e.target && e.target.closest && e.target.closest("a[href]"); if (!a) return;
-    var h = a.getAttribute("href"); if (!/^\.\.\//.test(h)) return;
+    var h = a.getAttribute("href");
+    // Юридические документы (политика, cookie, согласие) всегда открываются в новой вкладке, чтобы не уводить со страницы
+    if (/(^|\/)legal\/[a-z]+\.html/.test(h) && a.target !== "_blank") { a.setAttribute("target", "_blank"); a.setAttribute("rel", "noopener"); }
+    if (!/^\.\.\//.test(h)) return;
     var m = map(h);
     if (m == null) { if (e.type === "click") { e.preventDefault(); e.stopPropagation(); soon(); } return; }
     a.setAttribute("href", m);
