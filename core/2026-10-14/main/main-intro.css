@@ -39,7 +39,8 @@
 /* Обложка wall */
 .mh--wl{background:var(--rgby-ink);color:var(--rgby-paper);min-height:100svh;--k:0}
 .mh-wl__stage{position:absolute;inset:0;z-index:0;overflow:hidden;perspective:1600px}
-.mh-wl__plane{position:absolute;left:62%;top:50%;width:130%;height:180%;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:calc(14 * var(--u));transform-style:preserve-3d;will-change:transform}
+.mh-wl__plane{position:absolute;left:62%;top:50%;width:130%;height:180%;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:calc(14 * var(--u));transform-style:preserve-3d}
+/* .mh-wl__plane без will-change (релиз 2026-10-14.10): иначе растр при увеличении 2,2× по скроллу остаётся, и на возврате стена рисуется серыми блоками. 3D-трансформация и так выносит плоскость в свой слой */
 .mh-wl__col{overflow:hidden;height:100%}
 .mh-wl__run{display:flex;flex-direction:column;gap:calc(14 * var(--u));will-change:transform}
 .mh-wl__t{position:relative;margin:0;aspect-ratio:4/3;overflow:hidden;background:#0b1730}
@@ -140,4 +141,4 @@
 .tn-wall .mh-wl__t i{mix-blend-mode:normal}
 /* Стена вне экрана (класс mh-off ставит useMhLoop): не рисуем и снимаем will-change — видеокарта освобождает память слоёв (релиз 2026-10-14.9) */
 .mh--wl.mh-off .mh-wl__stage{visibility:hidden}
-.mh--wl.mh-off .mh-wl__plane,.mh--wl.mh-off .mh-wl__run{will-change:auto}
+.mh--wl.mh-off .mh-wl__run{will-change:auto}

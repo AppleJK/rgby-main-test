@@ -123,7 +123,8 @@ line.mh-pr__flow{stroke:var(--rgby-paper);stroke-width:4}
 .rl-pip{position:absolute;z-index:3;padding:4px 8px;background:var(--rgby-paper);color:var(--rgby-ink);white-space:nowrap;pointer-events:none}
 .rl-floor{position:absolute;left:-20%;right:-20%;bottom:0;height:60%;z-index:0;background:linear-gradient(90deg,rgba(243,244,255,.12) 1px,transparent 1px) 0 0/calc(100% / 24) 100%,linear-gradient(0deg,rgba(243,244,255,.12) 1px,transparent 1px) 0 0/100% calc(100% / 8);transform:perspective(900px) rotateX(64deg);transform-origin:50% 100%;pointer-events:none}
 .rl--tilt .rl__win{z-index:1}
-.rl-mask{position:absolute;inset:0;z-index:2;display:flex;align-items:center;justify-content:center;background:var(--rgby-paper);color:#000;font:700 calc(440 * var(--u))/.8 var(--font-sans);letter-spacing:-.06em;mix-blend-mode:screen;will-change:transform;pointer-events:none}
+.rl-mask{position:absolute;inset:0;z-index:2;display:flex;align-items:center;justify-content:center;background:var(--rgby-paper);color:#000;font:700 calc(440 * var(--u))/.8 var(--font-sans);letter-spacing:-.06em;mix-blend-mode:screen;pointer-events:none}
+/* .rl-mask без will-change (релиз 2026-10-14.10): слой с will-change Chrome растрирует при максимальном увеличении (до 70×) и держит этот растр; на обратном пути маска рисуется из него обрывками и белой пеленой. Без will-change растр каждый кадр в текущем масштабе — проверено на 3440×1310 */
 .rl--mask .rl__pre{color:var(--rgby-ink)}
 .rl__shade{position:absolute;inset:0;z-index:3;background:linear-gradient(180deg,rgba(6,16,37,0) 50%,rgba(6,16,37,.7));pointer-events:none}
 .rl-ch{position:absolute;z-index:2;border:2px solid;mix-blend-mode:screen;pointer-events:none}
