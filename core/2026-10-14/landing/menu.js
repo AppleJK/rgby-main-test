@@ -219,7 +219,7 @@ function MenuLink({
     "aria-hidden": "true"
   }, "\u2192")));
 }
-var SITE_ALL = [["Главная", "../main/index.html"], ["Проекты", "../projects/index.html"], ["ТВ/Медиа", "../landing/index.html"], ["Веб", "../web/index.html"], ["Продакшн", "../dir/production.html"], ["R&D", "../dir/rnd.html"], ["Брендинг", "../dir/branding.html"], ["Мультимедиа", "../dir/multimedia.html"]];
+var SITE_ALL = [["Главная", "../main/index.html"], ["ТВ/Медиа", "../landing/index.html"], ["Веб", "../web/index.html"], ["Продакшн", "../dir/production.html"], ["R&D", "../dir/rnd.html"], ["Брендинг", "../dir/branding.html"], ["Мультимедиа", "../dir/multimedia.html"]];
 var SITE = window.__RGBY_LINKS ? SITE_ALL.filter(([, h]) => h in window.__RGBY_LINKS).map(([t, h]) => [t, window.__RGBY_LINKS[h], h]) : SITE_ALL;
 var sitePath = h => h.replace(/^\.\.\//, "/").replace(/\/index\.html$/, "/");
 function siteCurrent() {
@@ -324,9 +324,9 @@ function PnavSwap({
   React.useLayoutEffect(() => {
     var el = inRef.current;
     if (!el) return;
-    setW(Math.ceil(el.getBoundingClientRect().width));
+    setW(el.offsetWidth);
     if (!window.ResizeObserver) return;
-    var ro = new ResizeObserver(() => setW(Math.ceil(el.getBoundingClientRect().width)));
+    var ro = new ResizeObserver(() => setW(el.offsetWidth));
     ro.observe(el);
     return () => ro.disconnect();
   }, [st.k]);

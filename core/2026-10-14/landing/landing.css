@@ -2454,11 +2454,10 @@ html[data-pnav="dock"] .pnav .pnav__n{font-size:max(11px,calc(10 * var(--u)))}
 html[data-pnav="dock"] .pnav__rail{bottom:calc(100% + calc(10 * var(--u)));min-width:100%;padding:max(12px,calc(12 * var(--u)));border-radius:calc(20 * var(--u))}
 html[data-pnav="dock"] .pnav__rail .pnav__i{height:max(32px,calc(28 * var(--u)));padding:0 calc(14 * var(--u));gap:calc(14 * var(--u));border-radius:calc(10 * var(--u))}
 }
-/* Плавная смена раздела в пилюле (релиз 2026-10-14.12) — PnavSwap в menu: подписи въезжают/уезжают по вертикали, ширина тянется.
-   Поля .15em по бокам (релиз .13): у шрифта отрицательный трекинг — последняя буква выходит за рамку текста и срезалась */
-.pnav__sw{box-sizing:content-box;display:inline-block;position:relative;overflow:hidden;white-space:nowrap;padding:.2em .15em;margin:-.2em -.15em;transition:width .3s cubic-bezier(.3,.7,.25,1)}
+/* Плавная смена раздела в пилюле (релиз 2026-10-14.12) — PnavSwap в menu: подписи въезжают/уезжают по вертикали, ширина тянется */
+.pnav__sw{display:inline-block;position:relative;overflow:hidden;white-space:nowrap;padding:.2em 0;margin:-.2em 0;transition:width .3s cubic-bezier(.3,.7,.25,1)}
 .pnav__sw-i,.pnav__sw-o{display:inline-block}
-.pnav__sw-o{position:absolute;left:.15em;top:.2em;animation:pnav-sw-out .16s cubic-bezier(.4,0,1,1) forwards}
+.pnav__sw-o{position:absolute;left:0;top:.2em;animation:pnav-sw-out .16s cubic-bezier(.4,0,1,1) forwards}
 .pnav__sw-i.is-new{animation:pnav-sw-in .3s cubic-bezier(.2,.75,.3,1) .04s both}
 .pnav__t.pnav__sw .pnav__sw-i.is-new{animation-delay:.07s}
 .pnav__sw.is-quick .pnav__sw-i.is-new{animation:pnav-sw-fade .14s linear both}
@@ -2471,10 +2470,3 @@ html[data-pnav="dock"] .pnav__rail .pnav__i{height:max(32px,calc(28 * var(--u)))
 @keyframes pnav-sw-out-up{to{opacity:0;transform:translateY(50%)}}
 html[data-pnav="dock"] .pnav__rail .pnav__i{transition:background-color .3s}
 @media (prefers-reduced-motion:reduce){.pnav__sw{transition:none}.pnav__sw-o{display:none}.pnav__sw-i.is-new{animation:none}}
-
-/* Мобильное меню без горизонтальной прокрутки (релиз 2026-10-14.13): «ТВ/Медиа» при 10,5vh был шире экрана на 12–14 px (378, 430) —
-   размер пунктов ограничен ещё и шириной экрана; глитч-слои при наведении больше не дают полосу прокрутки */
-@media (max-width:1023px){
-  .menu__body{overflow-x:hidden;overflow-y:auto}
-  .menu__nav .menu__item{font-size:min(var(--fs-display-xl),10.5vh,15.5vw)}
-}

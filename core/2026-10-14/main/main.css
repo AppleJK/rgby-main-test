@@ -242,8 +242,6 @@ html{scroll-behavior:smooth}
 /* ---------- Брейкпоинты ---------- */
 @media (max-width:1279px){
   .m-hdr__nav{display:none}
-  /* без навигации средняя колонка пустая, но оба отступа сетки оставались — на телефоне бургер уезжал за край на ~37 px (релиз 2026-10-14.13) */
-  .m-hdr{column-gap:0}
   .m-hub--n5 .m-tile,.m-hub--n5 .m-tile:nth-child(-n+2){grid-column:span 3}
   .m-hub--n5 .m-tile:last-child{grid-column:1/-1}
 }

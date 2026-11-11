@@ -3,8 +3,6 @@
 // Поля новости:
 //   id      — латиница, для адреса /news/<id>
 //   status  — "published" (на сайте) | "draft" (видна только в прототипе)
-//   source  — "tg": правка карточки из Telegram (id "tg-<номер>"), перекрывает её; посты Telegram — в content/news/telegram.js
-//   link    — ссылка на пост в Telegram (у карточек из канала)
 //   date    — дата публикации, ГГГГ-ММ-ДД
 //   tag     — один из TAGS
 //   layout  — вид карточки: "vertical" | "horizontal" (широкая) | "text" (без обложки, крупный текст в фокусе)
@@ -25,7 +23,7 @@
   const NEWS = [
     {
       "id": "dizayn-tinder",
-      "status": "draft",
+      "status": "published",
       "date": "2026-10-06",
       "tag": "Статья",
       "layout": "horizontal",
@@ -36,7 +34,7 @@
     },
     {
       "id": "zhizn-vne-behance",
-      "status": "draft",
+      "status": "published",
       "date": "2026-10-02",
       "tag": "Статья",
       "layout": "text",
@@ -47,7 +45,7 @@
     },
     {
       "id": "digest-leto",
-      "status": "draft",
+      "status": "published",
       "date": "2026-09-29",
       "tag": "Дайджест",
       "layout": "vertical",
@@ -58,7 +56,7 @@
     },
     {
       "id": "k1-efir",
-      "status": "draft",
+      "status": "published",
       "date": "2026-09-24",
       "tag": "Кейс",
       "layout": "horizontal",
@@ -69,7 +67,7 @@
     },
     {
       "id": "rgby-festival",
-      "status": "draft",
+      "status": "published",
       "date": "2026-09-19",
       "tag": "Событие",
       "layout": "vertical",
@@ -80,7 +78,7 @@
     },
     {
       "id": "shortlist-fan",
-      "status": "draft",
+      "status": "published",
       "date": "2026-09-15",
       "tag": "Награда",
       "layout": "vertical",
@@ -158,14 +156,10 @@
   ];
   const KEY = "rgby-news-cms-v1";
   const release = () => !!window.__RGBY_RELEASE;
-  // Посты Telegram-канала — content/news/telegram.js (пишет робот tools/telegram/tg-news.mjs, id "tg-<номер>").
-  // Запись в NEWS с тем же id — правка из CMS (текст, обложка, тип, скрытие): она главнее, робот её не трогает.
-  const tg = () => (window.RGBY_NEWS_TG && Array.isArray(window.RGBY_NEWS_TG.list) ? window.RGBY_NEWS_TG.list : []);
-  const merge = own => { const ids = new Set(own.map(n => n.id)); return own.concat(tg().filter(n => !ids.has(n.id))); };
-  // Прототип: черновик из CMS (localStorage) перекрывает файл. Релиз: только файлы.
+  // Прототип: черновик из CMS (localStorage) перекрывает файл. Релиз: только этот файл.
   function source() {
-    if (!release()) { try { const s = JSON.parse(localStorage.getItem(KEY) || "null"); if (s && Array.isArray(s.list)) return merge(s.list.map(n => s.covers && s.covers[n.cover] ? Object.assign({}, n, { cover: s.covers[n.cover] }) : n)); } catch (e) {} }
-    return merge(NEWS);
+    if (!release()) { try { const s = JSON.parse(localStorage.getItem(KEY) || "null"); if (s && Array.isArray(s.list)) return s.list.map(n => s.covers && s.covers[n.cover] ? Object.assign({}, n, { cover: s.covers[n.cover] }) : n); } catch (e) {} }
+    return NEWS;
   }
   const words = t => (String(t || "").match(/\S+/g) || []).length;
   const readMin = n => Math.max(1, Math.round((words(n.title) + words(n.excerpt) + words(n.body)) / 180));
@@ -173,7 +167,7 @@
   // Лента для сайта: опубликованные (в прототипе — и черновики), новые сверху
   function feed() {
     return source().filter(n => n.status === "published" || (!release() && n.status === "draft"))
-      .slice().sort((a, b) => String(b.date).localeCompare(String(a.date)) || String(b.id).localeCompare(String(a.id), "en", { numeric: true }));
+      .slice().sort((a, b) => String(b.date).localeCompare(String(a.date)));
   }
-  window.RGBY_NEWS = { version: "2026-10-14", KEY, TAGS, LAYOUTS, LIMITS, list: NEWS, tg, merge, source, feed, readMin, fmtDate };
+  window.RGBY_NEWS = { version: "2026-10-14", KEY, TAGS, LAYOUTS, LIMITS, list: NEWS, source, feed, readMin, fmtDate };
 })();

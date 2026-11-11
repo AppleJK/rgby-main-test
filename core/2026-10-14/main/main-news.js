@@ -92,9 +92,7 @@ function NxBar({
   more,
   portal,
   toPortal,
-  label,
-  tg,
-  ext
+  label
 }) {
   var {
     Button
@@ -117,16 +115,15 @@ function NxBar({
     className: "t-label"
   }, "+", Math.min(step, left))) : React.createElement("span", {
     className: "m-news__done t-body-m"
-  }, "\u042D\u0442\u043E \u0432\u0441\u0435 \u0441\u0432\u0435\u0436\u0438\u0435 \u043D\u043E\u0432\u043E\u0441\u0442\u0438 \u2014 \u043E\u0441\u0442\u0430\u043B\u044C\u043D\u043E\u0435 \u0432 \u0430\u0440\u0445\u0438\u0432\u0435"), React.createElement("a", _extends({
+  }, "\u042D\u0442\u043E \u0432\u0441\u0435 \u0441\u0432\u0435\u0436\u0438\u0435 \u043D\u043E\u0432\u043E\u0441\u0442\u0438 \u2014 \u043E\u0441\u0442\u0430\u043B\u044C\u043D\u043E\u0435 \u0432 \u0430\u0440\u0445\u0438\u0432\u0435"), React.createElement("a", {
     href: portal,
-    onClick: toPortal
-  }, ext, {
+    onClick: toPortal,
     className: "m-news__portal"
-  }), React.createElement(Button, {
+  }, React.createElement(Button, {
     variant: "blue",
     size: "l",
     tabIndex: "-1"
-  }, tg ? "Все новости в Telegram ↗" : "Перейти в медиа-портал →")));
+  }, "\u041F\u0435\u0440\u0435\u0439\u0442\u0438 \u0432 \u043C\u0435\u0434\u0438\u0430-\u043F\u043E\u0440\u0442\u0430\u043B \u2192")));
 }
 var NX_SHAPE = ["L", "S", "S", "S", "S", "W", "T"];
 function NxCard({
@@ -221,7 +218,7 @@ function NxJournal({
     ref: grid,
     key: f
   }, N.map((n, i) => React.createElement(NxCard, {
-    key: n.id,
+    key: n.title,
     n: n,
     shape: NX_SHAPE[i % 7],
     mirror: Math.floor(i / 7) % 2 === 1
@@ -310,7 +307,7 @@ function NxIndex({
   }, React.createElement("span", {
     className: "nx-ix__gh t-label"
   }, g.m, " ", g.y), g.items.map(n => React.createElement("a", {
-    key: n.id,
+    key: n.title,
     href: "#news-" + n.id,
     onClick: e => nxOpen(e, n),
     "data-nx": "",
@@ -554,178 +551,53 @@ function NxShelf({
     className: "nx-sh__track",
     ref: track
   }, N.map((n, i) => {
-    var ar = n.ratio && n.img ? Math.min(1.78, Math.max(.8, n.ratio)) : 0;
-    var L = ar ? ar >= 1.3 ? "horizontal" : "vertical" : n.layout || (i % 3 === 0 ? "horizontal" : n.kind === "Статья" ? "text" : "vertical"),
-      wide = !ar && L === "horizontal",
-      txt = !n.img || L === "text";
+    var L = n.layout || (i % 3 === 0 ? "horizontal" : n.kind === "Статья" ? "text" : "vertical"),
+      wide = L === "horizontal",
+      txt = L === "text";
     return React.createElement("a", {
-      key: n.id,
+      key: n.title,
       href: "#news-" + n.id,
       onClick: e => nxOpen(e, n),
       "data-nx": "",
       draggable: "false",
-      className: "nx-t" + (wide ? " nx-t--w" : "") + (txt ? " nx-t--txt" : "") + (ar && !txt ? " nx-t--ar" : "") + (n.video && !txt ? " nx-t--vid" : ""),
-      style: {
-        ...nxKc(n),
-        ...(ar && !txt ? {
-          "--ar": ar
-        } : null)
-      }
+      className: "nx-t" + (wide ? " nx-t--w" : "") + (txt ? " nx-t--txt" : ""),
+      style: nxKc(n)
     }, React.createElement("span", {
       className: "nx-t__in"
     }, txt ? null : React.createElement("span", {
       className: "nx-t__media"
-    }, n.video ? React.createElement(NxVideo, {
-      n: n
-    }) : React.createElement("i", {
+    }, React.createElement("i", {
       style: {
         backgroundImage: "url(" + n.img + ")"
       }
-    }), n.gallery && n.gallery.length > 1 ? React.createElement("span", {
-      className: "nx-t__count t-label"
-    }, React.createElement(NxStackIcon, null), n.gallery.length) : null), React.createElement("span", {
+    })), React.createElement("span", {
       className: "nx-t__body"
     }, React.createElement(NxMeta, {
       n: n
     }), React.createElement("b", {
-      className: (wide || txt) && !ar ? "t-h1" : "t-h3-l"
+      className: wide || txt ? "t-h1" : "t-h3-l"
     }, n.title), React.createElement("span", {
       className: "t-body-m nx-t__p"
     }, n.text))), React.createElement(NxCorner, null));
-  }), React.createElement("a", _extends({
+  }), React.createElement("a", {
     href: ctx.portal,
-    onClick: ctx.toPortal
-  }, ctx.ext, {
+    onClick: ctx.toPortal,
     "data-nx": "",
     draggable: "false",
-    className: "nx-t nx-t--end" + (ctx.tg ? " nx-t--tg" : "")
-  }), React.createElement("span", {
+    className: "nx-t nx-t--end"
+  }, React.createElement("span", {
     className: "nx-t__in"
   }, React.createElement("span", {
     className: "t-label"
-  }, ctx.tg ? React.createElement(React.Fragment, null, React.createElement(NxTgIcon, null), " Telegram-\u043A\u0430\u043D\u0430\u043B RGBY") : "Медиа-портал"), React.createElement("span", {
+  }, "\u041C\u0435\u0434\u0438\u0430-\u043F\u043E\u0440\u0442\u0430\u043B"), React.createElement("span", {
     className: "nx-t__end-b"
   }, React.createElement("b", {
     className: "nx-t__end-t"
-  }, ctx.tg ? "Все новости — в нашем Telegram" : "Все новости, статьи и кейсы"), React.createElement("span", {
+  }, "\u0412\u0441\u0435 \u043D\u043E\u0432\u043E\u0441\u0442\u0438, \u0441\u0442\u0430\u0442\u044C\u0438 \u0438\xA0\u043A\u0435\u0439\u0441\u044B"), React.createElement("span", {
     className: "nx-t__go",
     "aria-hidden": "true"
-  }, React.createElement("i", null, ctx.tg ? "↗" : "→"))))))));
+  }, React.createElement("i", null, "\u2192"))))))));
 }
-function NxVideo({
-  n,
-  big
-}) {
-  return React.createElement("span", {
-    className: "nx-vid" + (big ? " nx-vid--big" : "")
-  }, React.createElement("span", {
-    className: "nx-vid__bg",
-    style: {
-      backgroundImage: "url(" + n.img + ")"
-    }
-  }), React.createElement("img", {
-    className: "nx-vid__img",
-    src: n.img,
-    alt: "",
-    loading: "lazy",
-    decoding: "async",
-    draggable: "false"
-  }), React.createElement("span", {
-    className: "nx-vid__play t-label"
-  }, React.createElement("b", {
-    "aria-hidden": "true"
-  }, "\u25B6"), big ? "Смотреть видео в Telegram" : "Видео"));
-}
-var NxStackIcon = () => React.createElement("svg", {
-  className: "nx-stk",
-  viewBox: "0 0 16 16",
-  "aria-hidden": "true"
-}, React.createElement("path", {
-  fill: "none",
-  stroke: "currentColor",
-  strokeWidth: "1.6",
-  d: "M4.5 1.8h9.7v9.7M1.8 4.5h9.7v9.7H1.8z"
-}));
-function NxGallery({
-  n
-}) {
-  var G = n.gallery,
-    [i, setI] = React.useState(0),
-    sx = React.useRef(null);
-  var go = d => setI(k => (k + d + G.length) % G.length),
-    g = G[i] || G[0];
-  React.useEffect(() => {
-    var nx = G[(i + 1) % G.length];
-    if (nx && !nx.video) {
-      var im = new Image();
-      im.src = nx.img;
-    }
-  }, [i]);
-  return React.createElement("div", {
-    className: "nwg"
-  }, React.createElement("div", {
-    className: "nwg__stage",
-    onPointerDown: e => {
-      sx.current = e.clientX;
-    },
-    onPointerUp: e => {
-      if (sx.current != null && Math.abs(e.clientX - sx.current) > 40) go(e.clientX < sx.current ? 1 : -1);
-      sx.current = null;
-    }
-  }, g.video ? React.createElement("a", {
-    className: "nwg__vid",
-    href: n.link || "#",
-    target: "_blank",
-    rel: "noopener"
-  }, React.createElement(NxVideo, {
-    n: {
-      img: g.img
-    },
-    big: true
-  })) : React.createElement("img", {
-    key: g.img,
-    className: "nwg__img",
-    src: g.img,
-    alt: "",
-    decoding: "async",
-    draggable: "false"
-  }), React.createElement("span", {
-    className: "nwg__n t-label"
-  }, i + 1, " / ", G.length), React.createElement("button", {
-    type: "button",
-    className: "nwg__arr nwg__arr--l",
-    onClick: () => go(-1),
-    "aria-label": "\u041F\u0440\u0435\u0434\u044B\u0434\u0443\u0449\u0430\u044F \u043A\u0430\u0440\u0442\u0438\u043D\u043A\u0430"
-  }, "\u2190"), React.createElement("button", {
-    type: "button",
-    className: "nwg__arr nwg__arr--r",
-    onClick: () => go(1),
-    "aria-label": "\u0421\u043B\u0435\u0434\u0443\u044E\u0449\u0430\u044F \u043A\u0430\u0440\u0442\u0438\u043D\u043A\u0430"
-  }, "\u2192")), React.createElement("div", {
-    className: "nwg__thumbs"
-  }, G.map((x, k) => React.createElement("button", {
-    key: x.img + k,
-    type: "button",
-    className: "nwg__th" + (k === i ? " is-on" : ""),
-    onClick: () => setI(k),
-    "aria-label": "Картинка " + (k + 1),
-    "aria-pressed": k === i,
-    style: {
-      backgroundImage: "url(" + x.img + ")"
-    }
-  }, x.video ? React.createElement("b", {
-    "aria-hidden": "true"
-  }, "\u25B6") : null))));
-}
-var NxTgIcon = () => React.createElement("svg", {
-  className: "nx-tgi",
-  viewBox: "0 0 24 24",
-  "aria-hidden": "true"
-}, React.createElement("path", {
-  fill: "currentColor",
-  d: "M21.9 4.3 18.7 19.4c-.2 1-.9 1.3-1.7.8l-4.8-3.5-2.3 2.2c-.3.3-.5.5-1 .5l.3-4.9 8.9-8c.4-.3-.1-.5-.6-.2L6.5 13.3l-4.7-1.5c-1-.3-1-1 .2-1.5L20.5 3.1c.9-.3 1.6.2 1.4 1.2z"
-}));
-var nxNz = s => String(s || "").replace(/[\s ]+/g, " ").replace(/…$/, "").trim();
 var nxOpen = (e, n) => {
   e.preventDefault();
   window.dispatchEvent(new CustomEvent("rgby-news-open", {
@@ -749,7 +621,6 @@ function NewsModal({
     if (p) p.scrollTop = 0;
   }, [index]);
   var paras = n ? String(n.body || "").split(/\n\s*\n/).map(s => s.trim()).filter(Boolean) : [];
-  var lead = n && n.text && !(paras.length && nxNz(n.body).startsWith(nxNz(n.text).slice(0, 60))) ? n.text : "";
   return React.createElement(Modal, {
     open: !!n,
     onClose: onClose,
@@ -763,68 +634,55 @@ function NewsModal({
       tone: "outline",
       onClick: () => onNav(1)
     })) : null
-  }, n ? React.createElement("article", {
-    className: "nwa",
-    style: nxKc(n)
-  }, React.createElement("header", {
-    className: "nwa__head"
-  }, React.createElement("span", {
-    className: "nx-meta t-label nwa__meta"
-  }, React.createElement("i", {
-    className: "nx-kind"
-  }, n.kind), React.createElement("span", null, n.date), n.read ? React.createElement("span", null, "\xB7 ", n.read, " \u043C\u0438\u043D") : null), React.createElement("h2", {
-    className: "nwa__t"
-  }, n.head || n.title), lead ? React.createElement("p", {
-    className: "t-lead nwa__lead"
-  }, lead) : null), n.gallery && n.gallery.length > 1 ? React.createElement(NxGallery, {
-    key: n.id,
-    n: n
-  }) : n.img ? n.video ? React.createElement("a", {
-    className: "nwa__fig nwa__fig--vid",
-    href: n.link || "#",
-    target: "_blank",
-    rel: "noopener",
-    style: n.ratio ? {
-      "--ar": n.ratio
-    } : null
-  }, React.createElement(NxVideo, {
-    n: n,
-    big: true
-  })) : React.createElement("figure", {
-    className: "nwa__fig"
+  }, n ? React.createElement("div", {
+    className: "nwm"
+  }, n.img ? React.createElement("div", {
+    className: "nwm__cover"
   }, React.createElement("img", {
     src: n.img,
     alt: "",
     decoding: "async"
-  })) : null, n.html ? React.createElement("div", {
-    className: "nwa__text nwa__rich t-body-l",
-    dangerouslySetInnerHTML: {
-      __html: n.html
+  })) : null, React.createElement("div", {
+    className: "case-modal__body"
+  }, React.createElement("div", {
+    className: "nwm__meta",
+    style: nxKc(n)
+  }, React.createElement(NxMeta, {
+    n: n
+  })), React.createElement("h2", {
+    className: "sec__title nwm__title"
+  }, n.title), React.createElement("div", {
+    className: "case-modal__text nwm__text"
+  }, n.text ? React.createElement("p", {
+    className: "t-lead",
+    style: {
+      margin: 0
     }
-  }) : paras.length ? React.createElement("div", {
-    className: "nwa__text"
-  }, paras.map((p, k) => React.createElement("p", {
+  }, n.text) : null, paras.map((p, k) => React.createElement("p", {
     key: k,
-    className: "t-body-l"
-  }, p))) : null, n.link ? React.createElement("a", {
-    className: "nwa__src",
-    href: n.link,
-    target: "_blank",
-    rel: "noopener"
-  }, React.createElement(NxTgIcon, null), React.createElement("span", null, n.video ? "Смотреть видео в Telegram" : "Открыть пост в Telegram"), React.createElement("span", {
-    "aria-hidden": "true"
-  }, "\u2197")) : null, next && next !== n ? React.createElement("button", {
+    className: "t-body-l",
+    style: {
+      margin: 0
+    }
+  }, p))), next && next !== n ? React.createElement("button", {
     type: "button",
-    className: "nwa__next",
+    className: "case-modal__next",
     onClick: () => onNav(1)
   }, React.createElement("span", {
-    className: "t-label"
+    className: "stack",
+    style: {
+      gap: "var(--sp-12)"
+    }
+  }, React.createElement("span", {
+    className: "t-meta",
+    style: {
+      opacity: .6
+    }
   }, "\u0421\u043B\u0435\u0434\u0443\u044E\u0449\u0430\u044F \u043D\u043E\u0432\u043E\u0441\u0442\u044C"), React.createElement("span", {
-    className: "nwa__next-t"
-  }, next.title), React.createElement("span", {
-    className: "nwa__next-a",
-    "aria-hidden": "true"
-  }, "\u2192")) : null) : null);
+    className: "t-h3-l"
+  }, next.title)), React.createElement("span", {
+    className: "t-button"
+  }, "\u2192")) : null)) : null);
 }
 function News({
   variant,
@@ -838,16 +696,10 @@ function News({
     portal = window.RGBY_MAIN.NEWS_PORTAL || "#",
     toPortal = e => {
       if (portal === "#") e.preventDefault();
-    };
-  var tg = /^https:\/\/t\.me\//.test(portal),
+    },
     ctx = {
       portal,
-      toPortal,
-      tg,
-      ext: /^https?:/.test(portal) ? {
-        target: "_blank",
-        rel: "noopener"
-      } : {}
+      toPortal
     };
   var V = {
     v4: NxJournal,
@@ -878,17 +730,14 @@ function News({
     className: "sec__title rv"
   }, "\u0427\u0442\u043E \u043F\u0440\u043E\u0438\u0441\u0445\u043E\u0434\u0438\u0442"), React.createElement("p", {
     className: "m-head__lead t-body-l rv"
-  }, window.RGBY_MAIN.NEWS_LEAD), React.createElement("a", _extends({
+  }, window.RGBY_MAIN.NEWS_LEAD), React.createElement("a", {
     className: "t-link rv m-news__all",
     href: portal,
     onClick: toPortal
-  }, ctx.ext), tg ? React.createElement(React.Fragment, null, React.createElement(NxTgIcon, null), " \u0412\u0441\u0435 \u043D\u043E\u0432\u043E\u0441\u0442\u0438 \u0432 Telegram ", React.createElement("span", {
+  }, "\u0412\u0441\u0435 \u043D\u043E\u0432\u043E\u0441\u0442\u0438 ", React.createElement("span", {
     className: "m-arrow",
     "aria-hidden": "true"
-  }, "\u2197")) : React.createElement(React.Fragment, null, "\u0412\u0441\u0435 \u043D\u043E\u0432\u043E\u0441\u0442\u0438 ", React.createElement("span", {
-    className: "m-arrow",
-    "aria-hidden": "true"
-  }, "\u2192")))), React.createElement(V, {
+  }, "\u2192"))), React.createElement(V, {
     key: variant,
     ALL: ALL,
     ctx: ctx

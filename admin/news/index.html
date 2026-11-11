@@ -6,10 +6,9 @@
 <meta name="robots" content="noindex, nofollow">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>RGBY · CMS новостей</title>
-<link rel="stylesheet" href="../../core/2026-10-14/styles.css?v=2026-10-14.13">
-<script src="../../content/news/telegram.js"></script>
+<link rel="stylesheet" href="../../core/2026-10-14/styles.css?v=2026-10-14.12">
 <script src="../../content/news/news.js"></script>
-<script src="../../core/2026-10-14/main/gh-publish.js?v=2026-10-14.13"></script>
+<script src="../../core/2026-10-14/main/gh-publish.js?v=2026-10-14.12"></script>
 <style>
 *{box-sizing:border-box}
 html,body{margin:0;background:var(--rgby-paper);color:var(--rgby-ink);font-family:var(--font-sans);-webkit-font-smoothing:antialiased}
@@ -87,7 +86,6 @@ textarea.in{resize:vertical;min-height:90px;line-height:1.45}
 .toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);opacity:0;background:var(--rgby-ink);color:var(--rgby-paper);padding:12px 18px;font-weight:700;font-size:14px;transition:opacity .3s,transform .4s cubic-bezier(.16,1,.3,1);pointer-events:none;z-index:9}
 .toast.on{opacity:1;transform:translate(-50%,0)}
 @media (max-width:1100px){.main{grid-template-columns:260px minmax(0,1fr)}.col.pv{display:none}}
-.tgnote{margin:0 0 14px;padding:10px 12px;border-left:3px solid #2AABEE;background:rgba(42,171,238,.08);font-size:13px;line-height:1.4}.tgnote a{color:#1a8fd0}.it em.tg{font-style:normal;color:#1a8fd0}
 </style>
 </head>
 <body>
@@ -112,46 +110,39 @@ textarea.in{resize:vertical;min-height:90px;line-height:1.45}
 (function(){
 var N=window.RGBY_NEWS, KEY=N.KEY, TAGS=N.TAGS, LAY=N.LAYOUTS||[{id:"vertical",label:"Вертикальная"},{id:"horizontal",label:"Горизонтальная"},{id:"text",label:"Без обложки"}], LIM=N.LIMITS, IMG="../../assets/images/";
 var POOL=["cases/beat-1.jpg","cases/beat-2.jpg","cases/beat-3.jpg","cases/beat-4.jpg","cases/cartoon-classics-1.jpg","cases/cartoon-classics-2.jpg","cases/cartoon-classics-3.jpg","cases/cartoon-classics-4.jpg","cases/cartoon-classics-5.jpg","cases/comedy-10-1.jpg","cases/comedy-10-2.jpg","cases/comedy-10-3.jpg","cases/comedy-10-4.jpg","cases/energiya-pera-1.jpg","cases/energiya-pera-2.jpg","cases/energiya-pera-3.jpg","cases/energiya-pera-4.jpg","cases/evocargo-1.jpg","cases/evocargo-2.jpg","cases/evocargo-3.jpg","cases/fan-2024-1.jpg","cases/fan-2024-2.jpg","cases/fan-2024-3.jpg","cases/fan-2024-4.jpg","cases/fan-2024-5.jpg","cases/fan-2024-6.jpg","cases/fan-2024-7.jpg","cases/fan-2024-8.jpg","cases/fan-2026-1.jpg","cases/fan-2026-2.jpg","cases/fan-2026-3.jpg","cases/fan-2026-4.jpg","cases/fan-2026-5.jpg","cases/fan-2026-6.jpg","cases/fan-2026-7.jpg","cases/ftv-1.jpg","cases/ftv-2.jpg","cases/horror-fest-1.jpg","cases/horror-fest-2.jpg","cases/horror-fest-3.jpg","cases/horror-fest-4.jpg","cases/horror-fest-5.jpg","cases/intervision-1.jpg","cases/k1-1.jpg","cases/k1-2.jpg","cases/k1-3.jpg","cases/k1-4.jpg","cases/last-hero-1.jpg","cases/last-hero-2.jpg","cases/last-hero-3.jpg","cases/last-hero-4.jpg","cases/last-hero-5.jpg","cases/lovestory-1.jpg","cases/lovestory-2.jpg","cases/lovestory-3.jpg","cases/plan-b-1.jpg","cases/plan-b-2.jpg","cases/plan-b-3.jpg","cases/plan-b-4.jpg","cases/plan-b-5.jpg","cases/pobeda-1.jpg","cases/pobeda-2.jpg","cases/regional-to-global-1.jpg","cases/regional-to-global-2.jpg","cases/regional-to-global-3.jpg","cases/roskhim-1.jpg","cases/roskhim-2.jpg","cases/russkiy-detektiv-1.jpg","cases/russkiy-detektiv-2.jpg","cases/russkiy-detektiv-3.jpg","cases/russkiy-detektiv-4.jpg","cases/rw-1.jpg","cases/rw-2.jpg","cases/rw-3.jpg","cases/rw-4.jpg","cases/rw-5.jpg","cases/rw-tech-1.jpg","cases/rw-tech-2.jpg","cases/rw-tech-3.jpg","cases/soviet-classics-1.jpg","cases/soviet-classics-2.jpg","cases/soyuzny-1.jpg","cases/start-1.jpg","cases/start-2.jpg","cases/start-3.jpg","cases/stroynadzor-1.jpg","cases/stroynadzor-2.jpg","cases/stroynadzor-3.jpg","cases/touchpoint-1.jpg","cases/tv3-wonderland-1.jpg","cases/tv3-wonderland-2.jpg","cases/tv3-wonderland-3.jpg","cases/tv3-wonderland-4.jpg","cases/vremya-igrat-1.jpg","cases/vremya-igrat-2.jpg","cases/zhivaya-planeta-1.jpg"];
-// Посты Telegram (content/news/telegram.js): в списке как «виртуальные» карточки; первая правка делает свою копию в news.js с тем же id — она перекрывает пост
-var TG=(N.tg?N.tg():[]);
-function tgItems(){var ids={};st.list.forEach(function(n){ids[n.id]=1});return TG.filter(function(t){return !ids[t.id]}).map(function(t){var o=clone(t);o._tg=1;return o;});}
-function all(){return st.list.concat(tgItems());}
-function own(n){if(!n||!n._tg)return n;var o=clone(n);delete o._tg;o.source="tg";st.list.push(o);return o;}
-function tgOrig(id){return TG.find(function(t){return t.id===id});}
 var tagColor=function(t){var x=TAGS.find(function(a){return a.id===t});return x?x.color:"6,16,37"};
 var clone=function(o){return JSON.parse(JSON.stringify(o))};
-var st=loadState(), sel=null, filter="Все";
+var st=loadState(), sel=st.list[0]?st.list[0].id:null, filter="Все";
 function loadState(){try{var s=JSON.parse(localStorage.getItem(KEY)||"null");if(s&&Array.isArray(s.list))return {list:s.list,covers:s.covers||{},dirty:true};}catch(e){}return {list:clone(N.list),covers:{},dirty:false};}
 function save(){st.dirty=true;try{localStorage.setItem(KEY,JSON.stringify({list:st.list,covers:st.covers,at:Date.now()}));}catch(e){toast("Не хватает места в браузере — уменьшите обложку");}renderState();}
 function src(n){var c=n.cover||"";if(st.covers[c])return st.covers[c];return !c?"":/^(https?:|data:|\/)/.test(c)?c:IMG+c;}
 function fmt(d){var m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(d||"");return m?m[3]+"."+m[2]+"."+m[1]:d||"—";}
 function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
-function cur(){return st.list.find(function(n){return n.id===sel})||tgItems().find(function(n){return n.id===sel})}
-function sorted(){return all().sort(function(a,b){return String(b.date).localeCompare(String(a.date))||String(b.id).localeCompare(String(a.id),"en",{numeric:true})})}
+function cur(){return st.list.find(function(n){return n.id===sel})}
+function sorted(){return st.list.slice().sort(function(a,b){return String(b.date).localeCompare(String(a.date))})}
 function slug(t){var map={а:"a",б:"b",в:"v",г:"g",д:"d",е:"e",ё:"e",ж:"zh",з:"z",и:"i",й:"y",к:"k",л:"l",м:"m",н:"n",о:"o",п:"p",р:"r",с:"s",т:"t",у:"u",ф:"f",х:"h",ц:"c",ч:"ch",ш:"sh",щ:"sch",ъ:"",ы:"y",ь:"",э:"e",ю:"yu",я:"ya"};return String(t||"").toLowerCase().split("").map(function(c){return map[c]!=null?map[c]:c}).join("").replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"").slice(0,48)||"news";}
-function uniq(id,self){var b=id,k=2;while(st.list.some(function(n){return n.id===id&&n!==self})||TG.some(function(n){return n.id===id&&(!self||self.id!==id)}))id=b+"-"+k++;return id;}
+function uniq(id,self){var b=id,k=2;while(st.list.some(function(n){return n.id===id&&n!==self}))id=b+"-"+k++;return id;}
 function toast(t){var el=document.getElementById("toast");el.textContent=t;el.classList.add("on");clearTimeout(toast.t);toast.t=setTimeout(function(){el.classList.remove("on")},2200);}
 function renderState(){document.getElementById("state").textContent=st.dirty?"· черновик в браузере (сайт-прототип уже видит правки)":"· совпадает с файлом";}
 function renderList(){
   var f=document.getElementById("filters");
-  f.innerHTML=["Все"].concat(TAGS.map(function(t){return t.id})).map(function(t){var A=all(),n=t==="Все"?A.length:A.filter(function(x){return x.tag===t}).length;return '<button class="chip'+(filter===t?" on":"")+'" data-f="'+esc(t)+'" style="--c:'+tagColor(t)+'">'+(t==="Все"?"":"<i></i>")+esc(t)+" · "+n+"</button>"}).join("");
+  f.innerHTML=["Все"].concat(TAGS.map(function(t){return t.id})).map(function(t){var n=t==="Все"?st.list.length:st.list.filter(function(x){return x.tag===t}).length;return '<button class="chip'+(filter===t?" on":"")+'" data-f="'+esc(t)+'" style="--c:'+tagColor(t)+'">'+(t==="Все"?"":"<i></i>")+esc(t)+" · "+n+"</button>"}).join("");
   var L=sorted().filter(function(n){return filter==="Все"||n.tag===filter});
-  document.getElementById("list").innerHTML=L.length?L.map(function(n){var s=src(n);return '<button class="it'+(n.id===sel?" on":"")+'" data-id="'+esc(n.id)+'">'+(s?'<img src="'+esc(s)+'" alt="">':'<span class="ph"></span>')+'<span style="display:block;min-width:0"><b>'+esc(n.title||"Без заголовка")+'</b><span>'+fmt(n.date)+" · "+esc(n.tag)+(n.status!=="published"?' · <em class="dr">'+(n.source==="tg"||n._tg?"скрыта":"черновик")+'</em>':"")+(n._tg?' · <em class="tg">Telegram</em>':n.source==="tg"?' · <em class="tg">Telegram, изменена</em>':"")+"</span></span></button>"}).join(""):'<div class="empty">Нет новостей</div>';
+  document.getElementById("list").innerHTML=L.length?L.map(function(n){var s=src(n);return '<button class="it'+(n.id===sel?" on":"")+'" data-id="'+esc(n.id)+'">'+(s?'<img src="'+esc(s)+'" alt="">':'<span class="ph"></span>')+'<span style="display:block;min-width:0"><b>'+esc(n.title||"Без заголовка")+'</b><span>'+fmt(n.date)+" · "+esc(n.tag)+(n.status!=="published"?' · <em class="dr">черновик</em>':"")+"</span></span></button>"}).join(""):'<div class="empty">Нет новостей</div>';
 }
 function counter(v,max){var l=(v||"").length;return '<span class="'+(l>max?"over":"")+'">'+l+" / "+max+"</span>";}
 function renderEd(){
   var n=cur(),ed=document.getElementById("ed");
   if(!n){ed.innerHTML='<div class="empty">Выберите новость слева или создайте новую</div>';renderPv();return;}
-  var isTg=n._tg||n.source==="tg";
-  ed.innerHTML=(isTg?'<div class="tgnote">'+(n._tg?'<b>Из Telegram-канала</b> — карточка обновляется автоматически вместе с постом. Любая правка здесь сохранит её как вашу: автообновление для неё отключится.':'<b>Из Telegram, изменена вручную</b> — автообновление для неё отключено. «Вернуть как в Telegram» снимет правки.')+(n.video&&/^news\/tg\//.test(n.cover||"")?' <br>Обложка — превью видео из Telegram (320 px): для крупного показа лучше заменить своим кадром.':'')+(n.link?' <a href="'+esc(n.link)+'" target="_blank" rel="noopener">Пост в Telegram ↗</a>':'')+'</div>':'')+
+  ed.innerHTML=
   '<div class="f"><label>Обложка <span>перетащите файл или выберите из кейсов</span></label><div class="drop" id="drop">'+(src(n)?'<img src="'+esc(src(n))+'" alt="">':"")+'<span>'+(src(n)?"Заменить — перетащите или кликните":"Перетащите изображение или кликните")+'</span><input type="file" accept="image/*" id="file" hidden></div><div class="pool" id="pool">'+POOL.map(function(p){return '<img loading="lazy" data-p="'+p+'" class="'+(n.cover===p?"on":"")+'" src="'+IMG+p+'" alt="">'}).join("")+'</div><div class="hint">Свой файл сохранится как assets/images/news/&lt;id&gt;.jpg — при выгрузке он скачается отдельно.</div></div>'+
   '<div class="f"><label>Вид карточки</label><div class="lay">'+LAY.map(function(l){return '<button type="button" class="lay__b'+((n.layout||"vertical")===l.id?" on":"")+'" data-lay="'+l.id+'"><i class="lay__i lay__i--'+l.id+'"><b></b><s></s></i>'+esc(l.label)+'<small>'+({vertical:"карточка 340 × 500<br>обложка от 680 × 1000",horizontal:"карточка 620 × 500<br>обложка от 1240 × 1000",text:"карточка 340 × 500<br>без изображения"})[l.id]+'</small></button>'}).join("")+'</div></div>'+
   '<div class="row"><div class="f"><label>Тег</label><select class="in" data-k="tag">'+TAGS.map(function(t){return "<option"+(n.tag===t.id?" selected":"")+">"+esc(t.id)+"</option>"}).join("")+'</select></div><div class="f"><label>Дата публикации</label><input class="in" type="date" data-k="date" value="'+esc(n.date)+'"></div><div class="f"><label>Статус</label><select class="in" data-k="status"><option value="published"'+(n.status==="published"?" selected":"")+'>Опубликована</option><option value="draft"'+(n.status!=="published"?" selected":"")+'>Черновик</option></select></div></div>'+
   '<div class="f"><label>Заголовок '+counter(n.title,LIM.title)+'</label><input class="in" data-k="title" value="'+esc(n.title)+'"></div>'+
   '<div class="f"><label>Описание в карточке '+counter(n.excerpt,LIM.excerpt)+'</label><textarea class="in" data-k="excerpt" rows="3">'+esc(n.excerpt)+'</textarea></div>'+
   '<div class="f"><label>Полный текст <span>абзацы — через пустую строку</span></label><textarea class="in" data-k="body" rows="12" style="min-height:240px">'+esc(n.body)+'</textarea></div>'+
-  '<div class="f"><label>Адрес (id) <span>/news/'+esc(n.id)+(isTg?' · у карточек из Telegram не меняется':'')+'</span></label><input class="in" data-k="id" value="'+esc(n.id)+'"'+(isTg?' disabled':'')+'></div>'+
-  '<div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" id="dup">Дублировать</button>'+(n._tg?(n.status==="published"?'<button class="btn btn--d" id="hide">Скрыть с сайта</button>':''):n.source==="tg"?(n.status==="published"?'<button class="btn" id="hide">Скрыть с сайта</button>':'<button class="btn" id="show">Показать на сайте</button>')+'<button class="btn btn--d" id="revert">Вернуть как в Telegram</button>':'<button class="btn btn--d" id="del">Удалить</button>')+'</div>';
+  '<div class="f"><label>Адрес (id) <span>/news/'+esc(n.id)+'</span></label><input class="in" data-k="id" value="'+esc(n.id)+'"></div>'+
+  '<div style="display:flex;gap:8px"><button class="btn" id="dup">Дублировать</button><button class="btn btn--d" id="del">Удалить</button></div>';
   renderPv();
 }
 function renderPv(){
@@ -165,7 +156,7 @@ function renderPv(){
 function fitCard(){var w=document.querySelector(".cardwrap"),k=w&&w.firstChild;if(!k)return;var s=Math.min(1,w.clientWidth/k.offsetWidth);k.style.transform="scale("+s+")";w.style.height=k.offsetHeight*s+"px";}
 addEventListener("resize",fitCard);
 function setCover(file){
-  var n=own(cur());if(!n||!file)return;delete n.ratio;
+  var n=cur();if(!n||!file)return;
   var img=new Image(),url=URL.createObjectURL(file);
   img.onload=function(){var W=Math.min(1920,img.width),H=Math.round(img.height*W/img.width),c=document.createElement("canvas");c.width=W;c.height=H;c.getContext("2d").drawImage(img,0,0,W,H);var d=c.toDataURL("image/jpeg",.84);URL.revokeObjectURL(url);var path="news/"+n.id+".jpg";st.covers[path]=d;n.cover=path;save();renderList();renderEd();};
   img.src=url;
@@ -173,19 +164,16 @@ function setCover(file){
 document.addEventListener("click",function(e){
   var t=e.target.closest("[data-f]");if(t){filter=t.dataset.f;renderList();return;}
   t=e.target.closest(".it");if(t){sel=t.dataset.id;renderList();renderEd();return;}
-  t=e.target.closest("[data-lay]");if(t){own(cur()).layout=t.dataset.lay;save();renderEd();return;}
-  t=e.target.closest(".pool img");if(t){var po=own(cur());po.cover=t.dataset.p;delete po.ratio;save();renderList();renderEd();return;}
+  t=e.target.closest("[data-lay]");if(t){cur().layout=t.dataset.lay;save();renderEd();return;}
+  t=e.target.closest(".pool img");if(t){cur().cover=t.dataset.p;save();renderList();renderEd();return;}
   if(e.target.closest("#drop")){document.getElementById("file").click();return;}
-  if(e.target.id==="hide"||e.target.id==="show"){own(cur()).status=e.target.id==="hide"?"draft":"published";save();renderList();renderEd();return;}
-  if(e.target.id==="revert"){if(!confirm("Снять ручные правки и вернуть карточку как в Telegram?"))return;st.list=st.list.filter(function(n){return n.id!==sel});save();renderList();renderEd();return;}
-  if(e.target.id==="dup"){var o=clone(cur());delete o._tg;delete o.source;delete o.link;delete o.video;o.id=uniq(slug(o.title)||"novost");o.status="draft";o.title+=" (копия)";st.list.push(o);sel=o.id;save();renderList();renderEd();return;}
+  if(e.target.id==="dup"){var o=clone(cur());o.id=uniq(o.id+"-copy");o.status="draft";o.title+=" (копия)";st.list.push(o);sel=o.id;save();renderList();renderEd();return;}
   if(e.target.id==="del"){if(!confirm("Удалить новость «"+cur().title+"»?"))return;st.list=st.list.filter(function(n){return n.id!==sel});sel=sorted()[0]?sorted()[0].id:null;save();renderList();renderEd();return;}
 });
 document.getElementById("add").onclick=function(){var d=new Date(),iso=d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");var n={id:uniq("novost"),status:"draft",date:iso,tag:TAGS[0].id,layout:"vertical",title:"",excerpt:"",cover:POOL[Math.floor(Math.random()*POOL.length)],body:""};st.list.push(n);sel=n.id;filter="Все";save();renderList();renderEd();setTimeout(function(){var i=document.querySelector('[data-k="title"]');if(i)i.focus()},0);};
 document.addEventListener("change",function(e){if(e.target.id==="file")setCover(e.target.files[0]);});
 document.addEventListener("input",function(e){
   var k=e.target.dataset&&e.target.dataset.k,n=cur();if(!k||!n)return;
-  if(n._tg&&k==="id")return;n=own(n);if(k==="body")delete n.html;if(k==="title")delete n.titleFull;
   var v=e.target.value;
   if(k==="id"){v=slug(v)||n.id;}
   if(k==="title"&&/^novost(-\d+)?$/.test(n.id)&&v.trim()){var ni=uniq(slug(v),n);if(st.covers["news/"+n.id+".jpg"]&&n.cover==="news/"+n.id+".jpg"){st.covers["news/"+ni+".jpg"]=st.covers[n.cover];delete st.covers[n.cover];n.cover="news/"+ni+".jpg";}n.id=ni;sel=ni;}
@@ -200,7 +188,7 @@ function dl(name,blob){var a=document.createElement("a");a.href=URL.createObject
 document.getElementById("pub").onclick=function(ev){
   if(ev.altKey){window.rgbyGH.forget();toast("Токен GitHub забыт");return;}
   var bad=st.list.filter(function(n){return !n.title||!n.date});if(bad.length&&!confirm(bad.length+" новост(и) без заголовка или даты. Опубликовать всё равно?"))return;
-  var list=sorted().filter(function(n){return !n._tg}).map(function(n){return {id:n.id,status:n.status,date:n.date,tag:n.tag,layout:n.layout||"vertical",title:n.title,excerpt:n.excerpt,cover:n.cover,body:n.body||"",source:n.source,link:n.link,video:n.video,ratio:n.ratio,gallery:n.gallery,titleFull:n.titleFull,html:n.html}});
+  var list=sorted().map(function(n){return {id:n.id,status:n.status,date:n.date,tag:n.tag,layout:n.layout||"vertical",title:n.title,excerpt:n.excerpt,cover:n.cover,body:n.body||""}});
   var used=Object.keys(st.covers).filter(function(p){return list.some(function(n){return n.cover===p})});
   var btn=ev.currentTarget;btn.disabled=true;
   Promise.all(used.map(function(p){return fetch(st.covers[p]).then(function(r){return r.blob()}).then(function(b){return {path:"assets/images/"+p,blob:b}})})).then(function(imgs){
@@ -209,7 +197,7 @@ document.getElementById("pub").onclick=function(ev){
 };
 document.getElementById("exp").onclick=function(){
   var bad=st.list.filter(function(n){return !n.title||!n.date});if(bad.length&&!confirm(bad.length+" новост(и) без заголовка или даты. Выгрузить всё равно?"))return;
-  var list=sorted().filter(function(n){return !n._tg}).map(function(n){return {id:n.id,status:n.status,date:n.date,tag:n.tag,layout:n.layout||"vertical",title:n.title,excerpt:n.excerpt,cover:n.cover,body:n.body||"",source:n.source,link:n.link,video:n.video,ratio:n.ratio,gallery:n.gallery,titleFull:n.titleFull,html:n.html}});
+  var list=sorted().map(function(n){return {id:n.id,status:n.status,date:n.date,tag:n.tag,layout:n.layout||"vertical",title:n.title,excerpt:n.excerpt,cover:n.cover,body:n.body||""}});
   dl("news.js",new Blob([build(list)],{type:"text/javascript"}));
   var used=Object.keys(st.covers).filter(function(p){return list.some(function(n){return n.cover===p})});
   used.forEach(function(p,i){setTimeout(function(){fetch(st.covers[p]).then(function(r){return r.blob()}).then(function(b){dl(p.split("/").pop(),b)})},300*(i+1))});
@@ -219,10 +207,9 @@ function build(list){
   var src=document.querySelector('script[src*="news.js"]');
   return "// RGBY · база новостей — общий подключаемый модуль (блок «Что происходит» на главной, в будущем — медиа-портал /news).\n// Выгружено из CMS новостей "+new Date().toLocaleString("ru-RU")+". Положить в content/news/news.js; свои обложки — в assets/images/news/.\n// Поля: id, status (published|draft), date (ГГГГ-ММ-ДД), tag, title, excerpt, cover (от assets/images/), body (абзацы через пустую строку)\n(function () {\n  const TAGS = "+JSON.stringify(TAGS,null,2).replace(/\n/g,"\n  ")+";\n  const LAYOUTS = "+JSON.stringify(LAY)+";\n  const LIMITS = "+JSON.stringify(LIM)+";\n  const NEWS = "+JSON.stringify(list,null,2).replace(/\n/g,"\n  ")+";\n"+TAIL;
 }
-var TAIL="  const KEY = \"rgby-news-cms-v1\";\n  const release = () => !!window.__RGBY_RELEASE;\n  // Посты Telegram-канала — content/news/telegram.js (пишет робот tools/telegram/tg-news.mjs, id \"tg-<номер>\").\n  // Запись в NEWS с тем же id — правка из CMS (текст, обложка, тип, скрытие): она главнее, робот её не трогает.\n  const tg = () => (window.RGBY_NEWS_TG && Array.isArray(window.RGBY_NEWS_TG.list) ? window.RGBY_NEWS_TG.list : []);\n  const merge = own => { const ids = new Set(own.map(n => n.id)); return own.concat(tg().filter(n => !ids.has(n.id))); };\n  // Прототип: черновик из CMS (localStorage) перекрывает файл. Релиз: только файлы.\n  function source() {\n    if (!release()) { try { const s = JSON.parse(localStorage.getItem(KEY) || \"null\"); if (s && Array.isArray(s.list)) return merge(s.list.map(n => s.covers && s.covers[n.cover] ? Object.assign({}, n, { cover: s.covers[n.cover] }) : n)); } catch (e) {} }\n    return merge(NEWS);\n  }\n  const words = t => (String(t || \"\").match(/\\S+/g) || []).length;\n  const readMin = n => Math.max(1, Math.round((words(n.title) + words(n.excerpt) + words(n.body)) / 180));\n  const fmtDate = d => { const m = /^(\\d{4})-(\\d{2})-(\\d{2})$/.exec(d || \"\"); return m ? m[3] + \".\" + m[2] + \".\" + m[1] : d || \"\"; };\n  // Лента для сайта: опубликованные (в прототипе — и черновики), новые сверху\n  function feed() {\n    return source().filter(n => n.status === \"published\" || (!release() && n.status === \"draft\"))\n      .slice().sort((a, b) => String(b.date).localeCompare(String(a.date)) || String(b.id).localeCompare(String(a.id), \"en\", { numeric: true }));\n  }\n  window.RGBY_NEWS = { version: \"2026-10-14\", KEY, TAGS, LAYOUTS, LIMITS, list: NEWS, tg, merge, source, feed, readMin, fmtDate };\n})();\n";
+var TAIL="  const KEY = \"rgby-news-cms-v1\";\n  const release = () => !!window.__RGBY_RELEASE;\n  function source() {\n    if (!release()) { try { const s = JSON.parse(localStorage.getItem(KEY) || \"null\"); if (s && Array.isArray(s.list)) return s.list.map(n => s.covers && s.covers[n.cover] ? Object.assign({}, n, { cover: s.covers[n.cover] }) : n); } catch (e) {} }\n    return NEWS;\n  }\n  const words = t => (String(t || \"\").match(/\\S+/g) || []).length;\n  const readMin = n => Math.max(1, Math.round((words(n.title) + words(n.excerpt) + words(n.body)) / 180));\n  const fmtDate = d => { const m = /^(\\d{4})-(\\d{2})-(\\d{2})$/.exec(d || \"\"); return m ? m[3] + \".\" + m[2] + \".\" + m[1] : d || \"\"; };\n  function feed() {\n    return source().filter(n => n.status === \"published\" || (!release() && n.status === \"draft\"))\n      .slice().sort((a, b) => String(b.date).localeCompare(String(a.date)));\n  }\n  window.RGBY_NEWS = { version: \"2026-10-14\", KEY, TAGS, LAYOUTS, LIMITS, list: NEWS, source, feed, readMin, fmtDate };\n})();\n";
 document.getElementById("imp").onchange=function(e){var f=e.target.files[0];if(!f)return;f.text().then(function(t){try{var w={};(new Function("window","localStorage",t))(w,{getItem:function(){return null}});if(!w.RGBY_NEWS)throw 0;st={list:clone(w.RGBY_NEWS.list),covers:{},dirty:true};sel=sorted()[0]?sorted()[0].id:null;save();renderList();renderEd();toast("Загружено новостей: "+st.list.length);}catch(er){toast("Не похоже на news.js");}});e.target.value="";};
 document.getElementById("reset").onclick=function(){if(!confirm("Сбросить черновик браузера? Несохранённые в файл правки пропадут."))return;localStorage.removeItem(KEY);st={list:clone(N.list),covers:{},dirty:false};sel=sorted()[0]?sorted()[0].id:null;renderState();renderList();renderEd();};
-sel=sorted()[0]?sorted()[0].id:null;
 renderState();renderList();renderEd();
 })();
 </script>
