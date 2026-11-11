@@ -60,6 +60,9 @@
 .mh-wl__cl{display:flex;flex-direction:column;gap:calc(10 * var(--u));min-width:0;max-width:calc(620 * var(--u))}
 .mh-wl__cl>.t-label{opacity:.6}
 .mh-wl__tick{overflow:hidden;-webkit-mask:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+/* Запас по вертикали (релиз 2026-10-14.12): у t-h3-l высота строки .94 — хвосты «р у ф д» выходили за ленту и срезались overflow:hidden.
+   Поле внутри ленты, отрицательный отступ снаружи — раскладка hero не сдвигается. */
+.mh-wl__tick{padding-block:calc(.3 * var(--fs-h3-l));margin-block:calc(-.3 * var(--fs-h3-l))}
 .mh-wl__tick>div{display:flex;gap:calc(28 * var(--u));width:max-content;animation:mhTick 28s linear infinite}
 .mh-wl__tick span{white-space:nowrap;display:flex;align-items:center;gap:calc(28 * var(--u))}
 .mh-wl__tick span::after{content:"";width:8px;height:8px;background:var(--rgby-blue)}

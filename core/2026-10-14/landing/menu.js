@@ -292,6 +292,67 @@ const PNAV_ICONS = {
 };
 function pnavIcon(h) { return React.createElement("svg", { viewBox: "0 0 24 24" }, React.createElement("path", { d: PNAV_ICONS[String(h).replace(/^#/, "")] || PNAV_ICONS._, fill: "none", stroke: "currentColor", strokeWidth: 1.6, strokeLinecap: "round", strokeLinejoin: "round" })); }
 const pnavArc = (i, cur) => { const d = i - Math.max(0, cur); return { "--d": d, "--o": Math.max(0, 1 - Math.abs(d) * .32).toFixed(2) }; };
+// Плавная смена раздела в пилюле (релиз 2026-10-14.12): старая подпись уезжает, новая въезжает (вниз по странице — снизу, вверх — сверху),
+// ширина пилюли тянется к новой подписи. Быстрый скролл (смены чаще 0,35 с) — без наложения: старая подпись сразу уходит, новая коротко проявляется.
+// Ширину меряет ResizeObserver — догоняет и подгрузку шрифта, и смену размера окна.
+function PnavSwap({
+  cls,
+  text,
+  up
+}) {
+  var [st, setSt] = React.useState({
+    k: 0,
+    text,
+    prev: null,
+    up: false
+  });
+  var lastT = React.useRef(0);
+  if (st.text !== text) {
+    var now = performance.now(),
+      quick = now - lastT.current < 350;
+    lastT.current = now;
+    setSt({
+      k: st.k + 1,
+      text,
+      prev: quick ? null : st.text,
+      up,
+      quick
+    });
+  }
+  var inRef = React.useRef(null),
+    [w, setW] = React.useState(null);
+  React.useLayoutEffect(() => {
+    var el = inRef.current;
+    if (!el) return;
+    setW(el.offsetWidth);
+    if (!window.ResizeObserver) return;
+    var ro = new ResizeObserver(() => setW(el.offsetWidth));
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [st.k]);
+  React.useEffect(() => {
+    if (st.prev == null) return;
+    var t = setTimeout(() => setSt(s => s.k === st.k ? {
+      ...s,
+      prev: null
+    } : s), 250);
+    return () => clearTimeout(t);
+  }, [st.k]);
+  return React.createElement("span", {
+    className: cls + " pnav__sw" + (st.up ? " is-up" : "") + (st.quick ? " is-quick" : ""),
+    style: w != null ? {
+      width: w
+    } : undefined
+  }, st.prev != null && React.createElement("span", {
+    key: "o" + st.k,
+    className: "pnav__sw-o",
+    "aria-hidden": "true"
+  }, st.prev), React.createElement("span", {
+    key: "i" + st.k,
+    ref: inRef,
+    className: "pnav__sw-i" + (st.k ? " is-new" : "")
+  }, st.text));
+}
 function PageNav({
   go
 }) {
@@ -369,6 +430,11 @@ function PageNav({
     go(h);
   };
   var c = NAVS[cur];
+  var lastCur = React.useRef(cur),
+    up = cur < lastCur.current;
+  React.useEffect(() => {
+    lastCur.current = cur;
+  }, [cur]);
   return React.createElement("nav", {
     ref: navRef,
     className: "pnav pnav--" + tone + (show && !open ? " is-on" : "") + (sheet ? " is-sheet" : ""),
@@ -402,11 +468,15 @@ function PageNav({
     "aria-expanded": sheet
   }, React.createElement("i", {
     className: "pnav__bar"
-  }), React.createElement("span", {
-    className: "pnav__n"
-  }, c ? String(cur + 1).padStart(2, "0") : "—"), React.createElement("span", {
-    className: "pnav__t"
-  }, c ? c[0] : "Разделы"), React.createElement("svg", {
+  }), React.createElement(PnavSwap, {
+    cls: "pnav__n",
+    text: c ? String(cur + 1).padStart(2, "0") : "—",
+    up: up
+  }), React.createElement(PnavSwap, {
+    cls: "pnav__t",
+    text: c ? c[0] : "Разделы",
+    up: up
+  }), React.createElement("svg", {
     viewBox: "0 0 10 6",
     "aria-hidden": "true"
   }, React.createElement("path", {

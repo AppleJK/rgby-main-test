@@ -2240,8 +2240,9 @@ body:has(.ck) .cms-fab{opacity:0;pointer-events:none}
 .bmsg__sel.is-open .bmsg__chev{transform:rotate(180deg)}
 .bmsg__sel.is-open .bmsg__btn{background:var(--rgby-paper);color:var(--rgby-blue)}
 .bmsg__sel.is-open .bmsg__ph{opacity:.6}
-.bmsg__list{position:absolute;z-index:20;left:0;right:0;top:100%;margin:2px 0 0;padding:0;list-style:none;background:var(--rgby-paper);color:var(--rgby-ink);box-shadow:0 18px 40px rgba(6,16,37,.22);clip-path:inset(0 0 100% 0);opacity:0;pointer-events:none;transition:clip-path .45s cubic-bezier(.16,1,.3,1),opacity .25s}
-.bmsg__sel.is-open .bmsg__list{clip-path:inset(0 0 0 0);opacity:1;pointer-events:auto}
+.bmsg__list{position:absolute;z-index:20;left:0;right:0;top:100%;margin:2px 0 0;padding:0;list-style:none;background:var(--rgby-paper);color:var(--rgby-ink);box-shadow:0 0 0 1px rgba(6,16,37,.1),0 14px 34px rgba(6,16,37,.26),0 3px 8px rgba(6,16,37,.1);clip-path:inset(0 -48px 100% -48px);opacity:0;pointer-events:none;transition:clip-path .45s cubic-bezier(.16,1,.3,1),opacity .25s}
+/* маска раскрытия шире списка (релиз 2026-10-14.12): раньше inset(0) срезал тень, и список сливался с формой под ним */
+.bmsg__sel.is-open .bmsg__list{clip-path:inset(0 -48px -48px -48px);opacity:1;pointer-events:auto}
 .bmsg__o{padding:calc(12 * var(--u)) var(--sp-10);font:600 var(--fs-label)/1.1 var(--font-sans);letter-spacing:var(--ls-label);cursor:pointer;transition:background .2s,color .2s}
 .bmsg__o.is-hi{background:var(--rgby-blue);color:var(--rgby-paper)}
 .bmsg__o.is-on::after{content:"";float:right;width:6px;height:6px;margin-top:.3em;background:currentColor}
@@ -2444,3 +2445,28 @@ html[data-pnav="top"] .pnav__i:not(.is-cur) .pnav__t{display:none}
 html[data-pnav="top"] .pnav__i:not(.is-cur) .pnav__n{display:block;opacity:.55}
 }
 @media (prefers-reduced-motion:reduce){html[data-pnav="arc"] .pnav__rail>li,html[data-pnav="arc"] .pnav__i{transition:none}}
+/* dock — больше воздуха (релиз 2026-10-14.12): размеры от --u, как у остальной страницы (раньше в пикселях — на больших экранах текст распирал плашку);
+   шире поля по краям окна и плашки, текст мельче, пункты плотнее */
+@media (min-width:1024px) and (hover:hover){
+html[data-pnav="dock"] .pnav__pill{height:max(42px,calc(38 * var(--u)));padding:0 calc(20 * var(--u)) 0 calc(22 * var(--u));gap:calc(12 * var(--u));border-radius:999px}
+html[data-pnav="dock"] .pnav .pnav__t{font-size:max(13px,calc(11.5 * var(--u)))}
+html[data-pnav="dock"] .pnav .pnav__n{font-size:max(11px,calc(10 * var(--u)))}
+html[data-pnav="dock"] .pnav__rail{bottom:calc(100% + calc(10 * var(--u)));min-width:100%;padding:max(12px,calc(12 * var(--u)));border-radius:calc(20 * var(--u))}
+html[data-pnav="dock"] .pnav__rail .pnav__i{height:max(32px,calc(28 * var(--u)));padding:0 calc(14 * var(--u));gap:calc(14 * var(--u));border-radius:calc(10 * var(--u))}
+}
+/* Плавная смена раздела в пилюле (релиз 2026-10-14.12) — PnavSwap в menu: подписи въезжают/уезжают по вертикали, ширина тянется */
+.pnav__sw{display:inline-block;position:relative;overflow:hidden;white-space:nowrap;padding:.2em 0;margin:-.2em 0;transition:width .3s cubic-bezier(.3,.7,.25,1)}
+.pnav__sw-i,.pnav__sw-o{display:inline-block}
+.pnav__sw-o{position:absolute;left:0;top:.2em;animation:pnav-sw-out .16s cubic-bezier(.4,0,1,1) forwards}
+.pnav__sw-i.is-new{animation:pnav-sw-in .3s cubic-bezier(.2,.75,.3,1) .04s both}
+.pnav__t.pnav__sw .pnav__sw-i.is-new{animation-delay:.07s}
+.pnav__sw.is-quick .pnav__sw-i.is-new{animation:pnav-sw-fade .14s linear both}
+.pnav__sw.is-up .pnav__sw-o{animation-name:pnav-sw-out-up}
+.pnav__sw.is-up .pnav__sw-i.is-new{animation-name:pnav-sw-in-up}
+@keyframes pnav-sw-in{from{opacity:0;transform:translateY(80%)}}
+@keyframes pnav-sw-in-up{from{opacity:0;transform:translateY(-80%)}}
+@keyframes pnav-sw-out{to{opacity:0;transform:translateY(-50%)}}
+@keyframes pnav-sw-fade{from{opacity:.35}}
+@keyframes pnav-sw-out-up{to{opacity:0;transform:translateY(50%)}}
+html[data-pnav="dock"] .pnav__rail .pnav__i{transition:background-color .3s}
+@media (prefers-reduced-motion:reduce){.pnav__sw{transition:none}.pnav__sw-o{display:none}.pnav__sw-i.is-new{animation:none}}
