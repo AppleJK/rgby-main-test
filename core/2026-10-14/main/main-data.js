@@ -63,7 +63,21 @@
   var NB1 = t => String(t || "").replace(/(^|[\s(«„"])([а-яёА-ЯЁa-zA-Z]{1,2}|[—–])\s+/g, (m, a, w) => a + w + "\u00A0").replace(/\s+([—–])/g, "\u00A0$1");
   var NB = t => NB1(NB1(t));
   var NIMG = s => !s ? "" : /^(https?:|data:|\/)/.test(s) ? s : IMG + s;
-  var NEWS = (window.RGBY_NEWS ? window.RGBY_NEWS.feed() : []).map(n => ({
+  var NEWS_MAX = 15;
+  var nGal = n => {
+    var g = (n.gallery || []).map(x => ({
+      img: NIMG(x.src),
+      ratio: x.ratio || 0,
+      video: !!x.video
+    }));
+    if (g.length && n.cover && n.gallery[0].src !== n.cover) g.unshift({
+      img: NIMG(n.cover),
+      ratio: 0,
+      video: false
+    });
+    return g.length > 1 ? g : [];
+  };
+  var NEWS = (window.RGBY_NEWS ? window.RGBY_NEWS.feed() : []).slice(0, NEWS_MAX).map(n => ({
     id: n.id,
     layout: n.layout || "",
     kind: n.tag,
@@ -73,7 +87,13 @@
     img: NIMG(n.cover),
     date: window.RGBY_NEWS.fmtDate(n.date),
     read: window.RGBY_NEWS.readMin(n),
-    draft: n.status !== "published"
+    draft: n.status !== "published",
+    link: n.link || "",
+    video: !!n.video,
+    ratio: n.ratio || 0,
+    gallery: nGal(n),
+    html: n.html || "",
+    head: NB(n.titleFull && n.titleFull.indexOf(String(n.title).replace(/…$/, "")) === 0 ? n.titleFull : n.title)
   }));
   var DIRID = {
     "ТВ/Медиа": "media",
@@ -196,7 +216,7 @@
     },
     CLIENTS_LEAD: "Телеканалы и платформы, продакшены и агентства, технологические компании и бренды",
     NEWS_LEAD: "Вот чем заняты прямо сейчас: свежие кейсы, публикации и новости",
-    NEWS_PORTAL: "#",
+    NEWS_PORTAL: "https://t.me/rgby_feed",
     AWARDS_LEAD: "Хороший кейс всегда говорит сам за себя. Вот чем гордимся:"
   };
 })();
