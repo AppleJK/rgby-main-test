@@ -4,6 +4,8 @@ var PJ_NEW = ["lens", "ring", "tunnel", "shader", "deck"];
 var pjU = () => parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--u")) || 1;
 var pjReduce = () => matchMedia("(prefers-reduced-motion: reduce)").matches;
 var pjPrevent = e => e.preventDefault();
+// «Все проекты» — страница всех проектов с фильтрами (релиз 2026-10-14.13); на сайте адрес переводит site-release.js
+var PJ_ALL = "../projects/index.html";
 var pjCl = (x, a, b) => x < a ? a : x > b ? b : x;
 var PjArrow = () => React.createElement("span", {
   className: "m-arrow",
@@ -19,8 +21,7 @@ var PjHead = ({
   className: "m-head__lead t-body-l rv"
 }, hint) : null, React.createElement("a", {
   className: "t-link rv",
-  href: "#",
-  onClick: pjPrevent
+  href: PJ_ALL
 }, "\u0412\u0441\u0435 \u043F\u0440\u043E\u0435\u043A\u0442\u044B ", React.createElement(PjArrow, null)));
 function PjInfo({
   p,
@@ -652,14 +653,12 @@ function PjLens({
     className: "m-head__lead t-body-l rv"
   }, "\u0410\u0440\u0445\u0438\u0432 \u0440\u0430\u0431\u043E\u0442 \u043F\u043E\u0434 \u043B\u0443\u043F\u043E\u0439: \u043D\u0430\u0432\u0435\u0434\u0438\u0442\u0435 \u043D\u0430 \u043F\u0440\u043E\u0435\u043A\u0442, \u0442\u044F\u043D\u0438\u0442\u0435 \u043B\u0435\u043D\u0442\u0443, \u0447\u0442\u043E\u0431\u044B\xA0\u043B\u0438\u0441\u0442\u0430\u0442\u044C")), DIAG ? null : React.createElement("a", {
     className: "pj-ln__all rv",
-    href: "#",
-    onClick: pjPrevent
+    href: PJ_ALL
   }, React.createElement("span", {
     className: "t-label"
   }, "\u0412\u0441\u0435 \u043F\u0440\u043E\u0435\u043A\u0442\u044B"), React.createElement(PjArrow, null))), DIAG ? React.createElement("a", {
     className: "pj-ln__all pj-ln__all--corner rv",
-    href: "#",
-    onClick: pjPrevent
+    href: PJ_ALL
   }, React.createElement("span", {
     className: "t-label"
   }, "\u0412\u0441\u0435 \u043F\u0440\u043E\u0435\u043A\u0442\u044B"), React.createElement(PjArrow, null)) : null, React.createElement("div", {
@@ -1004,8 +1003,7 @@ function PjTunnel({
     className: "sec__title"
   }, "\u041D\u0430\u0448\u0438 \u043F\u0440\u043E\u0435\u043A\u0442\u044B"), React.createElement("a", {
     className: "t-link",
-    href: "#",
-    onClick: pjPrevent
+    href: PJ_ALL
   }, "\u0412\u0441\u0435 \u043F\u0440\u043E\u0435\u043A\u0442\u044B ", React.createElement(PjArrow, null))), React.createElement("div", {
     className: "pj-tn__scene",
     ref: scene
