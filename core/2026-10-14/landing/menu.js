@@ -273,6 +273,25 @@ function navInDom(list) {
   on.sort((a, b) => a.el === b.el ? a.k - b.k : a.el.compareDocumentPosition(b.el) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1);
   return on.concat(ext).map(r => [r.t, r.h]);
 }
+// Варианты навигации по разделам на компьютере (релиз 2026-10-14.11): html[data-pnav] = rail (рельс справа, как было) | dots (тихий рельс у края)
+// | dock (пилюля снизу, как на телефоне) | arc (дуга круглых кнопок с иконками) | top (строка разделов в липкой шапке). Ставит приложение из настройки pageNav.
+// Для «arc» — иконка раздела и положение на дуге относительно текущего раздела (--d), дальние — прозрачнее (--o). На телефоне — всегда пилюля.
+const PNAV_ICONS = {
+  hub: "M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h6v6h-6z",
+  about: "M7.5 8.5a4.5 4.5 0 1 0 9 0a4.5 4.5 0 1 0-9 0M4 14.5a4.5 4.5 0 1 0 9 0a4.5 4.5 0 1 0-9 0M11 14.5a4.5 4.5 0 1 0 9 0a4.5 4.5 0 1 0-9 0",
+  news: "M5 5h11v14H6a1 1 0 0 1-1-1zM16 9h3v9a1 1 0 0 1-2 0V9M8 9h5M8 12h5M8 15h3",
+  clients: "M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.8l-5.2 2.8 1-5.8-4.3-4.1 5.9-.9z",
+  projects: "M4 6h16v12H4zM10.5 9.5v5l4-2.5z",
+  cases: "M4 6h16v12H4zM10.5 9.5v5l4-2.5z",
+  awards: "M8 4h8v5a4 4 0 0 1-8 0zM8 6H5a3 3 0 0 0 3 4M16 6h3a3 3 0 0 1-3 4M12 13v4M9 20h6M10 17h4",
+  contacts: "M20 4L3 11l6.5 2.5L12 20zM9.5 13.5L20 4",
+  why: "M13 3L5 14h6l-1 7 8-11h-6z",
+  services: "M12 4l8 4-8 4-8-4zM4 12l8 4 8-4M4 16l8 4 8-4",
+  team: "M9 11a3 3 0 1 0 0-6a3 3 0 0 0 0 6zM3.5 19a5.5 5.5 0 0 1 11 0M16 11a2.5 2.5 0 1 0 0-5M17 14.5a4.5 4.5 0 0 1 3.5 4.5",
+  _: "M12 8a4 4 0 1 0 0 8a4 4 0 1 0 0-8"
+};
+function pnavIcon(h) { return React.createElement("svg", { viewBox: "0 0 24 24" }, React.createElement("path", { d: PNAV_ICONS[String(h).replace(/^#/, "")] || PNAV_ICONS._, fill: "none", stroke: "currentColor", strokeWidth: 1.6, strokeLinecap: "round", strokeLinejoin: "round" })); }
+const pnavArc = (i, cur) => { const d = i - Math.max(0, cur); return { "--d": d, "--o": Math.max(0, 1 - Math.abs(d) * .32).toFixed(2) }; };
 function PageNav({
   go
 }) {
@@ -360,13 +379,17 @@ function PageNav({
   }, React.createElement("ol", {
     className: "pnav__rail"
   }, NAVS.map(([t, h], i) => React.createElement("li", {
-    key: h
+    key: h,
+    style: pnavArc(i, cur)
   }, React.createElement("a", {
     href: h,
     onClick: e => to(e, h),
     className: "pnav__i" + (i === cur ? " is-cur" : "") + (i < cur ? " is-past" : ""),
     "aria-current": i === cur ? "location" : undefined
   }, React.createElement("span", {
+    className: "pnav__ic",
+    "aria-hidden": "true"
+  }, pnavIcon(h)), React.createElement("span", {
     className: "pnav__t"
   }, t), React.createElement("span", {
     className: "pnav__n"

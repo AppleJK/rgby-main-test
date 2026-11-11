@@ -3,6 +3,7 @@ var TWEAK_DEFAULTS = {
   "heavyScroll": true,
   "scrollWeight": 70,
   "wheelSpeed": 0.8,
+  "pageNav": "rail",
   "tailShade": 15,
   "reveal": true,
   "parallax": true,
@@ -392,6 +393,10 @@ function App() {
     return next;
   });
   useHeavyScroll(t.heavyScroll, t.scrollWeight, t.wheelSpeed);
+  // вариант навигации по разделам на компьютере (landing.css: html[data-pnav]); на телефоне — всегда пилюля
+  React.useEffect(() => {
+    document.documentElement.setAttribute("data-pnav", t.pageNav || "rail");
+  }, [t.pageNav]);
   window.__tailBlur = t.tailBlur;
   useReveal(t.reveal && !window.__RGBY_TUNE);
   React.useEffect(() => {
@@ -597,6 +602,11 @@ function App() {
     onChange: sv("parallax")
   }), React.createElement(TweakSection, {
     label: "\u0412\u0430\u0440\u0438\u0430\u043D\u0442\u044B \u0431\u043B\u043E\u043A\u043E\u0432"
+  }), React.createElement(TweakRadio, {
+    label: "\u041D\u0430\u0432\u0438\u0433\u0430\u0446\u0438\u044F \u043F\u043E \u0440\u0430\u0437\u0434\u0435\u043B\u0430\u043C (\u043A\u043E\u043C\u043F\u044C\u044E\u0442\u0435\u0440)",
+    value: t.pageNav,
+    options: ["rail", "dots", "dock", "arc", "top"],
+    onChange: sv("pageNav")
   }), React.createElement(TweakToggle, {
     label: "\u041F\u0435\u0440\u0435\u043A\u043B\u044E\u0447\u0430\u0442\u0435\u043B\u0438 \u0432 \u0431\u043B\u043E\u043A\u0430\u0445",
     value: t.showSwitchers,

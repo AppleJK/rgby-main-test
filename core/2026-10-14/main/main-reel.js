@@ -164,6 +164,18 @@ function Showreel({
     };
   }, [live, warm]);
   var passed = React.useRef(false);
+  // Переход по кнопке или из меню (mainGo, mh2Go) открывает шлюз сразу: шлюз — только для прокрутки колесом. Иначе первое нажатие «Запустить проект» останавливалось в конце шоурила (релиз 2026-10-14.11)
+  React.useEffect(() => {
+    window.__openScrollGate = y => {
+      var el = ref.current;
+      if (el && y != null && y <= el.getBoundingClientRect().top + scrollY + el.offsetHeight - innerHeight) return;
+      passed.current = true;
+      window.__scrollGate = null;
+    };
+    return () => {
+      window.__openScrollGate = null;
+    };
+  }, []);
   React.useEffect(() => {
     if (passed.current) {
       window.__scrollGate = null;

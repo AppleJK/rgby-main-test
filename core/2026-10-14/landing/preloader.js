@@ -27,14 +27,14 @@ function useLoadProgress(minMs) {
       var time = Math.min(1, (t - t0) / minMs);
       var target = Math.min(real, time * 0.96 + (real >= 1 && time >= 1 ? 0.04 : 0));
       shown += (target - shown) * 0.12;
-      if (target >= 1 && shown > 0.995) shown = 1;
+      if (target >= 1 && shown > 0.97) shown = 1; // без хвоста «99 %» (релиз .11)
       setP(Math.round(shown * 100));
       if (shown < 1) raf = requestAnimationFrame(tick);
     };
     raf = requestAnimationFrame(tick);
     var safety = setTimeout(() => {
       real = 1;
-    }, 6000);
+    }, 5000);
     return () => {
       alive = false;
       cancelAnimationFrame(raf);
@@ -311,7 +311,9 @@ function Preloader({
   theme = "ink",
   onDone
 }) {
-  var p = useLoadProgress(variant === "C" ? 2600 : 2200);
+// Короче (релиз 2026-10-14.11): минимум счётчика 0,9 с (было 2,6 / 2,2), выдержка на 100 % 0,5 с (было 1,65 / 1,05), страховка 5 с (была 6).
+// Реальное ожидание прежнее — шрифты и картинки hero; сократились только паузы, которые держали готовую страницу закрытой.
+  var p = useLoadProgress(900);
   var [phase, setPhase] = React.useState("load");
   React.useEffect(() => {
     var root = document.documentElement;
@@ -329,7 +331,7 @@ function Preloader({
   React.useEffect(() => {
     if (p < 100 || phase !== "load") return;
     var C = variant === "C";
-    var a = setTimeout(() => setPhase("full"), C ? 250 : 350);
+    var a = setTimeout(() => setPhase("full"), C ? 150 : 200);
     var reveal = () => {
       document.documentElement.removeAttribute("data-preloading");
       document.documentElement.style.overflow = "";
@@ -339,8 +341,8 @@ function Preloader({
     var b = setTimeout(() => {
       setPhase("exit");
       if (!C || exit !== "crt") reveal();else setTimeout(reveal, 350);
-    }, C ? 1650 : 1050);
-    var c = setTimeout(() => onDone && onDone(), (C ? 1650 + EXIT_MS[exit] : 2100) + 100);
+    }, 500);
+    var c = setTimeout(() => onDone && onDone(), (C ? 500 + EXIT_MS[exit] : 1550) + 100);
     return () => {
       clearTimeout(a);
       clearTimeout(b);

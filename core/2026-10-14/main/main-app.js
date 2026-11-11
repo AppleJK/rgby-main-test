@@ -1,5 +1,5 @@
 // RGBY · main-app.jsx.txt · сборка 2026-10-14
-var NAV = [["Направления", "#hub"], ["О студии", "#about"], ["Что происходит", "#news"], ["Проекты", "#projects"], ["Награды", "#awards"], ["Контакты", "#contacts"]];
+var NAV = [["Направления", "#hub"], ["О студии", "#about"], ["Что происходит", "#news"], ["Кто нам доверяет", "#clients"], ["Проекты", "#projects"], ["Награды", "#awards"], ["Контакты", "#contacts"]];
 window.NAV = NAV;
 window.VSW_ALLOW = window.VSW_ALLOW || {
   "Обложка": ["prism", "router", "strips", "task", "wall"],
@@ -58,7 +58,8 @@ var MAIN_DEFAULTS = {
   "reveal": true,
   "heavyScroll": true,
   "scrollWeight": 70,
-  "wheelSpeed": 0.8
+  "wheelSpeed": 0.8,
+  "pageNav": "rail"
 };
 function useMainHeavyScroll(enabled, weight, speed) {
   enabled = enabled && !document.documentElement.classList.contains("is-touch");
@@ -296,6 +297,10 @@ function MainApp() {
   var playIntro = () => setIntro(n => Math.abs(n) + 1);
   var pick = (k, label) => A[label].includes(t[k]) ? t[k] : A[label][0];
   useMainHeavyScroll(t.heavyScroll, t.scrollWeight, t.wheelSpeed);
+  // вариант навигации по разделам на компьютере (landing.css: html[data-pnav]); на телефоне — всегда пилюля
+  React.useEffect(() => {
+    document.documentElement.setAttribute("data-pnav", t.pageNav || "rail");
+  }, [t.pageNav]);
   useMainReveal(t.reveal);
   useMainTailBlur(t.tailBlur && t.briefV === "b4");
   React.useEffect(() => {
@@ -400,6 +405,11 @@ function MainApp() {
     onClick: playIntro
   }), React.createElement(TweakSection, {
     label: "\u0412\u0430\u0440\u0438\u0430\u043D\u0442\u044B \u0431\u043B\u043E\u043A\u043E\u0432"
+  }), React.createElement(TweakRadio, {
+    label: "\u041D\u0430\u0432\u0438\u0433\u0430\u0446\u0438\u044F \u043F\u043E \u0440\u0430\u0437\u0434\u0435\u043B\u0430\u043C (\u043A\u043E\u043C\u043F\u044C\u044E\u0442\u0435\u0440)",
+    value: t.pageNav,
+    options: ["rail", "dots", "dock", "arc", "top"],
+    onChange: sv("pageNav")
   }), React.createElement(TweakToggle, {
     label: "\u041F\u0435\u0440\u0435\u043A\u043B\u044E\u0447\u0430\u0442\u0435\u043B\u0438 \u0432 \u0431\u043B\u043E\u043A\u0430\u0445",
     value: t.showSwitchers,

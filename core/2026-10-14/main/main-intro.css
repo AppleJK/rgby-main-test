@@ -142,3 +142,16 @@
 /* Стена вне экрана (класс mh-off ставит useMhLoop): не рисуем и снимаем will-change — видеокарта освобождает память слоёв (релиз 2026-10-14.9) */
 .mh--wl.mh-off .mh-wl__stage{visibility:hidden}
 .mh--wl.mh-off .mh-wl__run{will-change:auto}
+/* Hero wall (BR_RGBY, Главная, Нero-секция; релиз 2026-10-14.11): от 1024 px кнопки «Обсудить проект» / «Смотреть шоурил» — справа на уровне последней строки заголовка,
+   строка «Среди наших работ» — отдельной строкой ниже; бегущая строка — от края до края экрана и вдвое медленнее (28 с → 52 с). На телефоне раскладка прежняя. */
+@media (min-width:1024px){
+.mh-wl__main{display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:var(--gutter);row-gap:calc(32 * var(--u))}
+.mh-wl__k{grid-column:1/-1;grid-row:1}
+.mh-wl__h{grid-column:1;grid-row:2;align-self:end}
+.mh-wl__row{display:contents}
+.mh--wl .mh2-cta{grid-column:2;grid-row:2;align-self:end;flex-wrap:nowrap}
+.mh-wl__cl{grid-column:1/-1;grid-row:3}
+}
+.mh-wl__cl{max-width:none}
+.mh-wl__tick{margin-left:calc(-1 * var(--margin));margin-right:calc(-1 * var(--margin))}
+.mh-wl__tick>div{animation-duration:52s}

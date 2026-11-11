@@ -3,7 +3,10 @@ function _extends() { return _extends = Object.assign ? Object.assign.bind() : f
 var MD = () => window.RGBY_MAIN;
 var go = h => {
   var el = document.querySelector(h);
-  if (el) (window.__scrollTo || window.scrollTo.bind(window))(el.getBoundingClientRect().top + scrollY - 40);
+  if (!el) return;
+  var y = el.getBoundingClientRect().top + scrollY - 40;
+  if (window.__openScrollGate) window.__openScrollGate(y);
+  (window.__scrollTo || window.scrollTo.bind(window))(y);
 };
 function useCycle(n, ms, on = true) {
   var [i, setI] = React.useState(0);

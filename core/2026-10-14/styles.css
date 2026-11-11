@@ -1,5 +1,5 @@
-@import url("tokens/fonts.css");
-@import url("tokens/colors.css");
-@import url("tokens/typography.css");
-@import url("tokens/layout.css");
-@import url("components/components.css");
+@import url("tokens/fonts.css?v=2026-10-14.11");
+@import url("tokens/colors.css?v=2026-10-14.11");
+@import url("tokens/typography.css?v=2026-10-14.11");
+@import url("tokens/layout.css?v=2026-10-14.11");
+@import url("components/components.css?v=2026-10-14.11");

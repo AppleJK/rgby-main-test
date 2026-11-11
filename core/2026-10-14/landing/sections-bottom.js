@@ -507,7 +507,7 @@ function BriefMonitor({
     className: "bm__tc"
   }, T(Math.floor(s / 60)), ":", T(s % 60), ":", T(fr))), React.createElement("div", {
     className: "bm__body"
-  }, row("Клиент", [f.name, f.company].filter(Boolean).join(" · "), "—"), row("Формат", type, "—"), row("Бюджет", budget, "—"), row("Задача", f.about ? f.about.slice(0, 90) + (f.about.length > 90 ? "…" : "") : "", "ждём пару слов"), files ? row("Файлы", files + " шт.", "") : null), React.createElement("div", {
+  }, row("Клиент", [f.name, f.company].filter(Boolean).join(" · "), "—"), row("Формат", type, "—"), row("Связь", budget, "—"), row("Задача", f.about ? f.about.slice(0, 90) + (f.about.length > 90 ? "…" : "") : "", "ждём пару слов"), files ? row("Файлы", files + " шт.", "") : null), React.createElement("div", {
     className: "bm__sig"
   }, Array.from({
     length: 4
@@ -704,6 +704,43 @@ function BriefMessenger({
     autoComplete: "off"
   }))));
 }
+// «Как с вами связаться?» (BR_RGBY, Форма; релиз 2026-10-14.11): сначала выпадающий список способов связи (Max, Telegram, Почта, Телефон); после выбора слева остаётся
+// кнопка способа (сменить можно в любой момент), справа — поле под него. Подсказки короткие; если всё же не влезают — многоточие, полная — по наведению (title). Введённое для каждого способа запоминается (переключение не стирает).
+const BRIEF_WAYS = [
+  { id: "max", label: "Max", type: "text", ph: "Ник, номер или ссылка", ac: "off" },
+  { id: "tg", label: "Telegram", type: "text", ph: "@ник или t.me/…", ac: "off" },
+  { id: "mail", label: "Почта", type: "email", ph: "name@company.ru", ac: "email" },
+  { id: "call", label: "Телефон", type: "tel", ph: "+7 (900) 000-00-00", ac: "tel" }
+];
+function BriefContact({ way, value, onWay, onValue, error }) {
+  const [open, setOpen] = React.useState(false), [hi, setHi] = React.useState(-1), box = React.useRef(null), btn = React.useRef(null), inp = React.useRef(null);
+  React.useEffect(() => {
+    if (!open) return;
+    const out = e => { if (box.current && !box.current.contains(e.target)) setOpen(false); };
+    document.addEventListener("pointerdown", out); return () => document.removeEventListener("pointerdown", out);
+  }, [open]);
+  const idx = BRIEF_WAYS.findIndex(w => w.id === way), cur = BRIEF_WAYS[idx];
+  const pick = i => { onWay(BRIEF_WAYS[i].id); setOpen(false); setTimeout(() => inp.current && inp.current.focus(), 60); };
+  const key = e => {
+    if (e.key === "Escape") { setOpen(false); btn.current && btn.current.focus(); return; }
+    if (e.key === "ArrowDown" || e.key === "ArrowUp") { e.preventDefault(); if (!open) { setOpen(true); setHi(Math.max(0, idx)); return; } setHi(h => (h + (e.key === "ArrowDown" ? 1 : BRIEF_WAYS.length - 1)) % BRIEF_WAYS.length); }
+    if ((e.key === "Enter" || e.key === " ") && open && hi >= 0) { e.preventDefault(); pick(hi); }
+  };
+  const p = cur && cur.id === "call" ? parsePhone(value) : null;
+  return React.createElement("div", { ref: box, className: "rg-field bmsg__sel bct" + (cur ? " bct--on" : "") + (open ? " is-open" : "") + (error ? " rg-field--error" : "") },
+    React.createElement("span", { className: "rg-field__label", id: "bct-l" }, "Как с вами связаться?"),
+    React.createElement("div", { className: "bct__row" },
+      // синей (заполненной) после выбора становится только кнопка способа; поле ввода — как остальные поля формы: синее при фокусе и с текстом
+      React.createElement("span", { className: "bct__pick" + (cur ? " rg-field--filled" : "") }, React.createElement("button", { ref: btn, type: "button", className: "rg-field__control bmsg__btn bct__btn", "aria-haspopup": "listbox", "aria-expanded": open, "aria-label": "Способ связи: " + (cur ? cur.label : "не выбран"), onClick: () => { setOpen(!open); setHi(Math.max(0, idx)); }, onKeyDown: key },
+        React.createElement("span", { className: cur ? "" : "bmsg__ph" }, cur ? cur.label : "Выберите способ связи"),
+        React.createElement("svg", { className: "bmsg__chev", viewBox: "0 0 12 8", "aria-hidden": "true" }, React.createElement("path", { d: "M1 1.5l5 5 5-5", fill: "none", stroke: "currentColor", strokeWidth: "1.6" })))),
+      cur ? React.createElement("span", { className: "bct__in" + (value ? " rg-field--filled" : "") + (p && p.iso ? " has-flag" : "") },
+        p ? React.createElement("span", { className: "bct__flag", "aria-hidden": "true", title: p.iso || "" }, phFlag(p.iso)) : null,
+        React.createElement("input", { ref: inp, key: cur.id, className: "rg-field__control", type: cur.type, inputMode: cur.id === "call" ? "tel" : cur.id === "mail" ? "email" : undefined, autoComplete: cur.ac, placeholder: cur.ph, title: cur.ph, value: value, "aria-label": cur.label + ": контакт", onChange: e => onValue(cur.id === "call" ? fmtPhone(e.target.value) : e.target.value) })) : null),
+    React.createElement("ul", { className: "bmsg__list bct__list", role: "listbox", "aria-labelledby": "bct-l" }, BRIEF_WAYS.map((w, i) => React.createElement("li", { key: w.id, role: "option", "aria-selected": w.id === way, className: "bmsg__o" + (i === hi ? " is-hi" : "") + (w.id === way ? " is-on" : ""), onPointerEnter: () => setHi(i), onClick: () => pick(i) }, w.label))),
+    error ? React.createElement("span", { className: "rg-field__error" }, error) : null);
+}
+
 function Brief({
   budgetMode,
   setBudgetMode,
@@ -729,6 +766,18 @@ function Brief({
     about: ""
   });
   var [msgApp, setMsgApp] = React.useState("");
+  // способ связи и введённое для каждого способа; для «Почты» по умолчанию — адрес из поля «Почта»
+  var [way, setWay] = React.useState(""),
+    [cv, setCv] = React.useState({});
+  var cval = way ? cv[way] != null ? cv[way] : way === "mail" ? f.email : "" : "",
+    wayLabel = way ? BRIEF_WAYS.find(w => w.id === way).label : "";
+  var pickWay = id => {
+    setWay(id);
+    if (err.contact) setErr({
+      ...err,
+      contact: null
+    });
+  };
   var [types, setTypes] = React.useState([]);
   var toggleType = i => setTypes(a => a.includes(i) ? a.filter(x => x !== i) : [...a, i].sort((x, y) => x - y));
   var typeText = types.length ? types.map(i => TYPES[i]).join(", ") : "Не выбран";
@@ -764,10 +813,11 @@ function Brief({
     if (!f.name.trim()) x.name = "Укажите имя";
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(f.email)) x.email = "Проверьте почту";
     if (!f.about.trim()) x.about = "Пара слов о задаче";
-    if (BRIEF_CONTACT() === "phone" && f.phone) {
-      var pp = parsePhone(f.phone);
-      if (pp.iso === "RU" || pp.iso === "KZ" ? pp.digits.length !== 11 : pp.digits.length < 8) x.phone = "Проверьте номер";
+    if (way === "call" && cval) {
+      var pp = parsePhone(cval);
+      if (pp.iso === "RU" || pp.iso === "KZ" ? pp.digits.length !== 11 : pp.digits.length < 8) x.contact = "Проверьте номер";
     }
+    if (way === "mail" && cval && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(cval)) x.contact = "Проверьте почту";
     if (!agree) x.agree = true;
     setErr(x);
     if (Object.keys(x).length) return;
@@ -781,9 +831,9 @@ function Brief({
       return;
     }
     var fd = new FormData();
-    Object.keys(f).forEach(k => fd.append(k, k === "messenger" ? msgApp ? msgApp + (f.messenger.trim() ? ": " + f.messenger.trim() : "") : "" : f[k] || ""));
+    // способ связи: в «Мессенджер» — «Способ: контакт» (в письме — строка «Как связаться»), для «Телефона» номер ещё и в поле phone
+    Object.keys(f).forEach(k => fd.append(k, k === "phone" ? way === "call" ? cval : "" : k === "messenger" ? way ? wayLabel + (cval.trim() ? ": " + cval.trim() : "") : "" : f[k] || ""));
     fd.append("type", typeText);
-    fd.append("budget", budgetMode === "range" ? briefBudget(range[0]) + " — " + briefBudget(range[1]) : budget ? briefBudget(budget) : "Пока не знаю");
     fd.append("consent", agree ? "1" : "");
     fd.append("consent_text", "Даю согласие на обработку персональных данных (/consent/, версия " + (window.RGBY_CONSENT_VERSION || "2026-10-v1") + ")");
     fd.append("consent_version", window.RGBY_CONSENT_VERSION || "2026-10-v1");
@@ -817,8 +867,8 @@ function Brief({
     });
   };
   var tone = version === "b2" ? "sec--ink" : version === "b3" ? "" : "sec--blue";
-  var bText = budgetMode === "range" ? briefBudget(range[0]) + " — " + briefBudget(range[1]) : budget ? briefBudget(budget) : "Пока не знаю";
-  var steps = [!!(f.name && f.email), types.length > 0, budgetMode === "range" || budget > 0, !!(f.about && agree)];
+  var bText = way ? wayLabel + (cval ? ": " + cval : "") : "";
+  var steps = [!!(f.name && f.email), types.length > 0, !!(way && cval), !!(f.about && agree)];
   var done = steps.filter(Boolean).length;
   return React.createElement("section", {
     id: "brief",
@@ -829,14 +879,7 @@ function Brief({
     value: version,
     options: ["b1", "b2", "b3", "b4"],
     onChange: v => setVersion && setVersion(v)
-  }), React.createElement("div", {
-    className: "bv__sw2"
-  }, React.createElement(VariantSwitch, {
-    label: "\u0411\u044E\u0434\u0436\u0435\u0442",
-    value: budgetMode,
-    options: ["single", "range"],
-    onChange: setBudgetMode
-  })), version === "b4" && !sharedBg ? React.createElement("div", {
+  }), version === "b4" && !sharedBg ? React.createElement("div", {
     className: "bv-sig",
     "aria-hidden": "true"
   }, React.createElement("i", {
@@ -888,7 +931,7 @@ function Brief({
     sent: sent
   }) : null, version === "b3" ? React.createElement("div", {
     className: "bv-steps rv"
-  }, ["Контакты", "Тип задачи", "Бюджет", "Детали"].map((s, i) => React.createElement("div", {
+  }, ["Контакты", "Тип задачи", "Связь", "Детали"].map((s, i) => React.createElement("div", {
     key: s,
     className: "bv-steps__s" + (steps[i] ? " is-on" : "")
   }, React.createElement("span", null, String(i + 1).padStart(2, "0")), React.createElement("b", null, s), React.createElement("i", null)))) : null)), sent ? React.createElement("div", {
@@ -914,6 +957,8 @@ function Brief({
         about: ""
       });
       setMsgApp("");
+      setWay("");
+      setCv({});
       setAgree(false);
       setFiles([]);
     }
@@ -945,24 +990,21 @@ function Brief({
     autoComplete: "email"
   })), React.createElement("div", {
     className: "brief__pair"
-  }, BRIEF_CONTACT() === "messenger" ? React.createElement(BriefMessenger, {
-    app: msgApp,
-    contact: f.messenger,
-    onApp: setMsgApp,
-    onContact: set("messenger")
-  }) : React.createElement(BriefPhone, {
-    value: f.phone,
-    error: err.phone,
-    onChange: v => {
-      setF({
-        ...f,
-        phone: v
-      });
-      if (err.phone) setErr({
+  }, React.createElement(BriefContact, {
+    way: way,
+    value: cval,
+    onWay: pickWay,
+    onValue: v => {
+      setCv(c => ({
+        ...c,
+        [way]: v
+      }));
+      if (err.contact) setErr({
         ...err,
-        phone: null
+        contact: null
       });
-    }
+    },
+    error: err.contact
   }), React.createElement(TextField, {
     label: "\u041A\u043E\u043C\u043F\u0430\u043D\u0438\u044F",
     placeholder: "\u041D\u0430\u0437\u0432\u0430\u043D\u0438\u0435 \u043A\u043E\u043C\u043F\u0430\u043D\u0438\u0438",
@@ -993,18 +1035,6 @@ function Brief({
     "aria-pressed": types.includes(i),
     onClick: () => toggleType(i)
   }, t)))), React.createElement("div", {
-    className: "rv",
-    style: {
-      paddingBottom: budgetMode === "range" ? "calc(14 * var(--u))" : 0
-    }
-  }, budgetMode === "range" ? React.createElement(BudgetSlider, {
-    mode: "range",
-    value: range,
-    onChange: setRange
-  }) : React.createElement(BudgetSlider, {
-    value: budget,
-    onChange: setBudget
-  })), React.createElement("div", {
     className: "stack rv",
     style: {
       gap: "var(--sp-40)"

@@ -1,28 +1,20 @@
 // RGBY · main-intro.jsx.txt · сборка 2026-10-14
-// Телефоны и планшеты не начинают качать видео до жеста пользователя: preload="auto"
-// там игнорируется, буфер остаётся пустым. Ждать его — значит держать прелоадер на 35%
-// (шрифты .1 + картинки .25) до страховочного CAP. На таких устройствах шоурил не ждём,
-// на остальных ждём не дольше MI_VWAIT — буфер к этому моменту либо есть, либо не будет.
-var MI_NOPRE = matchMedia("(hover:none)").matches,
-  MI_VWAIT = 4000;
+// Первый экран (релиз 2026-10-14.11): прелоадер ждёт только шрифты и картинки, видимые на первом экране, — <img> и фоновые картинки hero
+// (плитки стены). Шоурил на втором экране не ждём (ни на телефоне, ни на компьютере): его готовность стережёт «шлюз» шоурила.
+// Раньше ждали все картинки страницы (~70) и до 4 с буфера видео — прелоадер висел на 98–99 %.
+const MI_BG = {};
 function mainLoadProgress(el) {
-  var f = document.fonts && document.fonts.status === "loaded" ? 1 : 0;
-  var im = [...document.images].filter(i => i.loading !== "lazy" && i.src),
-    ic = im.length ? im.filter(i => i.complete).length / im.length : 1;
-  var v = document.querySelector("video.rl__v");
-  var vp = 1;
-  if (v && !MI_NOPRE && el < MI_VWAIT) {
-    if (v.readyState >= 4 || v.error) vp = 1;else {
-      var b = 0;
-      try {
-        if (v.buffered.length) b = v.buffered.end(0);
-      } catch (e) {}
-      var need = Math.min(8, v.duration || 8);
-      vp = Math.min(1, b / need);
-      if (v.readyState >= 3 && vp > .9) vp = 1;
-    }
-  }
-  return f * .1 + ic * .25 + vp * .65;
+  const f = document.fonts && document.fonts.status === "loaded" ? 1 : 0, H = innerHeight, W = innerWidth;
+  const vis = n => { const r = n.getBoundingClientRect(); return r.width > 0 && r.bottom > 0 && r.top < H && r.right > 0 && r.left < W; };
+  let all = 0, ok = 0;
+  document.querySelectorAll("img").forEach(i => { if (i.loading === "lazy" || !i.src || !vis(i)) return; all++; if (i.complete) ok++; });
+  const hero = document.getElementById("top");
+  if (hero) hero.querySelectorAll("[style*='background-image']").forEach(n => {
+    if (!vis(n)) return; const m = /url\(["']?([^"')]+)/.exec(n.style.backgroundImage); if (!m) return;
+    if (!MI_BG[m[1]]) { MI_BG[m[1]] = new Image(); MI_BG[m[1]].src = m[1]; }
+    all++; if (MI_BG[m[1]].complete) ok++;
+  });
+  return f * .2 + (all ? ok / all : 1) * .8;
 }
 function MainIntro({
   variant,
@@ -30,9 +22,9 @@ function MainIntro({
 }) {
   var [p, setP] = React.useState(0),
     [out, setOut] = React.useState(false),
-    LOAD = 1850,
+    LOAD = 800,
     OUT = 650,
-    CAP = 20000;
+    CAP = 8000;
   React.useEffect(() => {
     var root = document.documentElement,
       prev = root.style.overflow;
@@ -51,8 +43,8 @@ function MainIntro({
         goal = Math.min(1 - Math.pow(1 - s, 1.6), real);
       var dt = Math.min(64, now - (last || now));
       last = now;
-      shown += (goal - shown) * (1 - Math.exp(-dt / 140));
-      if (goal >= 1 && shown > .995) shown = 1;
+      shown += (goal - shown) * (1 - Math.exp(-dt / 100));
+      if (goal >= 1 && shown > .97) shown = 1;
       setP(shown);
       if (shown < 1) raf = requestAnimationFrame(f);else {
         setOut(true);

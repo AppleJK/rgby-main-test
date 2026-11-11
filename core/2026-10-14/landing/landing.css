@@ -2357,3 +2357,90 @@ body:has(.ck) .cms-fab{opacity:0;pointer-events:none}
   .ftr__docs{gap:calc(14 * var(--u))}
   .ftr__docs .ftr__policy{font-size:calc(14 * var(--u))}
 }
+/* Hero v1 ТВ/Медиа: подложка под текстом темнее и плотнее (BR_RGBY «Затемнить фоновый градиент», релиз 2026-10-14.11).
+   Синяя полоса на кадре RG набирает плотность раньше и уходит в более глубокий синий; на кадрах кейсов цвет кадра ложится плотнее
+   и поверх него — фирменный тёмный (ink) слой: на светлых кадрах белый текст раньше почти не читался. */
+@media (min-width:1024px){.hero--v1 .hero__cover::after,.hs-band__grad{background:linear-gradient(180deg,rgba(44,72,240,0) 0%,rgba(44,72,240,.55) 22%,rgba(40,66,232,.9) 46%,#2C4AE6 68%,#2440D4 100%)}}
+.hs-band__tint{-webkit-mask:linear-gradient(180deg,transparent 0%,rgba(0,0,0,.22) 12%,rgba(0,0,0,.6) 28%,rgba(0,0,0,.88) 46%,#000 64%);mask:linear-gradient(180deg,transparent 0%,rgba(0,0,0,.22) 12%,rgba(0,0,0,.6) 28%,rgba(0,0,0,.88) 46%,#000 64%)}
+.hs[data-fx="tv"] .hs-band::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(6,16,37,0) 0%,rgba(6,16,37,.28) 30%,rgba(6,16,37,.5) 60%,rgba(6,16,37,.62) 100%)}
+/* Форма: «Как с вами связаться?» (BR_RGBY; релиз 2026-10-14.11). Список и стрелка — как у прежнего поля мессенджера (.bmsg__*).
+   До выбора кнопка на всю ширину поля; после — слева кнопка способа, справа поле под способ. */
+.bct__row{display:flex;gap:2px;align-items:stretch}
+.bct__pick{display:flex;flex:1 1 auto;min-width:0}
+.bct__pick>.bct__btn{flex:1 1 auto;min-width:0}
+.bct--on .bct__pick{flex:0 0 auto;min-width:calc(150 * var(--u))}
+@media (max-width:599px){.bct--on .bct__pick{min-width:0}.bct--on .bct__btn{gap:6px}}
+.bct__in{position:relative;flex:1 1 auto;min-width:0;display:block}
+.bct__in>.rg-field__control{width:100%;text-overflow:ellipsis;transition:padding-left .35s cubic-bezier(.16,1,.3,1)}
+.bct__in>.rg-field__control::placeholder{text-overflow:ellipsis}
+.bct__flag{position:absolute;left:var(--sp-10);top:50%;transform:translateY(-50%);font-size:max(16px,calc(18 * var(--u)));line-height:1;pointer-events:none}
+.bct__in.has-flag>.rg-field__control{padding-left:calc(var(--sp-10) + max(24px,calc(28 * var(--u))))}
+.bct__list{top:calc(100% - 2px)}
+/* ---------- Навигация по разделам на компьютере: варианты (BR_RGBY «оглавление»; релиз 2026-10-14.11) ----------
+   html[data-pnav] ставит приложение из настройки pageNav (Tweaks → «Навигация по разделам»): rail — как было; на телефоне всегда пилюля. */
+.pnav__ic{display:none}
+@media (min-width:1024px) and (hover:hover){
+/* dots — тихий рельс у самого края: только штрихи, подпись текущего раздела не висит над контентом; названия — на тёмной подложке при наведении */
+html[data-pnav="dots"] .pnav{right:calc(8 * var(--u))}
+html[data-pnav="dots"] .pnav__rail{gap:calc(9 * var(--u));padding:calc(12 * var(--u)) calc(8 * var(--u));border-radius:calc(14 * var(--u));transition:background .35s,padding .35s,color .35s}
+html[data-pnav="dots"] .pnav__tick{width:calc(8 * var(--u));min-width:6px}
+html[data-pnav="dots"] .pnav__i.is-cur .pnav__tick{width:calc(22 * var(--u))}
+html[data-pnav="dots"] .pnav__i.is-cur .pnav__n{opacity:0}
+html[data-pnav="dots"] .pnav__rail:not(:hover):not(:focus-within) .pnav__i .pnav__t{opacity:0!important;transform:translateX(calc(10 * var(--u)))!important}
+html[data-pnav="dots"] .pnav__rail:hover,html[data-pnav="dots"] .pnav__rail:focus-within{background:rgba(6,16,37,.8);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);color:var(--rgby-paper);padding:calc(16 * var(--u)) calc(18 * var(--u))}
+html[data-pnav="dots"] .pnav__rail:hover .pnav__i.is-cur .pnav__n{opacity:1}
+/* dock — пилюля снизу по центру, как на телефоне: текущий раздел и прогресс, по клику — список */
+html[data-pnav="dock"] .pnav{right:auto;left:50%;top:auto;bottom:calc(14px + env(safe-area-inset-bottom));transform:translate3d(-50%,calc(100% + 40px),0);mix-blend-mode:normal;color:var(--rgby-paper)}
+  html[data-pnav="dock"] .pnav.is-on{transform:translate3d(-50%,0,0)}
+  html[data-pnav="dock"] .pnav__pill{position:relative;display:flex;align-items:center;gap:10px;height:44px;padding:0 16px 0 18px;border:0;border-radius:22px;background:rgba(6,16,37,.82);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);color:inherit;font:inherit;cursor:pointer;overflow:hidden}
+  html[data-pnav="dock"] .pnav__pill .pnav__t,html[data-pnav="dock"] .pnav__pill .pnav__n{opacity:1;transform:none}
+  html[data-pnav="dock"] .pnav__pill .pnav__n{opacity:.55}
+  html[data-pnav="dock"] .pnav__pill svg{width:10px;height:6px;transition:transform .4s var(--ease-out)}
+  html[data-pnav="dock"] .pnav.is-sheet .pnav__pill svg{transform:rotate(180deg)}
+  html[data-pnav="dock"] .pnav__bar{position:absolute;left:0;bottom:0;height:2px;width:100%;background:var(--rgby-blue);transform:scaleX(var(--p));transform-origin:0 50%}
+  html[data-pnav="dock"] .pnav__rail{position:absolute;bottom:calc(100% + 8px);left:50%;min-width:220px;transform:translate3d(-50%,10px,0);align-items:stretch;gap:0;padding:8px;border-radius:16px;background:rgba(6,16,37,.9);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);opacity:0;pointer-events:none;transition:opacity .3s,transform .45s var(--ease-out)}
+  html[data-pnav="dock"] .pnav.is-sheet .pnav__rail{opacity:1;transform:translate3d(-50%,0,0);pointer-events:auto}
+  html[data-pnav="dock"] .pnav__rail .pnav__i{flex-direction:row-reverse;justify-content:flex-end;height:44px;padding:0 10px;border-radius:10px}
+  html[data-pnav="dock"] .pnav__rail .pnav__t,html[data-pnav="dock"] .pnav__rail .pnav__i.is-cur .pnav__t{opacity:1;transform:none}
+  html[data-pnav="dock"] .pnav__rail .pnav__n{opacity:.5}
+  html[data-pnav="dock"] .pnav__rail .pnav__tick{display:none}
+  html[data-pnav="dock"] .pnav__rail .pnav__i.is-cur{background:var(--rgby-blue)}
+html[data-pnav="dock"] .pnav{bottom:calc(20 * var(--u))}
+html[data-pnav="dock"] .pnav__pill{cursor:pointer}
+html[data-pnav="dock"] .pnav__pill:hover{background:rgba(6,16,37,.92)}
+/* arc — дуга круглых кнопок с иконками у правого края; текущий раздел — крупный белый круг с подписью, дуга поворачивается при скролле */
+html[data-pnav="arc"] .pnav{--R:calc(250 * var(--u));--s:calc(40 * var(--u));right:calc(var(--R) * -1 + calc(84 * var(--u)));top:50%;width:0;height:0;transform:translate3d(calc(160 * var(--u)),0,0)}
+html[data-pnav="arc"] .pnav.is-on{transform:none}
+html[data-pnav="arc"] .pnav::before{content:"";position:absolute;left:calc(var(--R) * -1);top:calc(var(--R) * -1);width:calc(var(--R) * 2);height:calc(var(--R) * 2);border:1px solid currentColor;border-radius:50%;opacity:.2;pointer-events:none}
+html[data-pnav="arc"] .pnav__rail{position:absolute;left:0;top:0;width:0;height:0;display:block}
+html[data-pnav="arc"] .pnav__rail>li{--a:calc(var(--d) * 17deg);position:absolute;left:0;top:0;opacity:var(--o);transform:translate(calc(var(--R) * cos(var(--a)) * -1),calc(var(--R) * sin(var(--a)))) translate(-50%,-50%);transition:transform .7s var(--ease-out),opacity .45s}
+html[data-pnav="arc"] .pnav__rail>li[style*="--o: 0.00"]{pointer-events:none}
+html[data-pnav="arc"] .pnav__i{position:relative;justify-content:center;width:var(--s);height:var(--s);min-height:0;gap:0;border-radius:50%;background:rgba(243,244,255,.72);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);color:var(--rgby-ink);box-shadow:0 6px 18px rgba(6,16,37,.14);transition:width .5s var(--ease-out),height .5s var(--ease-out),background .3s,color .3s}
+html[data-pnav="arc"] .pnav__i:hover{background:var(--rgby-paper)}
+html[data-pnav="arc"] .pnav__i.is-cur{width:calc(var(--s) * 1.45);height:calc(var(--s) * 1.45);background:#fff;color:var(--rgby-blue);box-shadow:0 10px 30px rgba(6,16,37,.22)}
+html[data-pnav="arc"] .pnav__ic{display:flex}
+html[data-pnav="arc"] .pnav__ic svg{width:calc(18 * var(--u));min-width:16px;height:auto}
+html[data-pnav="arc"] .pnav__i.is-cur .pnav__ic svg{width:calc(22 * var(--u))}
+html[data-pnav="arc"] .pnav__n,html[data-pnav="arc"] .pnav__tick{display:none}
+html[data-pnav="arc"] .pnav__t,html[data-pnav="arc"] .pnav__rail .pnav__i.is-cur .pnav__t{position:absolute;right:calc(100% + 12 * var(--u));top:50%;margin:0;padding:calc(8 * var(--u)) calc(14 * var(--u));border-radius:999px;background:var(--rgby-ink);color:var(--rgby-paper);opacity:0;transform:translate3d(8px,-50%,0);pointer-events:none;transition:opacity .3s,transform .45s var(--ease-out)}
+html[data-pnav="arc"] .pnav__rail .pnav__i.is-cur .pnav__t{opacity:1!important;transform:translate3d(0,-50%,0) rotate(-5deg)}
+html[data-pnav="arc"] .pnav__rail .pnav__i:not(.is-cur):hover .pnav__t{opacity:.92!important;transform:translate3d(0,-50%,0)}
+html[data-pnav="arc"] .pnav__rail:hover .pnav__t{opacity:0}
+/* top — строка разделов в липкой шапке между логотипом и кнопкой; справа ничего; появляется вместе с шапкой */
+html[data-pnav="top"] .pnav{z-index:61;right:auto;left:50%;top:calc(12 * var(--u));height:calc(44 * var(--u));color:var(--rgby-ink);transform:translate3d(-50%,-160%,0)}
+html[data-pnav="top"] .pnav.is-on{transform:translate3d(-50%,0,0)}
+html[data-pnav="top"] body:not(:has(.sticky--on)) .pnav{opacity:0;pointer-events:none;transform:translate3d(-50%,-160%,0)}
+html[data-pnav="top"] .pnav__rail{flex-direction:row;align-items:center;height:100%;gap:calc(26 * var(--u))}
+html[data-pnav="top"] .pnav__i{height:auto;gap:0}
+html[data-pnav="top"] .pnav__n,html[data-pnav="top"] .pnav__tick{display:none}
+html[data-pnav="top"] .pnav__t,html[data-pnav="top"] .pnav__rail .pnav__i.is-cur .pnav__t,html[data-pnav="top"] .pnav__rail:hover .pnav__t{position:relative;margin:0;opacity:.55;transform:none;transition:opacity .25s,color .25s}
+html[data-pnav="top"] .pnav__rail .pnav__i:hover .pnav__t{opacity:1!important}
+html[data-pnav="top"] .pnav__rail .pnav__i.is-cur .pnav__t{opacity:1!important;color:var(--rgby-blue)}
+html[data-pnav="top"] .pnav__i.is-cur .pnav__t::after{content:"";position:absolute;left:0;right:0;bottom:calc(-8 * var(--u));height:2px;background:var(--rgby-blue)}
+}
+@media (min-width:1024px) and (max-width:1279px) and (hover:hover){
+html[data-pnav="top"] .pnav__rail{gap:calc(16 * var(--u))}
+html[data-pnav="top"] .pnav__i:not(.is-cur) .pnav__t{display:none}
+html[data-pnav="top"] .pnav__i:not(.is-cur) .pnav__n{display:block;opacity:.55}
+}
+@media (prefers-reduced-motion:reduce){html[data-pnav="arc"] .pnav__rail>li,html[data-pnav="arc"] .pnav__i{transition:none}}

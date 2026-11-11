@@ -7,11 +7,15 @@ var MH2_TASKS = {
   branding: ["нужен", "ребрендинг"],
   multimedia: ["нужен", "контент для LED-экранов"]
 };
+// Через плавный скролл страницы (__scrollTo), а не браузерную прокрутку: во время инерции плавный скролл каждый кадр перебивал браузерную, и нажатие не срабатывало (релиз 2026-10-14.11)
 var mh2Go = id => e => {
   e.preventDefault();
   var el = document.getElementById(id);
-  if (el) window.scrollTo({
-    top: el.getBoundingClientRect().top + scrollY,
+  if (!el) return;
+  var y = el.getBoundingClientRect().top + scrollY;
+  if (window.__openScrollGate) window.__openScrollGate(y);
+  if (window.__scrollTo) window.__scrollTo(y);else window.scrollTo({
+    top: y,
     behavior: "smooth"
   });
 };

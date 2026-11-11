@@ -1,4 +1,4 @@
-# RGBY · сборка сайта (релиз 2026-10-14.10)
+# RGBY · сборка сайта (релиз 2026-10-14.11)
 
 Эту папку целиком кладут и на GitHub (стенд), и на сервер. Файлы одни и те же, ничего не пересобирается.
 
@@ -34,7 +34,7 @@ cp -R ~/Downloads/site/. .
 cp ~/путь/к/showreel.mp4 ./showreel.mp4
 ls -a | grep nojekyll          # должен быть .nojekyll — без него GitHub не отдаст часть файлов
 git add -A
-git commit -m "Релиз 2026-10-14.10"
+git commit -m "Релиз 2026-10-14.11"
 git push
 ```
 Settings → Pages → Deploy from a branch → `main`, `/ (root)`. Адрес: https://applejk.github.io/rgby-main-test/
