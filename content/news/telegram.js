@@ -3,7 +3,7 @@
 // с тем же id ("tg-<номер поста>") и перекрывает эту карточку. Тип карточки — по хештегу поста (см. TAG_MAP в tg-news.mjs).
 window.RGBY_NEWS_TG = {
   "channel": "rgby_feed",
-  "updated": "2026-11-12T20:25:01Z",
+  "updated": "2026-11-13T17:08:24Z",
   "list": [
     {
       "id": "tg-726",
@@ -374,21 +374,6 @@ window.RGBY_NEWS_TG = {
       "body": "Четвертое интервью из нашего летнего цикла Мультибрендинга с Ефимом Аракеловым!\n\nЕфим фаундер и генеральный директор крутейшей студии SLOY и в этом выпуске вы узнаете, как важно диверсифицировать доходы при работе вдолгую ⚡️",
       "html": "<p>Четвертое интервью из нашего летнего цикла <a href=\"https://t.me/multibranding\" target=\"_blank\" rel=\"noopener\">Мультибрендинга</a> с Ефимом Аракеловым!</p><p><a href=\"https://t.me/aefimviydet\" target=\"_blank\" rel=\"noopener\">Ефим</a> фаундер и генеральный директор крутейшей студии <a href=\"https://t.me/sloystudio\" target=\"_blank\" rel=\"noopener\">SLOY</a> и в этом выпуске вы узнаете, как важно диверсифицировать доходы при работе вдолгую ⚡️</p>",
       "link": "https://t.me/rgby_feed/694",
-      "video": true,
-      "ratio": 0.563
-    },
-    {
-      "id": "tg-693",
-      "source": "tg",
-      "status": "published",
-      "date": "2026-10-15",
-      "tag": "Событие",
-      "layout": "vertical",
-      "title": "Лайк, если на удаленке, репост - если в офисе",
-      "excerpt": "",
-      "cover": "news/tg/693.jpg",
-      "body": "",
-      "link": "https://t.me/rgby_feed/693",
       "video": true,
       "ratio": 0.563
     }
