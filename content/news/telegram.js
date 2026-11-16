@@ -3,8 +3,45 @@
 // с тем же id ("tg-<номер поста>") и перекрывает эту карточку. Тип карточки — по хештегу поста (см. TAG_MAP в tg-news.mjs).
 window.RGBY_NEWS_TG = {
   "channel": "rgby_feed",
-  "updated": "2026-11-13T17:08:24Z",
+  "updated": "2026-11-16T07:53:37Z",
   "list": [
+    {
+      "id": "tg-734",
+      "source": "tg",
+      "status": "published",
+      "date": "2026-11-16",
+      "tag": "Дайджест",
+      "layout": "vertical",
+      "title": "Понедельник, включаемся!",
+      "excerpt": "Новая неделя - свежий выпуск дайджеста Новости, которые вы могли пропустить 1. Люди все чаще ищут старые передачи - вышла наша статья для Газета.ru. 2. Акции…",
+      "cover": "news/tg/734.jpg",
+      "body": "Новая неделя - свежий выпуск дайджеста ☕️\n\n🗂️ Новости, которые вы могли пропустить\n\n1. Люди все чаще ищут старые передачи - вышла наша статья для Газета.ru.\n2. Акции связанных с ИИ компаний резко упали. Насколько это страшно?\n3. Индустрия игр в этом году - что вышло вперед, что сохранило позиции. И, конечно, хит этого года. А вы готовы к GTAVI?\n4. На Национальном рекламном форуме обсудили, что ждет медиаиндустрию и рынок рекламы.\n\n🗂️ Дизайн и индустрия: что нас заинтересовало\n1. Adobe представила обновления профессиональных графических редакторов и новые инструменты искусственного интеллекта на конференции MAX 2026.\n2. Помогите: «Вкусно — и точка» и «Яндекс Еда» придумали Помогучиков. По легенде они живут в сумках курьеров и следят, чтобы заказы доставляли быстро и аккуратно. С 17 ноября появятся в «Кидз Комбо». Хотя они довольно милые, особенно робот-курьер.\n3. 3D прямо в Figma! Новый эффект 3D transform позволяет вращать объекты по осям x, y и z с помощью маркеров на холсте и смотреть результат вживую. 3D-дизайн можно собрать с нуля или поручить это Figma-агенту.\n4. Amazon сделали робота-охранника.\n\n🗂️ Рекомендуем посмотреть\n1. Музейные штучки в формате PNG. Нам надо!\n2. Шрифт от семилетнего художника. Ну, а как иначе набрать опыт?\n3. Google Stitch. Бесплатный инструмент Google Labs: превращает текстовый запрос, скетч или голосовое описание в многоэкранный интерфейс. Ещё и с кодом.\n4. Идеальная штука для совместной работы - браузер с мультиплеером.\n\n🗂️ Визуалы, которые мы заметили\n1. Роттердамская студия From Form создала визуальную идентичность для Amsterdam Museum Night. Вдохновением стали сюрреализм, ночная атмосфера и диорамы XVII века.\n2. Фотограф ушёл с работы в банке, чтобы снимать сюрреалистичные кадры о странных моментах жизни.\n3. DesignStudio обновила визуальный образ DNEG - компании, работающей в сфере визуальных эффектов и кинопроизводства.\n4. Классная коллаба от Friend Function и «Мел». Сделали кошельки в виде еды из школьного буфета. Даже пицца есть!",
+      "html": "<p>Новая неделя - свежий выпуск дайджеста ☕️</p><h4>🗂️ Новости, которые вы могли пропустить</h4><p>1. Люди все <a href=\"https://www.gazeta.ru/business/news/2026/11/10/29714155.shtml\" target=\"_blank\" rel=\"noopener\">чаще ищут старые передачи</a> - вышла наша статья для <a href=\"http://%D0%93%D0%B0%D0%B7%D0%B5%D1%82%D0%B0.ru/\" target=\"_blank\" rel=\"noopener\">Газета.ru</a>.<br>2. Акции связанных с ИИ компаний <a href=\"https://iz.ru/2197422/naskolko-opasen-obval-aktcii-iskusstvennogo-intellekta-otvety-na-glavnye-voprosy\" target=\"_blank\" rel=\"noopener\">резко упали</a>. Насколько это страшно?<br>3. <a href=\"https://www.forbes.ru/young/571749-srek-godzilla-i-barbi-protiv-vice-city-kak-industria-videoigr-gotovitsa-k-gta-vi?utm_source=pr.mlg.ru&amp;amp;utm_medium=referral&amp;amp;utm_campaign=pr.mlg.ru&amp;amp;utm_referrer=pr.mlg.ru\" target=\"_blank\" rel=\"noopener\">Индустрия игр</a> в этом году - что вышло вперед, что сохранило позиции. И, конечно, хит этого года. А вы готовы к GTAVI?<br>4. На Национальном рекламном форуме обсудили, что ждет <a href=\"https://iz.ru/2200056/2026-11-11/na-nrf-obsudili-budushchee-mediaindustrii-i-reklamy?shem=aimgspe,i3ppal\" target=\"_blank\" rel=\"noopener\">медиаиндустрию и рынок рекламы</a>.</p><h4>🗂️ Дизайн и индустрия: что нас заинтересовало</h4><p>1. Adobe представила обновления профессиональных графических редакторов и новые инструменты искусственного интеллекта на конференции <a href=\"https://skillbox.ru/media/design/adobe-predstavila-novye-funkcii-photoshop-illustrator-i-indesign-na-max-2026/\" target=\"_blank\" rel=\"noopener\">MAX 2026</a>.<br>2. Помогите: «Вкусно — и точка» и «Яндекс Еда» придумали <a href=\"https://www.retail.ru/rbc/pressreleases/volshebnye-pomoshchniki-kurerov-poyavyatsya-v-kidz-kombo-vkusno-i-tochka-i-yandeks-eda-zapuskayut-so/\" target=\"_blank\" rel=\"noopener\">Помогучиков</a>. По легенде они живут в сумках курьеров и следят, чтобы заказы доставляли быстро и аккуратно. С 17 ноября появятся в «Кидз Комбо». Хотя они довольно милые, особенно робот-курьер.<br>3. <a href=\"https://www.figma.com/release-notes/?title=design-in-3d-natively-in-figma-and-ship-directly-to-code\" target=\"_blank\" rel=\"noopener\">3D прямо в Figma</a>! Новый эффект 3D transform позволяет вращать объекты по осям x, y и z с помощью маркеров на холсте и смотреть результат вживую. 3D-дизайн можно собрать с нуля или поручить это Figma-агенту.<br>4. Amazon сделали <a href=\"https://www.aboutamazon.com/news/devices/ring-drone-cam-rover-cam-security-robot\" target=\"_blank\" rel=\"noopener\">робота-охранника</a>.</p><h4>🗂️ Рекомендуем посмотреть</h4><p>1. Музейные штучки в формате PNG. <a href=\"https://t.me/photosed/14504\" target=\"_blank\" rel=\"noopener\">Нам надо</a>!<br>2. Шрифт от <a href=\"https://www.behance.net/gallery/205000507/Gergel-Font\" target=\"_blank\" rel=\"noopener\">семилетнего художника</a>. Ну, а как иначе набрать опыт?<br>3. <a href=\"https://stitch.google.com/\" target=\"_blank\" rel=\"noopener\">Google Stitch</a><b>.</b> Бесплатный инструмент Google Labs: превращает текстовый запрос, скетч или голосовое описание в многоэкранный интерфейс. Ещё и с кодом.<br>4. Идеальная штука для совместной работы - <a href=\"https://braidbrowser.com/\" target=\"_blank\" rel=\"noopener\">браузер с мультиплеером</a>.</p><h4>🗂️ Визуалы, которые мы заметили</h4><p>1. Роттердамская студия From Form создала визуальную идентичность для <a href=\"https://www.itsnicethat.com/articles/from-form-amsterdam-museum-night-graphic-design-project-051126\" target=\"_blank\" rel=\"noopener\">Amsterdam Museum Night</a>. Вдохновением стали сюрреализм, ночная атмосфера и диорамы XVII века.<br>2. <a href=\"https://www.creativeboom.com/inspiration/tanmay-saxena-on-leaving-a-banking-job-to-make-surreal-photographs-about-lifes-stranger-moments/\" target=\"_blank\" rel=\"noopener\">Фотограф ушёл с работы</a> в банке, чтобы снимать сюрреалистичные кадры о странных моментах жизни.<br>3. DesignStudio обновила визуальный <a href=\"https://abduzeedo.com/how-designstudio-refreshed-dneg-brand-identity\" target=\"_blank\" rel=\"noopener\">образ DNEG</a> - компании, работающей в сфере визуальных эффектов и кинопроизводства.<br>4. Классная коллаба от <a href=\"https://mel.fm/amp/novosti/7986423-iskra-burya-sosiska-v-teste-mel-i-friend-function-vypustili-koshelki-po-motivam-kultovogo-trio-shkol\" target=\"_blank\" rel=\"noopener\">Friend Function и «Мел</a>». Сделали кошельки в виде еды из школьного буфета. Даже пицца есть!</p>",
+      "link": "https://t.me/rgby_feed/734",
+      "ratio": 0.843,
+      "gallery": [
+        {
+          "src": "news/tg/734.jpg",
+          "ratio": 0.843
+        },
+        {
+          "src": "news/tg/734-2.jpg",
+          "ratio": 0.843
+        },
+        {
+          "src": "news/tg/734-3.jpg",
+          "ratio": 0.843
+        },
+        {
+          "src": "news/tg/734-4.jpg",
+          "ratio": 0.843
+        },
+        {
+          "src": "news/tg/734-5.jpg",
+          "ratio": 0.843
+        }
+      ]
+    },
     {
       "id": "tg-726",
       "source": "tg",
@@ -360,22 +397,6 @@ window.RGBY_NEWS_TG = {
       "link": "https://t.me/rgby_feed/695",
       "video": true,
       "ratio": 1.778
-    },
-    {
-      "id": "tg-694",
-      "source": "tg",
-      "status": "published",
-      "date": "2026-10-16",
-      "tag": "Событие",
-      "layout": "vertical",
-      "title": "С кем не бывает…",
-      "excerpt": "Четвертое интервью из нашего летнего цикла Мультибрендинга с Ефимом Аракеловым! Ефим фаундер и генеральный директор крутейшей студии SLOY и в этом выпуске вы…",
-      "cover": "news/tg/694.jpg",
-      "body": "Четвертое интервью из нашего летнего цикла Мультибрендинга с Ефимом Аракеловым!\n\nЕфим фаундер и генеральный директор крутейшей студии SLOY и в этом выпуске вы узнаете, как важно диверсифицировать доходы при работе вдолгую ⚡️",
-      "html": "<p>Четвертое интервью из нашего летнего цикла <a href=\"https://t.me/multibranding\" target=\"_blank\" rel=\"noopener\">Мультибрендинга</a> с Ефимом Аракеловым!</p><p><a href=\"https://t.me/aefimviydet\" target=\"_blank\" rel=\"noopener\">Ефим</a> фаундер и генеральный директор крутейшей студии <a href=\"https://t.me/sloystudio\" target=\"_blank\" rel=\"noopener\">SLOY</a> и в этом выпуске вы узнаете, как важно диверсифицировать доходы при работе вдолгую ⚡️</p>",
-      "link": "https://t.me/rgby_feed/694",
-      "video": true,
-      "ratio": 0.563
     }
   ]
 };
