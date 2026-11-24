@@ -35,8 +35,8 @@
       "id": "media-otr",
       "name": "ОТР",
       "group": "Медиа",
-      "file": "media-otr.svg",
-      "ratio": 2.295
+      "file": "media-otr.png",
+      "ratio": 2.258
     },
     {
       "id": "media-senseof",
@@ -57,7 +57,7 @@
       "name": "ТВ-3",
       "group": "Медиа",
       "file": "media-tv3.png",
-      "ratio": 1.153
+      "ratio": 1.157
     },
     {
       "id": "plat-kion",
