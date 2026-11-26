@@ -1,3 +1,5 @@
 // RGBY · настройки страницы «ТВ/Медиа» поверх значений по умолчанию в коде.
 // Публикуется из панели Tweaks (?admin) кнопкой «Опубликовать настройки». Пустой объект — всё как в коде.
-(window.RGBY_SETTINGS = window.RGBY_SETTINGS || {}).tv = {};
+(window.RGBY_SETTINGS = window.RGBY_SETTINGS || {}).tv = {
+  "notice": "off"
+};

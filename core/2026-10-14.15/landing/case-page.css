@@ -1,0 +1,29 @@
+:root { color-scheme: light; --paper: #F3F4FF; --ink: #061025; --blue: #2C4FFF; --edge: clamp(16px, 2.4vw, 68px); --rule: #06102532; }
+* { box-sizing: border-box; }
+body { margin: 0; color: var(--ink); background: var(--paper); font-family: "TT Interphases Pro", Arial, sans-serif; }
+a { color: inherit; text-underline-offset: .23em; }
+a:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
+.cp-header, .cp-footer { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem clamp(.8rem, 3vw, 3rem); }
+.cp-header { padding: clamp(.8rem, 1.35vw, 1.55rem) var(--edge); border-bottom: 1px solid var(--rule); }
+.cp-wordmark { position: relative; padding-right: .55em; margin-right: auto; }
+.cp-wordmark img { display: block; width: clamp(44px, 4vw, 84px); height: auto; }
+.cp-wordmark .cp-reg { position: absolute; inset: -.2rem 0 auto auto; width: clamp(6px, .65vw, 10px); }
+.cp-cta { padding: .58em .85em; background: var(--blue); color: white; text-decoration: none; font-weight: 650; }
+.cp-main { padding: clamp(32px, 6vw, 112px) var(--edge) 4rem; }
+.cp-kicker { margin: 0 0 1rem; color: var(--blue); font-weight: 650; }
+h1 { max-width: 20ch; margin: 0; font-size: clamp(2.25rem, 6.9vw, 9rem); font-weight: 700; line-height: .95; letter-spacing: -.065em; overflow-wrap: anywhere; }
+.cp-lead { max-width: 48ch; margin: clamp(1rem, 2.7vw, 3rem) 0; font-size: clamp(1.13rem, 2.2vw, 2.65rem); line-height: 1.13; letter-spacing: -.025em; }
+.cp-cover, .cp-gallery img { display: block; width: 100%; height: auto; }
+.cp-cover { max-height: 78vh; object-fit: cover; object-position: center; }
+.cp-body { display: grid; grid-template-columns: minmax(0, 2.2fr) minmax(0, 1fr); gap: clamp(1rem, 7vw, 9rem); padding: clamp(1.8rem, 5vw, 6rem) 0; }
+.cp-copy p { max-width: 52ch; margin: 0 0 1em; font-size: clamp(1.1rem, 1.8vw, 2.1rem); line-height: 1.33; }
+.cp-meta dl, .cp-meta dd { margin: 0; }
+.cp-meta dt { margin-bottom: .45em; font-weight: 750; }
+.cp-meta dd + dt { margin-top: 1.4em; }
+.cp-meta ul { list-style: none; padding: 0; margin: 0; }
+.cp-meta li + li { margin-top: .55em; }
+.cp-gallery { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--edge); }
+.cp-related { margin-top: 2em; font-weight: 650; }
+.cp-footer { justify-content: space-between; border-top: 1px solid var(--rule); padding-top: 1.2em; margin-top: clamp(1.75rem, 5vw, 5rem); }
+@media (max-width: 680px) { .cp-body, .cp-gallery { grid-template-columns: 1fr; } .cp-header .cp-cta { font-size: .9rem; } }
+@media (max-width: 340px) { .cp-header .cp-cta { flex-basis: 100%; } }
